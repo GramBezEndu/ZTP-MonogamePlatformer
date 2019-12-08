@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>907421ba-aabe-4137-bf58-4be3a378b58f</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>PlatformerEngine</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)GameTimer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IDrawableComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Input\IInput.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Input\InputManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Input\MouseInput.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\Boletus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\Enemy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\Strategies\IMoveStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\Strategies\RageStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Enemies\Strategies\StandardStrategy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\PlayerClasses\IPlayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\PlayerClasses\Player.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\PlayerClasses\PlayerEffect.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\PlayerClasses\SlowedEffect.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\PlayerClasses\SpedUpEffect.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\Sprite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\SpriteAnimated.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\GameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)States\State.cs" />
+  </ItemGroup>
+</Project>
