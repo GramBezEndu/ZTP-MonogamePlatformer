@@ -19,12 +19,41 @@ namespace PlatformerEngine.Input
         }
         public bool IsPressed(InputManager im)
         {
-            throw new NotImplementedException();
+            return IsDown(im.CurrentMouseState, this.mouseButton);
         }
 
         public bool WasJustPressed(InputManager im)
         {
-            throw new NotImplementedException();
+            if (IsDown(im.CurrentMouseState, this.mouseButton) && IsUp(im.PreviousMouseState, this.mouseButton))
+                return true;
+            else
+                return false;
+        }
+
+        private bool IsDown(MouseState mouseState, MouseButton mouseButton)
+        {
+            switch(mouseButton)
+            {
+                case MouseButton.LeftButton:
+                    return mouseState.LeftButton == ButtonState.Pressed;
+                case MouseButton.RightButton:
+                    return mouseState.RightButton == ButtonState.Pressed;
+                default:
+                    throw new ArgumentException("Invalid mouse button");
+            }
+        }
+
+        private bool IsUp(MouseState mouseState, MouseButton mouseButton)
+        {
+            switch (mouseButton)
+            {
+                case MouseButton.LeftButton:
+                    return mouseState.LeftButton == ButtonState.Released;
+                case MouseButton.RightButton:
+                    return mouseState.RightButton == ButtonState.Released;
+                default:
+                    throw new ArgumentException("Invalid mouse button");
+            }
         }
     }
 }

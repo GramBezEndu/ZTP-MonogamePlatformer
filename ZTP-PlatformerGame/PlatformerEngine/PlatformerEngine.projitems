@@ -9,11 +9,16 @@
     <Import_RootNamespace>PlatformerEngine</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)GameTimer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Buttons\IButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\NavigationMenu.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Text.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\VerticalNavigationMenu.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Timers\GameTimer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IDrawableComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\IInput.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\InputManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Input\KeyboardInput.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\MouseInput.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MapsManager\MapBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MapsManager\MapReader.cs" />
@@ -32,5 +37,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\SpriteAnimated.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\GameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\State.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Timers\" />
   </ItemGroup>
 </Project>

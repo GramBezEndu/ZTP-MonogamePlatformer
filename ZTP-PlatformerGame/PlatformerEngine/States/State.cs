@@ -29,10 +29,29 @@ namespace Engine.States
 
         public State(Game1 gameReference)
         {
+            //Assign variables
+            game = gameReference;
+            inputManager = game.inputManager;
+            graphicsDevice = game.GraphicsDevice;
+            content = game.Content;
+
+            uiSpriteBatch = new SpriteBatch(graphicsDevice);
+            //Load assets
+            LoadFont();
+        }
+
+        private void LoadFont()
+        {
+            font = this.content.Load<SpriteFont>("Fonts/Font");
         }
 
         public virtual void Draw(GameTime gameTime)
         {
+            uiSpriteBatch.Begin();
+            foreach (var c in uiComponents)
+                if (c is IDrawableComponent drawable)
+                    drawable.Draw(gameTime, uiSpriteBatch);
+            uiSpriteBatch.End();
         }
 
         public virtual void Update(GameTime gameTime)

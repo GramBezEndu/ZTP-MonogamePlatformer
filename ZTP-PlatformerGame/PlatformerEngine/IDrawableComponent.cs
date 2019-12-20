@@ -15,7 +15,7 @@ namespace PlatformerEngine
         bool Hidden { get; set; }
         Vector2 Position { get; set; }
         Vector2 Scale { get; set; }
-        Size Size { get; }
+        Point Size { get; }
         Rectangle Rectangle { get; }
         Color Color { get; set; }
         SpriteEffects SpriteEffects { get; set; }

@@ -1,6 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Engine.States;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using PlatformerEngine.Input;
+using ZTP_PlatformerGame.States;
 
 namespace ZTP_PlatformerGame
 {
@@ -11,11 +14,21 @@ namespace ZTP_PlatformerGame
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        public InputManager inputManager = InputManager.GetInputManager;
+
+        State currentState;
+        State nextState;
         
+        public void ChangeState(State newState)
+        {
+            nextState = newState;
+        }
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            //Window.IsBorderless = true;
         }
 
         /// <summary>
@@ -27,7 +40,7 @@ namespace ZTP_PlatformerGame
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            ChangeState(new MainMenu(this));
             base.Initialize();
         }
 
@@ -59,11 +72,14 @@ namespace ZTP_PlatformerGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-            // TODO: Add your update logic here
-
+            //Handle changing states
+            if (nextState != null)
+            {
+                currentState = nextState;
+                nextState = null;
+            }
+            inputManager.Update(gameTime);
+            currentState.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -76,6 +92,7 @@ namespace ZTP_PlatformerGame
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            currentState.Draw(gameTime);
 
             base.Draw(gameTime);
         }

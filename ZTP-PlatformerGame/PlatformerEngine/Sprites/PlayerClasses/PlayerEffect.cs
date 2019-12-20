@@ -19,7 +19,7 @@ namespace PlatformerEngine.Sprites.PlayerClasses
         public Vector2 Position { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public Vector2 Scale { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public Size Size => throw new NotImplementedException();
+        public Point Size => throw new NotImplementedException();
 
         public Rectangle Rectangle => throw new NotImplementedException();
 
