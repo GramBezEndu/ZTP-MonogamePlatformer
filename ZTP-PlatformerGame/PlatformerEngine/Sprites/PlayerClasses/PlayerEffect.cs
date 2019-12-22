@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
+using PlatformerEngine.Physics;
 
 namespace PlatformerEngine.Sprites.PlayerClasses
 {
@@ -25,12 +26,20 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 
         public Color Color { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public SpriteEffects SpriteEffects { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public MoveableBodyStates MoveableBodyState { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Vector2 Velocity { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             throw new NotImplementedException();
         }
 
         public abstract void ManagePlayerInput();
+
+        public void PrepareMove(GameTime gameTime)
+        {
+            throw new NotImplementedException();
+        }
 
         public void Update(GameTime gameTime)
         {

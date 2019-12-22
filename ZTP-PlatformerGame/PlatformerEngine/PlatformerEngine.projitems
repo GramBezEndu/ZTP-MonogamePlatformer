@@ -15,6 +15,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\Text.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\VerticalNavigationMenu.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MapsManager\PeacefulMapBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Physics\CollisionManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Physics\IMovableBody.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Physics\PhysicsManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\MapSprites\AirSprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\MapSprites\GroundSprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\MapSprites\SpikeSprite.cs" />

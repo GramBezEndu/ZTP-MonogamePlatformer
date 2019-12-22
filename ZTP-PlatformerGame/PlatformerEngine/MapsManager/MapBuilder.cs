@@ -55,5 +55,24 @@ namespace PlatformerEngine.MapsManager
             MapObjects.Add(sprite);
             UpdatePosition();
         }
+
+        /// <summary>
+        /// Use this method to get list of rectangles and add it to static bodies to physics manager (to make collision)
+        /// </summary>
+        /// <returns></returns>
+        public List<Rectangle> GetCollisionRectangles()
+        {
+            List<Rectangle> rectangles = new List<Rectangle>();
+            foreach(var ob in MapObjects)
+            {
+                if (ob is AirSprite)
+                    continue;
+                else
+                {
+                    rectangles.Add(ob.Rectangle);
+                }
+            }
+            return rectangles;
+        }
     }
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+<Asset Type="System.Collections.Generic.Dictionary[System.String, Microsoft.Xna.Framework.Rectangle]">
+<Item><Key>TestCharacter</Key><Value>0 0 280 818</Value></Item>
+<Item><Key>TestCharacterFalling</Key><Value>281 0 280 818</Value></Item>
+<Item><Key>TestCharacterFallWalk1</Key><Value>562 0 280 818</Value></Item>
+<Item><Key>TestCharacterFallWalk2</Key><Value>843 0 280 818</Value></Item>
+<Item><Key>TestCharacterWalk1</Key><Value>1124 0 280 818</Value></Item>
+<Item><Key>TestCharacterWalk2</Key><Value>1405 0 280 818</Value></Item>
+</Asset>
+</XnaContent>
