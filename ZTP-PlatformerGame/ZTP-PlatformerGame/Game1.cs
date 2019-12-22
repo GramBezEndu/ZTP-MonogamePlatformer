@@ -18,6 +18,8 @@ namespace ZTP_PlatformerGame
 
         State currentState;
         State nextState;
+
+        public Point LogicalSize = new Point(1280, 720);
         
         public void ChangeState(State newState)
         {
@@ -28,6 +30,8 @@ namespace ZTP_PlatformerGame
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferWidth = LogicalSize.X;
+            graphics.PreferredBackBufferHeight = LogicalSize.Y;
             //Window.IsBorderless = true;
         }
 

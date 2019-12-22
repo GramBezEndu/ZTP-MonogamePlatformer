@@ -1,4 +1,6 @@
-﻿using Engine.States;
+﻿using Engine.Controls.Buttons;
+using Engine.States;
+using Microsoft.Xna.Framework;
 using PlatformerEngine.Controls;
 using PlatformerEngine.Controls.Buttons;
 using System;
@@ -14,10 +16,19 @@ namespace ZTP_PlatformerGame.States
         public MainMenu(Game1 game) : base(game)
         {
             AddUiComponent(new Text(font, "MAIN MENU"));
-            //AddUiComponent(new VerticalNavigationMenu(game.inputManager, new List<IButton>()
-            //{
-            //    //new TextButton()
-            //}));
+            var navigation = new VerticalNavigationMenu(game.inputManager, new List<IButton>()
+            {
+                new TextButton(inputManager, font, "PLAY")
+                {
+                    OnClick = (o, e) => game.ChangeState(new FirstLevel(game))
+                },
+                new TextButton(inputManager, font, "EXIT")
+                {
+                    OnClick = (o,e) => game.Exit()
+                }
+            });
+            navigation.Position = new Vector2(game.LogicalSize.X / 2 - navigation.Size.X / 2, game.LogicalSize.Y / 2 - navigation.Size.Y / 2);
+            AddUiComponent(navigation);
         }
     }
 }

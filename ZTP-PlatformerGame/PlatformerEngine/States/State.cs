@@ -38,6 +38,20 @@ namespace Engine.States
             uiSpriteBatch = new SpriteBatch(graphicsDevice);
             //Load assets
             LoadFont();
+            LoadTextures();
+        }
+
+        private void LoadTextures()
+        {
+            DirectoryInfo directoryInfo = new DirectoryInfo(content.RootDirectory + "/Textures/");
+            if (!directoryInfo.Exists)
+                throw new DirectoryNotFoundException();
+            FileInfo[] files = directoryInfo.GetFiles("*.*");
+            foreach (FileInfo file in files)
+            {
+                string key = Path.GetFileNameWithoutExtension(file.Name);
+                textures[key] = content.Load<Texture2D>(Directory.GetCurrentDirectory() + "/Content/Textures/" + key);
+            }
         }
 
         private void LoadFont()

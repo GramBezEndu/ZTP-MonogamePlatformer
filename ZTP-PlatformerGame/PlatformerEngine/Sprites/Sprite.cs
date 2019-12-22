@@ -7,7 +7,7 @@ using MonoGame.Extended;
 
 namespace PlatformerEngine.Sprites
 {
-    public class Sprite : IDrawableComponent
+    public class Sprite : IDrawableComponent, ICloneable
     {
         public Vector2 Scale { get; set; } = Vector2.One;
         public bool Hidden { get; set; }
@@ -54,6 +54,11 @@ namespace PlatformerEngine.Sprites
         public void Update(GameTime gameTime)
         {
 
+        }
+
+        public object Clone()
+        {
+            return MemberwiseClone();
         }
     }
 }
