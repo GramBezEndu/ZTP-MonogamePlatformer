@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,7 +9,8 @@ namespace PlatformerEngine.Sprites.Enemies.Strategies
     {
         public void Move(Enemy enemy)
         {
-            throw new NotImplementedException();
+            //Move left
+            enemy.Velocity = new Vector2(-4f, 0);
         }
     }
 }

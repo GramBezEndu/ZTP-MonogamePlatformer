@@ -8,6 +8,7 @@ using PlatformerEngine.Input;
 using Microsoft.Xna.Framework.Input;
 using PlatformerEngine;
 using ZTP_PlatformerGame;
+using PlatformerEngine.Controls;
 
 namespace Engine.States
 {
@@ -25,6 +26,14 @@ namespace Engine.States
         public void AddUiComponent(IComponent component)
         {
             uiComponents.Add(component);
+        }
+
+        public void AddNotification(string msg)
+        {
+            var message = new TextOnTimer(font, msg);
+            message.Position = new Vector2(game.LogicalSize.X / 2 - message.Size.X / 2,
+                game.LogicalSize.Y / 2 - message.Size.Y / 2);
+            AddUiComponent(message);
         }
 
         public State(Game1 gameReference)
@@ -62,10 +71,15 @@ namespace Engine.States
         public virtual void Draw(GameTime gameTime)
         {
             uiSpriteBatch.Begin();
+            DrawUI(gameTime);
+            uiSpriteBatch.End();
+        }
+
+        protected virtual void DrawUI(GameTime gameTime)
+        {
             foreach (var c in uiComponents)
                 if (c is IDrawableComponent drawable)
                     drawable.Draw(gameTime, uiSpriteBatch);
-            uiSpriteBatch.End();
         }
 
         public virtual void Update(GameTime gameTime)

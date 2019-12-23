@@ -8,7 +8,7 @@ namespace PlatformerEngine.Sprites.Enemies.Strategies
     {
         public void Move(Enemy enemy)
         {
-            throw new NotImplementedException();
+            //Standard Strategy - do nothing
         }
     }
 }

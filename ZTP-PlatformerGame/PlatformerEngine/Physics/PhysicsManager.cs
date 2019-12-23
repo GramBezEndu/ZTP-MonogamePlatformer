@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using PlatformerEngine.Sprites;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace PlatformerEngine.Physics
@@ -58,6 +60,8 @@ namespace PlatformerEngine.Physics
             collisionManager.Update(gameTime);
             foreach (var m in moveableBodies)
             {
+                if(m is Boletus)
+                    Debug.WriteLine(m.Position);
                 UpdateBodyState(m);
                 m.Update(gameTime);
                 MoveBody(m);

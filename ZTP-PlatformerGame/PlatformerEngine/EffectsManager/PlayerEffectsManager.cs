@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using Engine.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PlatformerEngine.Sprites.PlayerClasses;
@@ -57,9 +58,11 @@ namespace PlatformerEngine.EffectsManager
 
         private IPlayer player;
         private SpriteFont font;
+        private State state;
 
-        public PlayerEffectsManager(SpriteFont f, IPlayer p)
+        public PlayerEffectsManager(State s, SpriteFont f, IPlayer p)
         {
+            state = s;
             player = p;
             font = f;
             effectsExcludingActive = AllPossibleEffects.ToDictionary(entry => entry.Key,
@@ -73,7 +76,14 @@ namespace PlatformerEngine.EffectsManager
 
         private void DrawEffect()
         {
-            if(effectsExcludingActive.Count > 0)
+            //Clear effects when there's only one effect left
+            if(effectsExcludingActive.Count <= 1)
+            {
+                state.AddNotification("CLEARED ALL EFFECTS");
+                ClearEffects();
+            }
+            //Roll another effect
+            else
             {
                 var effect = effectsExcludingActive.ElementAt(random.Next(0, effectsExcludingActive.Count));
                 ActivateEffect(effect);
@@ -85,8 +95,9 @@ namespace PlatformerEngine.EffectsManager
         private void ActivateEffect(KeyValuePair<Effects, double> effect)
         {
             //TODO: finish
-            Debug.WriteLine("New effect: " + effect.Key);
-            switch(effect.Key)
+            //Debug.WriteLine("New effect: " + effect.Key);
+            state.AddNotification("NEW EFFECT: " + effect.Key);
+            switch (effect.Key)
             {
                 case Effects.Speed:
                     player = new SpeedEffect(player);
@@ -117,6 +128,18 @@ namespace PlatformerEngine.EffectsManager
                     });
                     break;
             }
+        }
+
+        private void ClearEffects()
+        {
+            IPlayer temp = player;
+            while (!(temp is Player))
+            {
+                temp = temp.GetDecorated();
+            }
+            player = temp;
+            effectsExcludingActive = AllPossibleEffects.ToDictionary(entry => entry.Key,
+                                   entry => entry.Value);
         }
 
         private void RemoveEffect(Effects effect)
@@ -162,7 +185,7 @@ namespace PlatformerEngine.EffectsManager
             while (temp is PlayerEffect effect)
             {
                 spriteBatch.DrawString(font, effect.Name, pos, Color.Red);
-                pos += new Vector2(0, 20);
+                pos += new Vector2(0, 35);
                 temp = temp.GetDecorated();
             }
         }
