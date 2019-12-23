@@ -11,6 +11,7 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 {
     public abstract class PlayerEffect : IPlayer
     {
+        public abstract string Name { get; }
         private readonly IPlayer player;        
 
         public PlayerEffect(IPlayer p)
@@ -80,9 +81,19 @@ namespace PlatformerEngine.Sprites.PlayerClasses
             return player;
         }
 
+        public virtual bool CanJump()
+        {
+            return player.CanJump();
+        }
+
         public virtual void Jump()
         {
             player.Jump();
+        }
+
+        public virtual void Attack()
+        {
+            player.Attack();
         }
 
         public virtual void MoveLeft()
@@ -108,7 +119,8 @@ namespace PlatformerEngine.Sprites.PlayerClasses
             }
             if (InputManager.ActionIsPressed("MoveUp"))
             {
-                Jump();
+                if (CanJump())
+                    Jump();
             }
         }
 

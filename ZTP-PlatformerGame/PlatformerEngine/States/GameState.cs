@@ -39,7 +39,7 @@ namespace PlatformerEngine.States
             physicsManager.AddMoveableBody(player);
             physicsManager.SetStaticBodies(builder.GetCollisionRectangles());
 
-            playerEffectsManager = new PlayerEffectsManager(player);
+            playerEffectsManager = new PlayerEffectsManager(font, player);
         }
         public void AddGameComponent(IComponent component)
         {
@@ -57,6 +57,7 @@ namespace PlatformerEngine.States
                 }
             }
             player.Draw(gameTime, mapBatch);
+            playerEffectsManager.Draw(gameTime, mapBatch);
             mapBatch.End();
             base.Draw(gameTime);
         }

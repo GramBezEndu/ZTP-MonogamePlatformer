@@ -85,8 +85,7 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 
         public void Jump()
         {
-            if (MoveableBodyStates.Idle <= MoveableBodyState && MoveableBodyState <= MoveableBodyStates.WalkLeft)
-                Velocity = new Vector2(Velocity.X, -20f);
+            Velocity = new Vector2(Velocity.X, -20f);
         }
 
         public void PrepareMove(GameTime gameTime)
@@ -101,13 +100,27 @@ namespace PlatformerEngine.Sprites.PlayerClasses
             }
             if (InputManager.ActionIsPressed("MoveUp"))
             {
-                Jump();
+                if(CanJump())
+                    Jump();
             }
+        }
+
+        public bool CanJump()
+        {
+            if (MoveableBodyStates.Idle <= MoveableBodyState && MoveableBodyState <= MoveableBodyStates.WalkLeft)
+                return true;
+            else
+                return false;
         }
 
         public IPlayer GetDecorated()
         {
             return this;
+        }
+
+        public void Attack()
+        {
+            throw new NotImplementedException();
         }
     }
 }

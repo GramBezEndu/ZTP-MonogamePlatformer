@@ -10,6 +10,7 @@ namespace PlatformerEngine.Sprites.PlayerClasses
     /// </summary>
     public class SpeedEffect : PlayerEffect
     {
+        public override string Name { get { return "SPEEDBOI"; } }
         public SpeedEffect(IPlayer p) : base(p)
         {
         }

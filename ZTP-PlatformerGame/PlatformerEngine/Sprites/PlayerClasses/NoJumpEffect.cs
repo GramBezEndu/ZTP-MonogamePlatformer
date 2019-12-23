@@ -10,9 +10,11 @@ namespace PlatformerEngine.Sprites.PlayerClasses
         {
         }
 
-        public override void Jump()
+        public override string Name { get { return "NO JUMP"; } }
+
+        public override bool CanJump()
         {
-            //Empty method
+            return false;
         }
     }
 }

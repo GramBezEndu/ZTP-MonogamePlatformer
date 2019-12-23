@@ -11,8 +11,9 @@ namespace PlatformerEngine.Sprites.PlayerClasses
         InputManager InputManager { get; }
         void MoveLeft();
         void MoveRight();
+        bool CanJump();
         void Jump();
-
+        void Attack();
         IPlayer GetDecorated();
     }
 }
