@@ -16,11 +16,11 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 
         public override void MoveLeft()
         {
-            Velocity = new Vector2(-9f, Velocity.Y);
+            Velocity = new Vector2(-6f, Velocity.Y);
         }
         public override void MoveRight()
         {
-            Velocity = new Vector2(9f, Velocity.Y);
+            Velocity = new Vector2(6f, Velocity.Y);
         }
     }
 }

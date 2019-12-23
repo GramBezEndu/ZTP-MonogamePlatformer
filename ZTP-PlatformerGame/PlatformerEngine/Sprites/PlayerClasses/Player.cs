@@ -65,21 +65,7 @@ namespace PlatformerEngine.Sprites.PlayerClasses
         }
         public Vector2 Velocity { get; set; }
 
-        public void ManagePlayerInput()
-        {
-            if (inputManager.ActionIsPressed("MoveRight"))
-            {
-                MoveRight();
-            }
-            else if (inputManager.ActionIsPressed("MoveLeft"))
-            {
-                MoveLeft();
-            }
-            if (inputManager.ActionIsPressed("MoveUp"))
-            {
-                Jump();
-            }
-        }
+        public InputManager InputManager { get { return inputManager; } }
 
         public override void Update(GameTime gameTime)
         {
@@ -89,15 +75,15 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 
         public void MoveRight()
         {
-            Velocity = new Vector2(3f, Velocity.Y);
+            Velocity = new Vector2(4f, Velocity.Y);
         }
 
         public void MoveLeft()
         {
-            Velocity = new Vector2(-3f, Velocity.Y);
+            Velocity = new Vector2(-4f, Velocity.Y);
         }
 
-        private void Jump()
+        public void Jump()
         {
             if (MoveableBodyStates.Idle <= MoveableBodyState && MoveableBodyState <= MoveableBodyStates.WalkLeft)
                 Velocity = new Vector2(Velocity.X, -20f);
@@ -105,7 +91,18 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 
         public void PrepareMove(GameTime gameTime)
         {
-            ManagePlayerInput();
+            if (InputManager.ActionIsPressed("MoveRight"))
+            {
+                MoveRight();
+            }
+            else if (InputManager.ActionIsPressed("MoveLeft"))
+            {
+                MoveLeft();
+            }
+            if (InputManager.ActionIsPressed("MoveUp"))
+            {
+                Jump();
+            }
         }
     }
 }

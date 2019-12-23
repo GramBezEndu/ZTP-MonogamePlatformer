@@ -29,6 +29,7 @@ namespace PlatformerEngine.States
                 content.Load<Dictionary<string, Rectangle>>("Character/Map"), inputManager);
             playerBase.Scale = new Vector2(0.2f, 0.2f);
             player = new SpeedEffect(playerBase);
+            //player = playerBase;
             physicsManager = new PhysicsManager();
             physicsManager.AddMoveableBody(player);
             physicsManager.SetStaticBodies(builder.GetCollisionRectangles());

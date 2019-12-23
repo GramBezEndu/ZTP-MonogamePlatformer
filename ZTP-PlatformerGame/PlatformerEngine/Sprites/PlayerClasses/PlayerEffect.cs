@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
+using PlatformerEngine.Input;
 using PlatformerEngine.Physics;
 
 namespace PlatformerEngine.Sprites.PlayerClasses
@@ -63,14 +64,19 @@ namespace PlatformerEngine.Sprites.PlayerClasses
             set { player.Velocity = value; }
         }
 
+        public InputManager InputManager
+        {
+            get { return player.InputManager; }
+        }
+
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             player.Draw(gameTime, spriteBatch);
         }
 
-        public virtual void ManagePlayerInput()
+        public virtual void Jump()
         {
-            player.ManagePlayerInput();
+            player.Jump();
         }
 
         public virtual void MoveLeft()
@@ -85,7 +91,19 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 
         public virtual void PrepareMove(GameTime gameTime)
         {
-            player.PrepareMove(gameTime);
+            //player.PrepareMove(gameTime);
+            if (InputManager.ActionIsPressed("MoveRight"))
+            {
+                MoveRight();
+            }
+            else if (InputManager.ActionIsPressed("MoveLeft"))
+            {
+                MoveLeft();
+            }
+            if (InputManager.ActionIsPressed("MoveUp"))
+            {
+                Jump();
+            }
         }
 
         public virtual void Update(GameTime gameTime)
