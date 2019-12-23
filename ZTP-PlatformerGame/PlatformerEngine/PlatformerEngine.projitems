@@ -39,8 +39,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\PlayerClasses\IPlayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\PlayerClasses\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\PlayerClasses\PlayerEffect.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Sprites\PlayerClasses\SlowedEffect.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Sprites\PlayerClasses\SpedUpEffect.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\PlayerClasses\SpeedEffect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\Sprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\SpriteAnimated.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)States\GameState.cs" />

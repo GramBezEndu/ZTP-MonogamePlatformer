@@ -75,6 +75,10 @@ namespace PlatformerEngine.Sprites.PlayerClasses
             {
                 MoveLeft();
             }
+            if (inputManager.ActionIsPressed("MoveUp"))
+            {
+                Jump();
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -83,14 +87,20 @@ namespace PlatformerEngine.Sprites.PlayerClasses
             Debug.WriteLine(Position);
         }
 
-        private void MoveRight()
+        public void MoveRight()
         {
-            Velocity = new Vector2(5f, Velocity.Y);
+            Velocity = new Vector2(3f, Velocity.Y);
         }
 
-        private void MoveLeft()
+        public void MoveLeft()
         {
-            Velocity = new Vector2(-5f, Velocity.Y);
+            Velocity = new Vector2(-3f, Velocity.Y);
+        }
+
+        private void Jump()
+        {
+            if (MoveableBodyStates.Idle <= MoveableBodyState && MoveableBodyState <= MoveableBodyStates.WalkLeft)
+                Velocity = new Vector2(Velocity.X, -20f);
         }
 
         public void PrepareMove(GameTime gameTime)

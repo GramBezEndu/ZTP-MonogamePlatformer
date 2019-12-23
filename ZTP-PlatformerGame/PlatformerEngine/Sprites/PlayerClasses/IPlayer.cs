@@ -8,5 +8,7 @@ namespace PlatformerEngine.Sprites.PlayerClasses
     public interface IPlayer : IDrawableComponent, IMoveableBody
     {
         void ManagePlayerInput();
+        void MoveLeft();
+        void MoveRight();
     }
 }

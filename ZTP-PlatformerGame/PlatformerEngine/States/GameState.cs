@@ -25,9 +25,10 @@ namespace PlatformerEngine.States
             var builder = new StandardBuilder(textures["Air"], textures["Ground"], textures["Spike"]);
             var mapSprites = mapReader.BuildMap(builder);
             gameComponents.AddRange(mapSprites);
-            player = new Player(content.Load<Texture2D>("Character/Spritesheet"),
+            var playerBase = new Player(content.Load<Texture2D>("Character/Spritesheet"),
                 content.Load<Dictionary<string, Rectangle>>("Character/Map"), inputManager);
-            player.Scale = new Vector2(0.2f, 0.2f);
+            playerBase.Scale = new Vector2(0.2f, 0.2f);
+            player = new SpeedEffect(playerBase);
             physicsManager = new PhysicsManager();
             physicsManager.AddMoveableBody(player);
             physicsManager.SetStaticBodies(builder.GetCollisionRectangles());
