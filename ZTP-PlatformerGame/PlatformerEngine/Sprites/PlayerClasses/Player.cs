@@ -70,7 +70,7 @@ namespace PlatformerEngine.Sprites.PlayerClasses
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            Debug.WriteLine(Position);
+            //Debug.WriteLine(Position);
         }
 
         public void MoveRight()
@@ -103,6 +103,11 @@ namespace PlatformerEngine.Sprites.PlayerClasses
             {
                 Jump();
             }
+        }
+
+        public IPlayer GetDecorated()
+        {
+            return this;
         }
     }
 }

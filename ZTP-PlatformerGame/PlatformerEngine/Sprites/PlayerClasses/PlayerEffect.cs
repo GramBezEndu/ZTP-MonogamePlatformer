@@ -11,7 +11,8 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 {
     public abstract class PlayerEffect : IPlayer
     {
-        private readonly IPlayer player;
+        private readonly IPlayer player;        
+
         public PlayerEffect(IPlayer p)
         {
             player = p;
@@ -72,6 +73,11 @@ namespace PlatformerEngine.Sprites.PlayerClasses
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             player.Draw(gameTime, spriteBatch);
+        }
+
+        public IPlayer GetDecorated()
+        {
+            return player;
         }
 
         public virtual void Jump()

@@ -12,5 +12,7 @@ namespace PlatformerEngine.Sprites.PlayerClasses
         void MoveLeft();
         void MoveRight();
         void Jump();
+
+        IPlayer GetDecorated();
     }
 }
