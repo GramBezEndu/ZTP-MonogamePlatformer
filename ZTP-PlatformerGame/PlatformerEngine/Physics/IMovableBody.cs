@@ -12,7 +12,8 @@ namespace PlatformerEngine.Physics
         WalkLeft,
         InAirRight,
         InAirLeft,
-        InAir
+        InAir,
+        Dead
     }
 
     public interface IMoveableBody : IDrawableComponent

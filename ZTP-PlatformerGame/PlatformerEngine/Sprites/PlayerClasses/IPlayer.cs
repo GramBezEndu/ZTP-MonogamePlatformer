@@ -8,12 +8,14 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 {
     public interface IPlayer : IDrawableComponent, IMoveableBody
     {
+        List<Sprite> HeartSprites { get; }
         InputManager InputManager { get; }
         void MoveLeft();
         void MoveRight();
         bool CanJump();
         void Jump();
         void Attack();
+        void LoseHeart();
         IPlayer GetDecorated();
     }
 }

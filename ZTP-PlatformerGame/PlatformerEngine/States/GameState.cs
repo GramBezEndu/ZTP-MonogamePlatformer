@@ -80,6 +80,8 @@ namespace PlatformerEngine.States
         {
             base.DrawUI(gameTime);
             playerEffectsManager.Draw(gameTime, uiSpriteBatch);
+            foreach (var s in player.HeartSprites)
+                s.Draw(gameTime, uiSpriteBatch);
         }
 
         public override void Update(GameTime gameTime)
@@ -115,7 +117,7 @@ namespace PlatformerEngine.States
         protected void SpawnPlayer()
         {
             player = new Player(content.Load<Texture2D>("Character/Spritesheet"),
-                content.Load<Dictionary<string, Rectangle>>("Character/Map"), inputManager);
+                content.Load<Dictionary<string, Rectangle>>("Character/Map"), inputManager, content.Load<Texture2D>("Character/Heart"));
             player.Scale = new Vector2(0.2f, 0.2f);
             player.Position = new Vector2(140, game.LogicalSize.Y - 200);
         }

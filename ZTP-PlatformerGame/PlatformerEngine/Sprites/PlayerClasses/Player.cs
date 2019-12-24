@@ -13,16 +13,35 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 {
     public class Player : SpriteAnimated, IPlayer
     {
+        private int maxHealth = 5;
+        private int currentHealth;
         public Vector2 VelocityConst = new Vector2(5f, 2f);
         private InputManager inputManager;
+        public List<Sprite> heartSprites = new List<Sprite>();
 
-        public Player(Texture2D spritesheet, Dictionary<string, Rectangle> map, InputManager im) : base(spritesheet, map)
+        public Player(Texture2D spritesheet, Dictionary<string, Rectangle> map, InputManager im, Texture2D heartTexture) : base(spritesheet, map)
         {
+            HeartManage(heartTexture);
             inputManager = im;
             AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 0 }));
             AddAnimation("Walk", new SpriteSheetAnimationData(new int[] { 4, 5 }));
             AddAnimation("InAir", new SpriteSheetAnimationData(new int[] { 1 }));
             PlayAnimation("Idle");
+        }
+
+        private void HeartManage(Texture2D heartTexture)
+        {
+            currentHealth = maxHealth;
+            var pos = Vector2.Zero;
+            for (int i = 0; i < maxHealth; i++)
+            {
+                var heart = new Sprite(heartTexture, new Vector2(3f, 3f))
+                {
+                    Position = pos,
+                };
+                heartSprites.Add(heart);
+                pos = new Vector2(pos.X + heart.Size.X, pos.Y);
+            }
         }
 
         private MoveableBodyStates moveableBodyState;
@@ -34,31 +53,37 @@ namespace PlatformerEngine.Sprites.PlayerClasses
             {
                 if (moveableBodyState != value)
                 {
-                    moveableBodyState = value;
-                    switch (value)
+                    //Do not allow changing states when player is dead
+                    if(moveableBodyState != MoveableBodyStates.Dead)
                     {
-                        case MoveableBodyStates.Idle:
-                            PlayAnimation("Idle");
-                            break;
-                        case MoveableBodyStates.WalkRight:
-                            SpriteEffects = SpriteEffects.None;
-                            PlayAnimation("Walk");
-                            break;
-                        case MoveableBodyStates.WalkLeft:
-                            SpriteEffects = SpriteEffects.FlipHorizontally;
-                            PlayAnimation("Walk");
-                            break;
-                        case MoveableBodyStates.InAirRight:
-                            SpriteEffects = SpriteEffects.None;
-                            PlayAnimation("InAir");
-                            break;
-                        case MoveableBodyStates.InAirLeft:
-                            SpriteEffects = SpriteEffects.FlipHorizontally;
-                            PlayAnimation("InAir");
-                            break;
-                        case MoveableBodyStates.InAir:
-                            PlayAnimation("InAir");
-                            break;
+                        moveableBodyState = value;
+                        switch (value)
+                        {
+                            case MoveableBodyStates.Idle:
+                                PlayAnimation("Idle");
+                                break;
+                            case MoveableBodyStates.WalkRight:
+                                SpriteEffects = SpriteEffects.None;
+                                PlayAnimation("Walk");
+                                break;
+                            case MoveableBodyStates.WalkLeft:
+                                SpriteEffects = SpriteEffects.FlipHorizontally;
+                                PlayAnimation("Walk");
+                                break;
+                            case MoveableBodyStates.InAirRight:
+                                SpriteEffects = SpriteEffects.None;
+                                PlayAnimation("InAir");
+                                break;
+                            case MoveableBodyStates.InAirLeft:
+                                SpriteEffects = SpriteEffects.FlipHorizontally;
+                                PlayAnimation("InAir");
+                                break;
+                            case MoveableBodyStates.InAir:
+                                PlayAnimation("InAir");
+                                break;
+                            case MoveableBodyStates.Dead:
+                                break;
+                        }
                     }
                 }
             }
@@ -66,6 +91,8 @@ namespace PlatformerEngine.Sprites.PlayerClasses
         public Vector2 Velocity { get; set; }
 
         public InputManager InputManager { get { return inputManager; } }
+
+        public List<Sprite> HeartSprites { get { return heartSprites; } }
 
         public override void Update(GameTime gameTime)
         {
@@ -121,6 +148,17 @@ namespace PlatformerEngine.Sprites.PlayerClasses
         public void Attack()
         {
             throw new NotImplementedException();
+        }
+
+        public void LoseHeart()
+        {
+            currentHealth -= 1;
+            for(int i = currentHealth; i < maxHealth ; i++)
+            {
+                heartSprites[i].Hidden = true;
+            }
+            if (currentHealth <= 0)
+                MoveableBodyState = MoveableBodyStates.Dead;
         }
     }
 }

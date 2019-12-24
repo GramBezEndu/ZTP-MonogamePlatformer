@@ -71,6 +71,11 @@ namespace PlatformerEngine.Sprites.PlayerClasses
             get { return player.InputManager; }
         }
 
+        public List<Sprite> HeartSprites
+        {
+            get { return player.HeartSprites; }
+        }
+
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             player.Draw(gameTime, spriteBatch);
@@ -127,6 +132,11 @@ namespace PlatformerEngine.Sprites.PlayerClasses
         public virtual void Update(GameTime gameTime)
         {
             player.Update(gameTime);
+        }
+
+        public virtual void LoseHeart()
+        {
+            player.LoseHeart();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace PlatformerEngine.EffectsManager
     {
         Speed,
         NoAttack,
-        NoJump,
+        //NoJump,
         MegaJump
     }
     /// <summary>
@@ -38,23 +38,10 @@ namespace PlatformerEngine.EffectsManager
         private GameTimer newEffectTimer;
 
         /// <summary>
-        /// All possible effects with duration
-        /// </summary>
-        public Dictionary<Effects, double> AllPossibleEffects = new Dictionary<Effects, double>()
-        {
-            { Effects.Speed, 20 },
-            { Effects.MegaJump, 20 },
-            //{ Effects.NoJump, 10 },
-            { Effects.NoAttack, 20 },
-        };
-
-        /// <summary>
-        /// Used to draw new effects -> it is a copy of AllPossibleEffects but when new effect is drawn it is deleted from here (so we can not draw it second time while it's active)
+        /// Used to draw new effects -> it is a copy of Effects enum but when new effect is drawn it is deleted from here (so we can not draw it second time while it's active)
         /// After the effect ends, the value is retrieved
         /// </summary>
-        private Dictionary<Effects, double> effectsExcludingActive = new Dictionary<Effects, double>();
-
-        private Dictionary<Effects, GameTimer> actualEffects = new Dictionary<Effects, GameTimer>();
+        private List<Effects> effectsExcludingActive = new List<Effects>();
 
         private IPlayer player;
         private SpriteFont font;
@@ -65,8 +52,7 @@ namespace PlatformerEngine.EffectsManager
             state = s;
             player = p;
             font = f;
-            effectsExcludingActive = AllPossibleEffects.ToDictionary(entry => entry.Key,
-                                               entry => entry.Value);
+            effectsExcludingActive = Enum.GetValues(typeof(Effects)).Cast<Effects>().ToList();
             random = new Random();
             newEffectTimer = new GameTimer(10.0)
             {
@@ -87,46 +73,27 @@ namespace PlatformerEngine.EffectsManager
             {
                 var effect = effectsExcludingActive.ElementAt(random.Next(0, effectsExcludingActive.Count));
                 ActivateEffect(effect);
-                //actualEffects.Add(effect.Key, eff);
-                effectsExcludingActive.Remove(effect.Key);
+                effectsExcludingActive.Remove(effect);
             }
         }
 
-        private void ActivateEffect(KeyValuePair<Effects, double> effect)
+        private void ActivateEffect(Effects effect)
         {
-            //TODO: finish
-            //Debug.WriteLine("New effect: " + effect.Key);
-            state.AddNotification("NEW EFFECT: " + effect.Key);
-            switch (effect.Key)
+            state.AddNotification("NEW EFFECT: " + effect);
+            switch (effect)
             {
                 case Effects.Speed:
                     player = new SpeedEffect(player);
-                    actualEffects.Add(Effects.Speed, new GameTimer(AllPossibleEffects[Effects.Speed])
-                    {
-                        OnTimedEvent = (o, e) => RemoveEffect(Effects.Speed)
-                    });
                     break;
                 case Effects.NoAttack:
                     player = new NoAttackEffect(player);
-                    actualEffects.Add(Effects.NoAttack, new GameTimer(AllPossibleEffects[Effects.NoAttack])
-                    {
-                        OnTimedEvent = (o, e) => RemoveEffect(Effects.Speed)
-                    });
                     break;
                 case Effects.MegaJump:
                     player = new MegaJumpEffect(player);
-                    actualEffects.Add(Effects.MegaJump, new GameTimer(AllPossibleEffects[Effects.MegaJump])
-                    {
-                        OnTimedEvent = (o, e) => RemoveEffect(Effects.Speed)
-                    });
                     break;
-                case Effects.NoJump:
-                    player = new NoJumpEffect(player);
-                    actualEffects.Add(Effects.NoJump, new GameTimer(AllPossibleEffects[Effects.NoJump])
-                    {
-                        OnTimedEvent = (o, e) => RemoveEffect(Effects.Speed)
-                    });
-                    break;
+                //case Effects.NoJump:
+                //    player = new NoJumpEffect(player);
+                //    break;
             }
         }
 
@@ -138,50 +105,14 @@ namespace PlatformerEngine.EffectsManager
                 temp = temp.GetDecorated();
             }
             player = temp;
-            effectsExcludingActive = AllPossibleEffects.ToDictionary(entry => entry.Key,
-                                   entry => entry.Value);
-        }
-
-        private void RemoveEffect(Effects effect)
-        {
-            //Debug.WriteLine("Removing effect: " + effect);
-            //switch(effect)
-            //{
-            //    case Effects.Speed:
-            //        effectsExcludingActive.Add(Effects.Speed, AllPossibleEffects[Effects.Speed]);
-            //        ////Build a new chain of decorators, which skips this effect
-            //        //Player playerTemp;
-            //        //IPlayer temp = player;
-            //        //List<IPlayer> playerWithEffects = new List<IPlayer>();
-            //        //while (!(temp is Player))
-            //        //{
-            //        //    temp = temp.GetDecorated();
-            //        //}
-            //        //playerTemp = temp as Player;
-
-            //        //var temp2 = player;
-            //        //while (!(temp2 is SpeedEffect))
-            //        //{
-            //        //    temp2 = temp2.GetDecorated();
-            //        //}
-
-            //        break;
-            //    case Effects.NoJump:
-            //        effectsExcludingActive.Add(Effects.NoJump, AllPossibleEffects[Effects.NoJump]);
-            //        break;
-            //    case Effects.MegaJump:
-            //        effectsExcludingActive.Add(Effects.MegaJump, AllPossibleEffects[Effects.MegaJump]);
-            //        break;
-            //    case Effects.NoAttack:
-            //        effectsExcludingActive.Add(Effects.NoAttack, AllPossibleEffects[Effects.NoAttack]);
-            //        break;
-            //}
+            effectsExcludingActive = Enum.GetValues(typeof(Effects)).Cast<Effects>().ToList();
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             var temp = player;
-            var pos = Vector2.Zero;
+            spriteBatch.DrawString(font, "ACTIVE EFFECTS: ", new Vector2(0, 100), Color.Red);
+            var pos = new Vector2(0, 135);
             while (temp is PlayerEffect effect)
             {
                 spriteBatch.DrawString(font, effect.Name, pos, Color.Red);
