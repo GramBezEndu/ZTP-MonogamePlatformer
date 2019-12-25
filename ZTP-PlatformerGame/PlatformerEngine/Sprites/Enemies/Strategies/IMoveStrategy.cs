@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PlatformerEngine.Sprites.Enemies
 {
-    public interface IMoveStrategy
+    public interface IMoveStrategy : IComponent
     {
         void Move(Enemy enemy);
     }

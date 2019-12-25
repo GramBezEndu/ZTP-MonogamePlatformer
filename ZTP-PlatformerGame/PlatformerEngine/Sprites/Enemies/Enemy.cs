@@ -25,17 +25,22 @@ namespace PlatformerEngine.Sprites.Enemies
 
         public void PrepareMove(GameTime gameTime)
         {
-            //throw new NotImplementedException();
+            //Update strategy and make move
+            currentStrategy.Update(gameTime);
             currentStrategy.Move(this);
         }
         public override void Update(GameTime gameTime)
         {
-            //Got hurt - go into rage mode
-            if(currentHealth < maxHealth)
+            if(!Hidden)
             {
-                currentStrategy = new RageStrategy();
+                //Got hurt - go into rage mode
+                if (currentHealth < maxHealth)
+                {
+                    currentStrategy = new RageStrategy();
+                }
+
+                base.Update(gameTime);
             }
-            base.Update(gameTime);
         }
 
         public void LoseHeart()

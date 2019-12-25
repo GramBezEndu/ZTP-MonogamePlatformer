@@ -106,9 +106,9 @@ namespace PlatformerEngine.States
             base.Update(gameTime);
         }
 
-        public void SpawnBoletus(Vector2 position)
+        public void SpawnBoletus(Vector2 position, bool firstMoveToLeft = true)
         {
-            var boletus = new Boletus(content.Load<Texture2D>("Boletus/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Boletus/Map"), new StandardStrategy())
+            var boletus = new Boletus(content.Load<Texture2D>("Boletus/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Boletus/Map"), new StandardStrategy(firstMoveToLeft))
             { 
                 Position = position 
             };
