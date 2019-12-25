@@ -39,6 +39,7 @@ namespace PlatformerEngine.States
             physicsManager = new PhysicsManager();
             physicsManager.AddMoveableBody(player);
             physicsManager.SetStaticBodies(mapBuilder.GetCollisionRectangles());
+            physicsManager.SetStaticSpikes(mapBuilder.GetSpikes());
 
             playerEffectsManager = new PlayerEffectsManager(this, font, player);
             SpawnAllEnemies();

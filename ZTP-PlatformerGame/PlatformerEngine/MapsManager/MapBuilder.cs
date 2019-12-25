@@ -65,12 +65,23 @@ namespace PlatformerEngine.MapsManager
             List<Rectangle> rectangles = new List<Rectangle>();
             foreach(var ob in MapObjects)
             {
-                if (ob is AirSprite)
+                if (ob is AirSprite || ob is SpikeSprite)
                     continue;
                 else
                 {
                     rectangles.Add(ob.Rectangle);
                 }
+            }
+            return rectangles;
+        }
+
+        public List<Rectangle> GetSpikes()
+        {
+            List<Rectangle> rectangles = new List<Rectangle>();
+            foreach (var ob in MapObjects)
+            {
+                if (ob is SpikeSprite)
+                    rectangles.Add(ob.Rectangle);
             }
             return rectangles;
         }

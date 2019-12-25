@@ -54,6 +54,11 @@ namespace PlatformerEngine.Physics
             collisionManager.SetStaticBodies(staticBodies);
         }
 
+        public void SetStaticSpikes(List<Rectangle> rectangles)
+        {
+            collisionManager.SetStaticSpikes(rectangles);
+        }
+
         public void Update(GameTime gameTime)
         {
             collisionManager.SetCollisionBodies(moveableBodies);

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace PlatformerEngine.Physics
@@ -9,6 +10,7 @@ namespace PlatformerEngine.Physics
     {
         List<IMoveableBody> collidableBodies;
         List<Rectangle> staticBodies = new List<Rectangle>();
+        List<Rectangle> staticSpikes = new List<Rectangle>();
 
         public void Update(GameTime gameTime)
         {
@@ -18,28 +20,68 @@ namespace PlatformerEngine.Physics
             {
                 foreach (var s in staticBodies)
                 {
-                    if (IsTouchingRight(c, s))
-                    {
-                        float distanceX = c.Rectangle.Left - s.Right;
-                        c.Velocity = new Vector2(-distanceX, c.Velocity.Y);
-                    }
-                    else if (IsTouchingLeft(c, s))
-                    {
-                        float distanceX = s.Left - c.Rectangle.Right;
-                        c.Velocity = new Vector2(distanceX, c.Velocity.Y);
-                    }
-                    if (IsTouchingBottom(c, s))
-                    {
-                        float distanceY = c.Rectangle.Top - s.Bottom;
-                        c.Velocity = new Vector2(c.Velocity.X, -distanceY);
-                    }
-                    if (IsTouchingTop(c, s))
-                    {
-                        float distanceY = s.Top - c.Rectangle.Bottom;
-                        c.Velocity = new Vector2(c.Velocity.X, distanceY);
-                    }
+                    CheckForCollision(c, s);
+                }
+                foreach (var spike in staticSpikes)
+                {
+                    CheckForCollisionAndLoseHeart(c, spike);
                 }
             }
+        }
+
+        private void CheckForCollision(IMoveableBody c, Rectangle s)
+        {
+            if (IsTouchingRight(c, s))
+            {
+                float distanceX = c.Rectangle.Left - s.Right;
+                c.Velocity = new Vector2(-distanceX, c.Velocity.Y);
+            }
+            else if (IsTouchingLeft(c, s))
+            {
+                float distanceX = s.Left - c.Rectangle.Right;
+                c.Velocity = new Vector2(distanceX, c.Velocity.Y);
+            }
+            if (IsTouchingBottom(c, s))
+            {
+                float distanceY = c.Rectangle.Top - s.Bottom;
+                c.Velocity = new Vector2(c.Velocity.X, -distanceY);
+            }
+            if (IsTouchingTop(c, s))
+            {
+                float distanceY = s.Top - c.Rectangle.Bottom;
+                c.Velocity = new Vector2(c.Velocity.X, distanceY);
+            }
+        }
+
+        private void CheckForCollisionAndLoseHeart(IMoveableBody c, Rectangle s)
+        {
+            bool touchingAnything = false;
+            if (IsTouchingRight(c, s))
+            {
+                float distanceX = c.Rectangle.Left - s.Right;
+                c.Velocity = new Vector2(-distanceX, c.Velocity.Y);
+                touchingAnything = true;
+            }
+            else if (IsTouchingLeft(c, s))
+            {
+                float distanceX = s.Left - c.Rectangle.Right;
+                c.Velocity = new Vector2(distanceX, c.Velocity.Y);
+                touchingAnything = true;
+            }
+            if (IsTouchingBottom(c, s))
+            {
+                float distanceY = c.Rectangle.Top - s.Bottom;
+                c.Velocity = new Vector2(c.Velocity.X, -distanceY);
+                touchingAnything = true;
+            }
+            if (IsTouchingTop(c, s))
+            {
+                float distanceY = s.Top - c.Rectangle.Bottom;
+                c.Velocity = new Vector2(c.Velocity.X, distanceY);
+                touchingAnything = true;
+            }
+            if (touchingAnything)
+                c.LoseHeart();
         }
 
         public void SetCollisionBodies(List<IMoveableBody> collidables)
@@ -50,6 +92,11 @@ namespace PlatformerEngine.Physics
         public void SetStaticBodies(List<Rectangle> rectangles)
         {
             staticBodies = rectangles;
+        }
+
+        public void SetStaticSpikes(List<Rectangle> rectangles)
+        {
+            staticSpikes = rectangles;
         }
 
         private bool IsTouchingLeft(IMoveableBody c, Rectangle r)

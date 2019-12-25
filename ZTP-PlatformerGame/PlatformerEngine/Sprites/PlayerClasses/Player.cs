@@ -8,11 +8,13 @@ using MonoGame.Extended;
 using MonoGame.Extended.Animations.SpriteSheets;
 using PlatformerEngine.Input;
 using PlatformerEngine.Physics;
+using PlatformerEngine.Timers;
 
 namespace PlatformerEngine.Sprites.PlayerClasses
 {
     public class Player : SpriteAnimated, IPlayer
     {
+        private GameTimer healthTimer;
         private int maxHealth = 5;
         private int currentHealth;
         public Vector2 VelocityConst = new Vector2(5f, 2f);
@@ -21,7 +23,7 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 
         public Player(Texture2D spritesheet, Dictionary<string, Rectangle> map, InputManager im, Texture2D heartTexture) : base(spritesheet, map)
         {
-            HeartManage(heartTexture);
+            CreateHeartsManager(heartTexture);
             inputManager = im;
             AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 0 }));
             AddAnimation("Walk", new SpriteSheetAnimationData(new int[] { 4, 5 }));
@@ -29,7 +31,7 @@ namespace PlatformerEngine.Sprites.PlayerClasses
             PlayAnimation("Idle");
         }
 
-        private void HeartManage(Texture2D heartTexture)
+        private void CreateHeartsManager(Texture2D heartTexture)
         {
             currentHealth = maxHealth;
             var pos = Vector2.Zero;
@@ -96,7 +98,11 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
+            if(MoveableBodyState != MoveableBodyStates.Dead)
+            {
+                base.Update(gameTime);
+                healthTimer?.Update(gameTime);
+            }
             //Debug.WriteLine(Position);
         }
 
@@ -117,18 +123,21 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 
         public void PrepareMove(GameTime gameTime)
         {
-            if (InputManager.ActionIsPressed("MoveRight"))
+            if(MoveableBodyState != MoveableBodyStates.Dead)
             {
-                MoveRight();
-            }
-            else if (InputManager.ActionIsPressed("MoveLeft"))
-            {
-                MoveLeft();
-            }
-            if (InputManager.ActionIsPressed("MoveUp"))
-            {
-                if(CanJump())
-                    Jump();
+                if (InputManager.ActionIsPressed("MoveRight"))
+                {
+                    MoveRight();
+                }
+                else if (InputManager.ActionIsPressed("MoveLeft"))
+                {
+                    MoveLeft();
+                }
+                if (InputManager.ActionIsPressed("MoveUp"))
+                {
+                    if (CanJump())
+                        Jump();
+                }
             }
         }
 
@@ -152,13 +161,28 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 
         public void LoseHeart()
         {
-            currentHealth -= 1;
-            for(int i = currentHealth; i < maxHealth ; i++)
+            if(MoveableBodyState != MoveableBodyStates.Dead)
             {
-                heartSprites[i].Hidden = true;
+                if (healthTimer == null)
+                {
+                    currentHealth -= 1;
+                    for (int i = currentHealth; i < maxHealth; i++)
+                    {
+                        heartSprites[i].Hidden = true;
+                    }
+                    if (currentHealth <= 0)
+                        MoveableBodyState = MoveableBodyStates.Dead;
+                    healthTimer = new GameTimer(2f)
+                    {
+                        OnTimedEvent = (o, e) => DestroyTimer()
+                    };
+                }
             }
-            if (currentHealth <= 0)
-                MoveableBodyState = MoveableBodyStates.Dead;
+        }
+
+        private void DestroyTimer()
+        {
+            healthTimer = null;
         }
     }
 }

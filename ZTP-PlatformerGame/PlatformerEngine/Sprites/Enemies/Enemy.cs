@@ -37,5 +37,10 @@ namespace PlatformerEngine.Sprites.Enemies
             }
             base.Update(gameTime);
         }
+
+        public void LoseHeart()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

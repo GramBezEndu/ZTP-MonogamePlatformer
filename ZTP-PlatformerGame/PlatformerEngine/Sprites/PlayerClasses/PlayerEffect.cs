@@ -113,19 +113,21 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 
         public virtual void PrepareMove(GameTime gameTime)
         {
-            //player.PrepareMove(gameTime);
-            if (InputManager.ActionIsPressed("MoveRight"))
+            if (MoveableBodyState != MoveableBodyStates.Dead)
             {
-                MoveRight();
-            }
-            else if (InputManager.ActionIsPressed("MoveLeft"))
-            {
-                MoveLeft();
-            }
-            if (InputManager.ActionIsPressed("MoveUp"))
-            {
-                if (CanJump())
-                    Jump();
+                if (InputManager.ActionIsPressed("MoveRight"))
+                {
+                    MoveRight();
+                }
+                else if (InputManager.ActionIsPressed("MoveLeft"))
+                {
+                    MoveLeft();
+                }
+                if (InputManager.ActionIsPressed("MoveUp"))
+                {
+                    if (CanJump())
+                        Jump();
+                }
             }
         }
 

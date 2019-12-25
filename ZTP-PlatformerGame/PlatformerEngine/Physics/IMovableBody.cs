@@ -21,5 +21,6 @@ namespace PlatformerEngine.Physics
         MoveableBodyStates MoveableBodyState { get; set; }
         Vector2 Velocity { get; set; }
         void PrepareMove(GameTime gameTime);
+        void LoseHeart();
     }
 }
