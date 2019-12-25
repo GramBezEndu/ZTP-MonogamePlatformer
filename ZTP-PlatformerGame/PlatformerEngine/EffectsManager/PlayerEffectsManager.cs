@@ -62,18 +62,21 @@ namespace PlatformerEngine.EffectsManager
 
         private void DrawEffect()
         {
-            //Clear effects when there's only one effect left
-            if(effectsExcludingActive.Count <= 1)
+            if(player.MoveableBodyState != Physics.MoveableBodyStates.Dead)
             {
-                state.AddNotification("CLEARED ALL EFFECTS");
-                ClearEffects();
-            }
-            //Roll another effect
-            else
-            {
-                var effect = effectsExcludingActive.ElementAt(random.Next(0, effectsExcludingActive.Count));
-                ActivateEffect(effect);
-                effectsExcludingActive.Remove(effect);
+                //Clear effects when there's only one effect left
+                if (effectsExcludingActive.Count <= 1)
+                {
+                    state.AddNotification("CLEARED ALL EFFECTS");
+                    ClearEffects();
+                }
+                //Roll another effect
+                else
+                {
+                    var effect = effectsExcludingActive.ElementAt(random.Next(0, effectsExcludingActive.Count));
+                    ActivateEffect(effect);
+                    effectsExcludingActive.Remove(effect);
+                }
             }
         }
 

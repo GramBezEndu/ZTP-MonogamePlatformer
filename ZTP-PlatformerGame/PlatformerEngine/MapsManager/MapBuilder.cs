@@ -13,13 +13,11 @@ namespace PlatformerEngine.MapsManager
         protected Sprite segmentZero;
         protected Sprite segmentOne;
         protected Sprite segmentTwo;
+        protected Sprite segmentThree;
         private Vector2 position = Vector2.Zero;
         private const int TILE_SIZE_X = 32;
         private const int TILE_SIZE_Y = 32;
         public List<Sprite> MapObjects { get; private set; } = new List<Sprite>();
-        public MapBuilder(Texture2D air, Texture2D ground, Texture2D spike)
-        {
-        }
         /// <summary>
         /// Call after building segment
         /// </summary>
@@ -51,6 +49,14 @@ namespace PlatformerEngine.MapsManager
         public void BuildSegmentTwo()
         {
             var sprite = (Sprite)segmentTwo.Clone();
+            sprite.Position = position;
+            MapObjects.Add(sprite);
+            UpdatePosition();
+        }
+
+        public void BuildSegmentThree()
+        {
+            var sprite = (Sprite)segmentThree.Clone();
             sprite.Position = position;
             MapObjects.Add(sprite);
             UpdatePosition();

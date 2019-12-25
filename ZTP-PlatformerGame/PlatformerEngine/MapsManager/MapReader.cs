@@ -36,6 +36,9 @@ namespace PlatformerEngine.MapsManager
                         case "2":
                             builder.BuildSegmentTwo();
                             break;
+                        case "3":
+                            builder.BuildSegmentThree();
+                            break;
                         default:
                             throw new ArgumentException("Invalid block segment in map file");
                     }

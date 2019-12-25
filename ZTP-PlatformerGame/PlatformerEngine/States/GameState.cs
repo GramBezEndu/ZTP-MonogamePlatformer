@@ -1,6 +1,7 @@
 ﻿using Engine.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using MonoGame.Extended.Animations.SpriteSheets;
 using PlatformerEngine.CameraSystem;
 using PlatformerEngine.EffectsManager;
@@ -29,6 +30,7 @@ namespace PlatformerEngine.States
         protected PlayerEffectsManager playerEffectsManager;
         protected List<Enemy> enemies = new List<Enemy>();
         protected Camera camera;
+        protected Song levelThemeSong;
         public GameState(Game1 gameReference) : base(gameReference)
         {
             mapBatch = new SpriteBatch(graphicsDevice);
@@ -44,7 +46,11 @@ namespace PlatformerEngine.States
 
             playerEffectsManager = new PlayerEffectsManager(this, font, player);
             SpawnAllEnemies();
+            LoadThemeSong();
+            game.PlaySong(levelThemeSong);
         }
+
+        internal abstract void LoadThemeSong();
 
         private void BuildMap()
         {
@@ -119,7 +125,7 @@ namespace PlatformerEngine.States
         protected void SpawnPlayer()
         {
             SpriteAnimated swordSlash = new SpriteAnimated(content.Load<Texture2D>("Character/SwordSlash/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Character/SwordSlash/Map"));
-            swordSlash.AddAnimation("Slash", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6 }, frameDuration: 0.1f));
+            swordSlash.AddAnimation("Slash", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6 }, frameDuration: 0.08f));
             swordSlash.Hidden = true;
 
             player = new Player(content.Load<Texture2D>("Character/Spritesheet"),

@@ -8,7 +8,7 @@ namespace PlatformerEngine.MapsManager
 {
     public class PeacefulMapBuilder : StandardBuilder
     {
-        public PeacefulMapBuilder(Texture2D air, Texture2D ground, Texture2D spike) : base(air, ground, spike)
+        public PeacefulMapBuilder(Texture2D air, Texture2D ground, Texture2D spike, Texture2D groundGrass) : base(air, ground, spike, groundGrass)
         {
             segmentTwo = new GroundSprite(ground);
         }

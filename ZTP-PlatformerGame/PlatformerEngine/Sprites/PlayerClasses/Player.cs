@@ -137,7 +137,7 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 
         public void Jump()
         {
-            Velocity = new Vector2(Velocity.X, -20f);
+            Velocity = new Vector2(Velocity.X, -18f);
         }
 
         public void PrepareMove(GameTime gameTime)

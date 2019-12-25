@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Media;
 using PlatformerEngine.MapsManager;
 using PlatformerEngine.States;
 using System;
@@ -29,12 +30,17 @@ namespace ZTP_PlatformerGame.States
 
         internal override void CreateMapBuilder()
         {
-            mapBuilder = new StandardBuilder(textures["Air"], textures["Ground"], textures["Spike"]);
+            mapBuilder = new StandardBuilder(textures["Air"], textures["Ground"], textures["Spike"], textures["GroundGrass"]);
         }
 
         internal override void CreateMapReader()
         {
             mapReader = new MapReader("Map.txt");
+        }
+
+        internal override void LoadThemeSong()
+        {
+            levelThemeSong = content.Load<Song>("Songs/FirstLevel");
         }
     }
 }

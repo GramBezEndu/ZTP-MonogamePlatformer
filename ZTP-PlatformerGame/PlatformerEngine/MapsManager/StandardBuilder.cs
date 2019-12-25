@@ -9,11 +9,12 @@ namespace PlatformerEngine.MapsManager
 {
     public class StandardBuilder : MapBuilder
     {
-        public StandardBuilder(Texture2D air, Texture2D ground, Texture2D spike) : base(air, ground, spike)
+        public StandardBuilder(Texture2D air, Texture2D ground, Texture2D spike, Texture2D groundGrass)
         {
             segmentZero = new AirSprite(air);
             segmentOne = new GroundSprite(ground);
             segmentTwo = new SpikeSprite(spike);
+            segmentThree = new GroundGrassSprite(groundGrass);
         }
     }
 }

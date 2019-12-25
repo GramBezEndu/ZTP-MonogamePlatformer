@@ -14,7 +14,7 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 
         public override void Jump()
         {
-            Velocity = new Vector2(Velocity.X, -30f);
+            Velocity = new Vector2(Velocity.X, -24f);
         }
     }
 }

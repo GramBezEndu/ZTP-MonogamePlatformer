@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using PlatformerEngine.Input;
 using ZTP_PlatformerGame.States;
 
@@ -19,6 +20,8 @@ namespace ZTP_PlatformerGame
         State currentState;
         State nextState;
 
+        Song currentSong;
+
         public Point LogicalSize = new Point(1280, 720);
         
         public void ChangeState(State newState)
@@ -32,6 +35,7 @@ namespace ZTP_PlatformerGame
             Content.RootDirectory = "Content";
             graphics.PreferredBackBufferWidth = LogicalSize.X;
             graphics.PreferredBackBufferHeight = LogicalSize.Y;
+            MediaPlayer.IsRepeating = true;
             //Window.IsBorderless = true;
         }
 
@@ -99,6 +103,32 @@ namespace ZTP_PlatformerGame
             currentState.Draw(gameTime);
 
             base.Draw(gameTime);
+        }
+
+        public void PlaySong(Song s)
+        {
+            //We do not allow to change song to the same song
+            if (IsThisSongPlaying(s))
+                return;
+            //If parameter is null we stop playing music
+            if (s == null)
+            {
+                currentSong = null;
+                MediaPlayer.Stop();
+                return;
+            }
+            //Regular case: stop playing old song and start playing new song
+            currentSong = s;
+            MediaPlayer.Stop();
+            MediaPlayer.Play(s);
+        }
+
+        private bool IsThisSongPlaying(Song song)
+        {
+            if (currentSong == song)
+                return true;
+            else
+                return false;
         }
     }
 }
