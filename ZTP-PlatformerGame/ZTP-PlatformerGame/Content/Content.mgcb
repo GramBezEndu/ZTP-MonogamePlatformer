@@ -59,6 +59,23 @@
 /processorParam:TextureFormat=Color
 /build:Character/Spritesheet.png
 
+#begin Character/SwordSlash/Map.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:Character/SwordSlash/Map.xml
+
+#begin Character/SwordSlash/Spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Character/SwordSlash/Spritesheet.png
+
 #begin Fonts/Font.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

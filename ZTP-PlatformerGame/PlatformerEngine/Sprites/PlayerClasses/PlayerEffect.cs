@@ -113,7 +113,7 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 
         public virtual void PrepareMove(GameTime gameTime)
         {
-            if (MoveableBodyState != MoveableBodyStates.Dead)
+            if (MoveableBodyState != MoveableBodyStates.Dead && MoveableBodyState != MoveableBodyStates.Attacking)
             {
                 if (InputManager.ActionIsPressed("MoveRight"))
                 {
@@ -127,6 +127,10 @@ namespace PlatformerEngine.Sprites.PlayerClasses
                 {
                     if (CanJump())
                         Jump();
+                }
+                if (InputManager.ActionWasPressed("Attack"))
+                {
+                    Attack();
                 }
             }
         }

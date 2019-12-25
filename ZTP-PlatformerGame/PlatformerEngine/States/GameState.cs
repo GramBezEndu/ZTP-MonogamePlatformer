@@ -1,6 +1,7 @@
 ﻿using Engine.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.Animations.SpriteSheets;
 using PlatformerEngine.CameraSystem;
 using PlatformerEngine.EffectsManager;
 using PlatformerEngine.MapsManager;
@@ -117,9 +118,13 @@ namespace PlatformerEngine.States
 
         protected void SpawnPlayer()
         {
+            SpriteAnimated swordSlash = new SpriteAnimated(content.Load<Texture2D>("Character/SwordSlash/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Character/SwordSlash/Map"));
+            swordSlash.AddAnimation("Slash", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6 }, frameDuration: 0.1f));
+            swordSlash.Hidden = true;
+
             player = new Player(content.Load<Texture2D>("Character/Spritesheet"),
-                content.Load<Dictionary<string, Rectangle>>("Character/Map"), inputManager, content.Load<Texture2D>("Character/Heart"));
-            player.Scale = new Vector2(0.2f, 0.2f);
+                content.Load<Dictionary<string, Rectangle>>("Character/Map"), inputManager, content.Load<Texture2D>("Character/Heart"), swordSlash);
+            player.Scale = new Vector2(0.15f, 0.15f);
             player.Position = new Vector2(140, game.LogicalSize.Y - 200);
         }
     }

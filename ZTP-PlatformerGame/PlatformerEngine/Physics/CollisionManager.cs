@@ -143,6 +143,11 @@ namespace PlatformerEngine.Physics
                 if (collidableEnlarged.Intersects(s))
                     return false;
             }
+            foreach (var spike in staticSpikes)
+            {
+                if (collidableEnlarged.Intersects(spike))
+                    return false;
+            }
             return true;
         }
     }

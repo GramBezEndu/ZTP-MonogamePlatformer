@@ -20,9 +20,11 @@ namespace PlatformerEngine.Sprites.PlayerClasses
         public Vector2 VelocityConst = new Vector2(5f, 2f);
         private InputManager inputManager;
         public List<Sprite> heartSprites = new List<Sprite>();
+        private SpriteAnimated swordSlash;
 
-        public Player(Texture2D spritesheet, Dictionary<string, Rectangle> map, InputManager im, Texture2D heartTexture) : base(spritesheet, map)
+        public Player(Texture2D spritesheet, Dictionary<string, Rectangle> map, InputManager im, Texture2D heartTexture, SpriteAnimated swordSlashObj) : base(spritesheet, map)
         {
+            swordSlash = swordSlashObj;
             CreateHeartsManager(heartTexture);
             inputManager = im;
             AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 0 }));
@@ -84,6 +86,10 @@ namespace PlatformerEngine.Sprites.PlayerClasses
                                 PlayAnimation("InAir");
                                 break;
                             case MoveableBodyStates.Dead:
+                                PlayAnimation("Idle");
+                                break;
+                            case MoveableBodyStates.Attacking:
+                                Attack();
                                 break;
                         }
                     }
@@ -101,9 +107,22 @@ namespace PlatformerEngine.Sprites.PlayerClasses
             if(MoveableBodyState != MoveableBodyStates.Dead)
             {
                 base.Update(gameTime);
+                if (swordSlash.Hidden != true)
+                    MoveableBodyState = MoveableBodyStates.Attacking;
                 healthTimer?.Update(gameTime);
+                
+                swordSlash.Update(gameTime);
             }
             //Debug.WriteLine(Position);
+        }
+
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            base.Draw(gameTime, spriteBatch);
+            if(!Hidden)
+            {
+                swordSlash.Draw(gameTime, spriteBatch);
+            }
         }
 
         public void MoveRight()
@@ -123,7 +142,7 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 
         public void PrepareMove(GameTime gameTime)
         {
-            if(MoveableBodyState != MoveableBodyStates.Dead)
+            if(MoveableBodyState != MoveableBodyStates.Dead && MoveableBodyState != MoveableBodyStates.Attacking)
             {
                 if (InputManager.ActionIsPressed("MoveRight"))
                 {
@@ -137,6 +156,10 @@ namespace PlatformerEngine.Sprites.PlayerClasses
                 {
                     if (CanJump())
                         Jump();
+                }
+                if(InputManager.ActionWasPressed("Attack"))
+                {
+                    Attack();
                 }
             }
         }
@@ -156,7 +179,23 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 
         public void Attack()
         {
-            throw new NotImplementedException();
+            MoveableBodyState = MoveableBodyStates.Attacking;
+            PlayAnimation("Idle");
+            if (this.SpriteEffects == SpriteEffects.FlipHorizontally)
+            {
+                swordSlash.Position = new Vector2(this.Position.X - swordSlash.Size.X, this.Position.Y + this.Size.Y / 3);
+                swordSlash.SpriteEffects = SpriteEffects.FlipHorizontally;
+            }
+            else
+            {
+                swordSlash.Position = new Vector2(this.Position.X + this.Size.X, this.Position.Y + this.Size.Y / 3);
+                swordSlash.SpriteEffects = SpriteEffects.None;
+            }
+            swordSlash.Hidden = false;
+            swordSlash.PlayAnimation("Slash",
+                onCompleted: () => {
+                    swordSlash.Hidden = true;
+                });
         }
 
         public void LoseHeart()
