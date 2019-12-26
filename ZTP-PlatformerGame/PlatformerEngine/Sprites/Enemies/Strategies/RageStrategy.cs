@@ -12,8 +12,10 @@ namespace PlatformerEngine.Sprites.Enemies.Strategies
     {
         public void Move(Enemy enemy)
         {
+            //Stand
+
             //Move left
-            enemy.Velocity = new Vector2(-4f, 0);
+            //enemy.Velocity = new Vector2(-4f, 0);
         }
 
         public void Update(GameTime gameTime)

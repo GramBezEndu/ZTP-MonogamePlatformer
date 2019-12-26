@@ -5,13 +5,15 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PlatformerEngine.Physics;
 using PlatformerEngine.Sprites.Enemies.Strategies;
+using PlatformerEngine.Timers;
 
 namespace PlatformerEngine.Sprites.Enemies
 {
     public abstract class Enemy : SpriteAnimated, IMoveableBody
     {
         private IMoveStrategy currentStrategy;
-        protected int maxHealth = 5;
+        private GameTimer healthTimer;
+        protected int maxHealth = 2;
         protected int currentHealth;
 
         public Enemy(Texture2D spritesheet, Dictionary<string, Rectangle> map, IMoveStrategy strategy) : base(spritesheet, map)
@@ -33,6 +35,7 @@ namespace PlatformerEngine.Sprites.Enemies
         {
             if(!Hidden)
             {
+                healthTimer?.Update(gameTime);
                 //Got hurt - go into rage mode
                 if (currentHealth < maxHealth)
                 {
@@ -45,7 +48,24 @@ namespace PlatformerEngine.Sprites.Enemies
 
         public void LoseHeart()
         {
-            throw new NotImplementedException();
+            if (MoveableBodyState != MoveableBodyStates.Dead)
+            {
+                if (healthTimer == null)
+                {
+                    currentHealth -= 1;
+                    if (currentHealth <= 0)
+                        MoveableBodyState = MoveableBodyStates.Dead;
+                    healthTimer = new GameTimer(2f)
+                    {
+                        OnTimedEvent = (o, e) => DestroyTimer()
+                    };
+                }
+            }
+        }
+
+        private void DestroyTimer()
+        {
+            healthTimer = null;
         }
     }
 }

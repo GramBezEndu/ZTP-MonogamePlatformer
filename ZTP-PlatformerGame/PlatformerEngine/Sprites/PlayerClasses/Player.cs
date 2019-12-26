@@ -36,7 +36,7 @@ namespace PlatformerEngine.Sprites.PlayerClasses
         private void CreateHeartsManager(Texture2D heartTexture)
         {
             currentHealth = maxHealth;
-            var pos = Vector2.Zero;
+            var pos = new Vector2(0, 30);
             for (int i = 0; i < maxHealth; i++)
             {
                 var heart = new Sprite(heartTexture, new Vector2(3f, 3f))
@@ -101,6 +101,8 @@ namespace PlatformerEngine.Sprites.PlayerClasses
         public InputManager InputManager { get { return inputManager; } }
 
         public List<Sprite> HeartSprites { get { return heartSprites; } }
+
+        public SpriteAnimated SwordSlash { get { return swordSlash; } }
 
         public override void Update(GameTime gameTime)
         {

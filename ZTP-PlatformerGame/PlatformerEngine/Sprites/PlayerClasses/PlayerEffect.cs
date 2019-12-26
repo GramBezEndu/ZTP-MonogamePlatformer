@@ -76,6 +76,11 @@ namespace PlatformerEngine.Sprites.PlayerClasses
             get { return player.HeartSprites; }
         }
 
+        public SpriteAnimated SwordSlash
+        {
+            get { return player.SwordSlash; }
+        }
+
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             player.Draw(gameTime, spriteBatch);

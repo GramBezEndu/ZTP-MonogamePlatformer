@@ -44,7 +44,7 @@ namespace PlatformerEngine.States
             physicsManager.SetStaticBodies(mapBuilder.GetCollisionRectangles());
             physicsManager.SetStaticSpikes(mapBuilder.GetSpikes());
 
-            playerEffectsManager = new PlayerEffectsManager(this, font, player);
+            playerEffectsManager = new PlayerEffectsManager(this, graphicsDevice, font, player);
             SpawnAllEnemies();
             LoadThemeSong();
             game.PlaySong(levelThemeSong);
@@ -125,7 +125,7 @@ namespace PlatformerEngine.States
         protected void SpawnPlayer()
         {
             SpriteAnimated swordSlash = new SpriteAnimated(content.Load<Texture2D>("Character/SwordSlash/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Character/SwordSlash/Map"));
-            swordSlash.AddAnimation("Slash", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6 }, frameDuration: 0.08f));
+            swordSlash.AddAnimation("Slash", new SpriteSheetAnimationData(new int[] { 0, 1, 2, 3, 4, 5, 6 }, frameDuration: 0.05f));
             swordSlash.Hidden = true;
 
             player = new Player(content.Load<Texture2D>("Character/Spritesheet"),

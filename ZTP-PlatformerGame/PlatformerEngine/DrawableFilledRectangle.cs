@@ -43,7 +43,7 @@ namespace PlatformerEngine
         }
 
         public Color Color { get; set; } = Color.White;
-        public Vector2 Scale { get; set; }
+        public Vector2 Scale { get; set; } = Vector2.One;
         public SpriteEffects SpriteEffects { get; set; }
 
         public DrawableFilledRectangle(GraphicsDevice gd, Rectangle rec)

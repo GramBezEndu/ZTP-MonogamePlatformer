@@ -55,6 +55,9 @@ namespace PlatformerEngine.Sprites
                             //PlayAnimation("InAir");
                             PlayAnimation("Walk");
                             break;
+                        case MoveableBodyStates.Dead:
+                            Hidden = true;
+                            break;
                     }
                 }
             }

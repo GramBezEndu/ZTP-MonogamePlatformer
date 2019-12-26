@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using PlatformerEngine.Sprites.PlayerClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ namespace PlatformerEngine.Physics
 {
     public class CollisionManager : IComponent
     {
+        List<IPlayer> players;
         List<IMoveableBody> collidableBodies;
         List<Rectangle> staticBodies = new List<Rectangle>();
         List<Rectangle> staticSpikes = new List<Rectangle>();
@@ -25,6 +27,31 @@ namespace PlatformerEngine.Physics
                 foreach (var spike in staticSpikes)
                 {
                     CheckForCollisionAndLoseHeart(c, spike);
+                }
+            }
+            //player with enemies collision
+            foreach(var player in players)
+            {
+                foreach(var c in collidableBodies)
+                {
+                    //do not check for collsion with other player (if this collidable is in player list then skip)
+                    if (players.Contains(c) || c.Hidden)
+                        continue;
+                    if (CheckForCollision(player, c))
+                        player.LoseHeart();
+                }
+            }
+            //player attack
+            foreach(var player in players)
+            {
+                foreach(var c in collidableBodies)
+                {
+                    if (c == player)
+                        continue;
+                    if (player.SwordSlash.Hidden == true)
+                        continue;
+                    if (player.SwordSlash.Rectangle.Intersects(c.Rectangle))
+                        c.LoseHeart();
                 }
             }
         }
@@ -87,6 +114,7 @@ namespace PlatformerEngine.Physics
         public void SetCollisionBodies(List<IMoveableBody> collidables)
         {
             collidableBodies = collidables;
+            players = collidables.OfType<IPlayer>().ToList();
         }
 
         public void SetStaticBodies(List<Rectangle> rectangles)
@@ -105,6 +133,11 @@ namespace PlatformerEngine.Physics
               c.Rectangle.Left < r.Left &&
               c.Rectangle.Bottom > r.Top &&
               c.Rectangle.Top < r.Bottom;
+        }
+
+        private bool CheckForCollision(IMoveableBody c, IMoveableBody c2)
+        {
+            return c.Rectangle.Intersects(c2.Rectangle);
         }
 
         private bool IsTouchingRight(IMoveableBody c, Rectangle r)

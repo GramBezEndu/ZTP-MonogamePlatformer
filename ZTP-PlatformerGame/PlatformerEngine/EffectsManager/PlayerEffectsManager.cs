@@ -6,6 +6,7 @@ using System.Text;
 using Engine.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using PlatformerEngine.Sprites;
 using PlatformerEngine.Sprites.PlayerClasses;
 using PlatformerEngine.Timers;
 
@@ -46,17 +47,30 @@ namespace PlatformerEngine.EffectsManager
         private IPlayer player;
         private SpriteFont font;
         private State state;
+        private GraphicsDevice graphicsDevice;
 
-        public PlayerEffectsManager(State s, SpriteFont f, IPlayer p)
+        private DrawableFilledRectangle timerCountdownBackground;
+        private DrawableFilledRectangle timerCountdownCurrent;
+
+        public PlayerEffectsManager(State s, GraphicsDevice gd, SpriteFont f, IPlayer p)
         {
             state = s;
             player = p;
             font = f;
+            graphicsDevice = gd;
             effectsExcludingActive = Enum.GetValues(typeof(Effects)).Cast<Effects>().ToList();
             random = new Random();
             newEffectTimer = new GameTimer(10.0)
             {
                 OnTimedEvent = (o, e) => DrawEffect()
+            };
+            timerCountdownBackground = new DrawableFilledRectangle(graphicsDevice, new Rectangle(0, 0, 1280, 25))
+            {
+                Color = Color.Black
+            };
+            timerCountdownCurrent = new DrawableFilledRectangle(graphicsDevice, new Rectangle(0, 0, 1280, 25))
+            {
+                Color = Color.Red
             };
         }
 
@@ -113,6 +127,8 @@ namespace PlatformerEngine.EffectsManager
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            timerCountdownBackground.Draw(gameTime, spriteBatch);
+            timerCountdownCurrent.Draw(gameTime, spriteBatch);
             var temp = player;
             spriteBatch.DrawString(font, "ACTIVE EFFECTS: ", new Vector2(0, 100), Color.Red);
             var pos = new Vector2(0, 135);
@@ -127,6 +143,11 @@ namespace PlatformerEngine.EffectsManager
         public void Update(GameTime gameTime)
         {
             newEffectTimer.Update(gameTime);
+            timerCountdownCurrent.Scale = new Vector2((float)(newEffectTimer.CurrentInterval / newEffectTimer.Interval), 1);
+            //timerCountdownCurrent = new DrawableFilledRectangle(graphicsDevice, new Rectangle(0, 0, 1280, (int)(newEffectTimer.CurrentInterval/newEffectTimer.Interval * timerCountdownBackground.Rectangle.Width)))
+            //{
+            //    Color = Color.Red
+            //};
         }
 
         public IPlayer GetDecoratedPlayer()
