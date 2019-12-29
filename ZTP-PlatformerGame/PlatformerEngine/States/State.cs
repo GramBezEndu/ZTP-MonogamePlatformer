@@ -30,9 +30,9 @@ namespace Engine.States
 
         public void AddNotification(string msg)
         {
-            var message = new TextOnTimer(font, msg);
+            var message = new TextOnTimer(font, msg, 2);
             message.Position = new Vector2(game.LogicalSize.X / 2 - message.Size.X / 2,
-                game.LogicalSize.Y / 2 - message.Size.Y / 2);
+                game.LogicalSize.Y / 5 - message.Size.Y / 2);
             AddUiComponent(message);
         }
 

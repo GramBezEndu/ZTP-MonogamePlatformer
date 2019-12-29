@@ -70,7 +70,7 @@ namespace PlatformerEngine.EffectsManager
             };
             timerCountdownCurrent = new DrawableFilledRectangle(graphicsDevice, new Rectangle(0, 0, 1280, 25))
             {
-                Color = Color.Red
+                Color = Color.BlueViolet
             };
         }
 
@@ -130,11 +130,11 @@ namespace PlatformerEngine.EffectsManager
             timerCountdownBackground.Draw(gameTime, spriteBatch);
             timerCountdownCurrent.Draw(gameTime, spriteBatch);
             var temp = player;
-            spriteBatch.DrawString(font, "ACTIVE EFFECTS: ", new Vector2(0, 100), Color.Red);
+            spriteBatch.DrawString(font, "ACTIVE EFFECTS: ", new Vector2(0, 100), Color.White);
             var pos = new Vector2(0, 135);
             while (temp is PlayerEffect effect)
             {
-                spriteBatch.DrawString(font, effect.Name, pos, Color.Red);
+                spriteBatch.DrawString(font, effect.Name, pos, Color.White);
                 pos += new Vector2(0, 35);
                 temp = temp.GetDecorated();
             }

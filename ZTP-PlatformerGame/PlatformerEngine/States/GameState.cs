@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using MonoGame.Extended.Animations.SpriteSheets;
 using PlatformerEngine.CameraSystem;
+using PlatformerEngine.Controls;
 using PlatformerEngine.EffectsManager;
 using PlatformerEngine.MapsManager;
 using PlatformerEngine.Physics;
@@ -23,6 +24,7 @@ namespace PlatformerEngine.States
     {
         protected SpriteBatch mapBatch;
         protected List<IComponent> gameComponents = new List<IComponent>();
+        protected List<IDrawableComponent> gameOverComponents = new List<IDrawableComponent>();
         protected IPlayer player;
         protected MapReader mapReader;
         protected MapBuilder mapBuilder;
@@ -48,6 +50,8 @@ namespace PlatformerEngine.States
             SpawnAllEnemies();
             LoadThemeSong();
             game.PlaySong(levelThemeSong);
+
+            CreateGameOverComponents();
         }
 
         internal abstract void LoadThemeSong();
@@ -61,6 +65,23 @@ namespace PlatformerEngine.States
         internal abstract void CreateMapBuilder();
         internal abstract void CreateMapReader();
         protected abstract void SpawnAllEnemies();
+        private void CreateGameOverComponents()
+        {
+            var gameOverText = new Text(font, "GAME OVER");
+            gameOverText.Position = new Vector2(game.LogicalSize.X / 2 - gameOverText.Size.X / 2, game.LogicalSize.Y / 2 - gameOverText.Size.Y / 2);
+            gameOverText.Color = Color.Black;
+            gameOverText.Hidden = true;
+            gameOverComponents.Add(gameOverText);
+
+            var restartText = new Text(font, "PRESS LMB TO RESTART");
+            restartText.Position = new Vector2(game.LogicalSize.X / 2 - restartText.Size.X / 2, gameOverText.Position.Y + gameOverText.Size.Y);
+            restartText.Color = Color.Black;
+            restartText.Hidden = true;
+            gameOverComponents.Add(restartText);
+
+            foreach (var c in gameOverComponents)
+                AddUiComponent(c);
+        }
 
         public void AddGameComponent(IComponent component)
         {
@@ -109,6 +130,21 @@ namespace PlatformerEngine.States
             physicsManager.Update(gameTime);
             foreach (var c in gameComponents)
                 c.Update(gameTime);
+            if(player.MoveableBodyState == MoveableBodyStates.Dead)
+            {
+                foreach (var c in gameOverComponents)
+                    c.Hidden = false;
+                if(inputManager.ActionWasPressed("Attack"))
+                {
+                    Type type = this.GetType();
+                    game.ChangeState((GameState)Activator.CreateInstance(type, game));
+                }
+            }
+            else
+            {
+                foreach (var c in gameOverComponents)
+                    c.Hidden = true;
+            }
             base.Update(gameTime);
         }
 

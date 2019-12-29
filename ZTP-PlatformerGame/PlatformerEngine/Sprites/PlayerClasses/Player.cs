@@ -15,7 +15,7 @@ namespace PlatformerEngine.Sprites.PlayerClasses
     public class Player : SpriteAnimated, IPlayer
     {
         private GameTimer healthTimer;
-        private int maxHealth = 5;
+        private int maxHealth = 3;
         private int currentHealth;
         public Vector2 VelocityConst = new Vector2(5f, 2f);
         private InputManager inputManager;
