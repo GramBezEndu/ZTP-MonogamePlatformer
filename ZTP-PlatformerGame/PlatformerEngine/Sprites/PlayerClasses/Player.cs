@@ -104,6 +104,8 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 
         public SpriteAnimated SwordSlash { get { return swordSlash; } }
 
+        public EventHandler OnLoseHeart { get; set; }
+
         public override void Update(GameTime gameTime)
         {
             if(MoveableBodyState != MoveableBodyStates.Dead)
@@ -206,6 +208,7 @@ namespace PlatformerEngine.Sprites.PlayerClasses
             {
                 if (healthTimer == null)
                 {
+                    OnLoseHeart?.Invoke(this, new EventArgs());
                     currentHealth -= 1;
                     for (int i = currentHealth; i < maxHealth; i++)
                     {

@@ -158,6 +158,11 @@ namespace PlatformerEngine.States
             enemies.Add(boletus);
         }
 
+        public void PlaySound(string name)
+        {
+            Sounds[name].Play();
+        }
+
         protected void SpawnPlayer()
         {
             SpriteAnimated swordSlash = new SpriteAnimated(content.Load<Texture2D>("Character/SwordSlash/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Character/SwordSlash/Map"));
@@ -168,6 +173,7 @@ namespace PlatformerEngine.States
                 content.Load<Dictionary<string, Rectangle>>("Character/Map"), inputManager, content.Load<Texture2D>("Character/Heart"), swordSlash);
             player.Scale = new Vector2(0.15f, 0.15f);
             player.Position = new Vector2(140, game.LogicalSize.Y - 200);
+            player.OnLoseHeart = (o, e) => PlaySound("LoseHeart");
         }
     }
 }

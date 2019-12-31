@@ -81,6 +81,12 @@ namespace PlatformerEngine.Sprites.PlayerClasses
             get { return player.SwordSlash; }
         }
 
+        public EventHandler OnLoseHeart 
+        { 
+            get { return player.OnLoseHeart; }
+            set { player.OnLoseHeart = value; }
+        }
+
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             player.Draw(gameTime, spriteBatch);

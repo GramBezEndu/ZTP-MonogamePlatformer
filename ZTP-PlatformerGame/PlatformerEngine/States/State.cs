@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 using PlatformerEngine;
 using ZTP_PlatformerGame;
 using PlatformerEngine.Controls;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Engine.States
 {
@@ -22,6 +23,7 @@ namespace Engine.States
         protected List<IComponent> uiComponents = new List<IComponent>();
         protected SpriteBatch uiSpriteBatch;
         protected Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
+        public Dictionary<string, SoundEffect> Sounds { get; set; } = new Dictionary<string, SoundEffect>();
 
         public void AddUiComponent(IComponent component)
         {
@@ -48,6 +50,20 @@ namespace Engine.States
             //Load assets
             LoadFont();
             LoadTextures();
+            LoadSounds();
+        }
+
+        private void LoadSounds()
+        {
+            DirectoryInfo directoryInfo = new DirectoryInfo(content.RootDirectory + "/Sounds/");
+            if (!directoryInfo.Exists)
+                throw new DirectoryNotFoundException();
+            FileInfo[] files = directoryInfo.GetFiles("*.*");
+            foreach (FileInfo file in files)
+            {
+                string key = Path.GetFileNameWithoutExtension(file.Name);
+                Sounds[key] = content.Load<SoundEffect>(Directory.GetCurrentDirectory() + "/Content/Sounds/" + key);
+            }
         }
 
         private void LoadTextures()

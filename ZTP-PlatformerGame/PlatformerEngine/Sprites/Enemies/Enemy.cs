@@ -24,6 +24,7 @@ namespace PlatformerEngine.Sprites.Enemies
 
         public abstract MoveableBodyStates MoveableBodyState { get; set; }
         public Vector2 Velocity { get; set; }
+        public EventHandler OnLoseHeart { get; set; }
 
         public void PrepareMove(GameTime gameTime)
         {
@@ -52,10 +53,11 @@ namespace PlatformerEngine.Sprites.Enemies
             {
                 if (healthTimer == null)
                 {
+                    OnLoseHeart?.Invoke(this, new EventArgs());
                     currentHealth -= 1;
                     if (currentHealth <= 0)
                         MoveableBodyState = MoveableBodyStates.Dead;
-                    healthTimer = new GameTimer(2f)
+                    healthTimer = new GameTimer(0.5f)
                     {
                         OnTimedEvent = (o, e) => DestroyTimer()
                     };

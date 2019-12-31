@@ -89,6 +89,12 @@
 /processorParam:Quality=Best
 /build:Songs/FirstLevel.mp3
 
+#begin Sounds/LoseHeart.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/LoseHeart.wav
+
 #begin Textures/Air.png
 /importer:TextureImporter
 /processor:TextureProcessor
