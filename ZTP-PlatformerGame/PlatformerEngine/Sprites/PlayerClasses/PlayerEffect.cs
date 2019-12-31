@@ -146,7 +146,7 @@ namespace PlatformerEngine.Sprites.PlayerClasses
             }
         }
 
-        public virtual void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             player.Update(gameTime);
         }
@@ -154,6 +154,11 @@ namespace PlatformerEngine.Sprites.PlayerClasses
         public virtual void LoseHeart()
         {
             player.LoseHeart();
+        }
+
+        public void Die()
+        {
+            player.Die();
         }
     }
 }

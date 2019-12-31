@@ -17,7 +17,8 @@ namespace PlatformerEngine.EffectsManager
         Speed,
         NoAttack,
         //NoJump,
-        MegaJump
+        MegaJump,
+        Invincibility
     }
     /// <summary>
     /// TODO: Implement multiple effects at a time (correct unpacking)
@@ -108,9 +109,9 @@ namespace PlatformerEngine.EffectsManager
                 case Effects.MegaJump:
                     player = new MegaJumpEffect(player);
                     break;
-                //case Effects.NoJump:
-                //    player = new NoJumpEffect(player);
-                //    break;
+                case Effects.Invincibility:
+                    player = new InvincibilityEffect(player);
+                    break;
             }
         }
 
@@ -130,7 +131,7 @@ namespace PlatformerEngine.EffectsManager
             timerCountdownBackground.Draw(gameTime, spriteBatch);
             timerCountdownCurrent.Draw(gameTime, spriteBatch);
             var temp = player;
-            spriteBatch.DrawString(font, "ACTIVE EFFECTS: ", new Vector2(0, 100), Color.White);
+            spriteBatch.DrawString(font, "ACTIVE EFFECTS: ", new Vector2(0, 100), Color.BlueViolet);
             var pos = new Vector2(0, 135);
             while (temp is PlayerEffect effect)
             {
@@ -144,10 +145,6 @@ namespace PlatformerEngine.EffectsManager
         {
             newEffectTimer.Update(gameTime);
             timerCountdownCurrent.Scale = new Vector2((float)(newEffectTimer.CurrentInterval / newEffectTimer.Interval), 1);
-            //timerCountdownCurrent = new DrawableFilledRectangle(graphicsDevice, new Rectangle(0, 0, 1280, (int)(newEffectTimer.CurrentInterval/newEffectTimer.Interval * timerCountdownBackground.Rectangle.Width)))
-            //{
-            //    Color = Color.Red
-            //};
         }
 
         public IPlayer GetDecoratedPlayer()

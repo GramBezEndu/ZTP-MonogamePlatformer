@@ -9,13 +9,19 @@ using System.Text;
 
 namespace PlatformerEngine.Sprites
 {
+    public enum Direction
+    {
+        Left,
+        Right
+    };
     public class Boletus : Enemy
     {
         private MoveableBodyStates moveableBodyState;
+        private Direction dashDirection = Direction.Left;
 
         public Boletus(Texture2D spritesheet, Dictionary<string, Rectangle> map, IMoveStrategy strategy) : base(spritesheet, map, strategy)
         {
-            AddAnimation("Attack", new SpriteSheetAnimationData(new int[] { 0 }, frameDuration: 5f, isLooping: false));
+            AddAnimation("Attack", new SpriteSheetAnimationData(new int[] { 0 }, frameDuration: 0.8f, isLooping: false));
             AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 1 }));
             AddAnimation("Walk", new SpriteSheetAnimationData(new int[] { 2 }));
             PlayAnimation("Idle");
@@ -26,13 +32,13 @@ namespace PlatformerEngine.Sprites
             base.PrepareMove(gameTime);
             if (attacking)
             {
-                if(SpriteEffects == SpriteEffects.FlipHorizontally)
+                if(dashDirection == Direction.Left)
                 {
-                    Velocity = new Vector2(-4f, 0f);
+                    Velocity = new Vector2(9f, 0f);
                 }
                 else
                 {
-                    Velocity = new Vector2(4f, 0f);
+                    Velocity = new Vector2(-9f, 0f);
                 }
             }
         }
@@ -86,11 +92,11 @@ namespace PlatformerEngine.Sprites
                             PlayAnimation("Attack", onCompleted: () =>
                             {
                                 attacking = false;
-                                //TODO: FIX: change boletus rotation on attack end
-                                if (SpriteEffects == SpriteEffects.FlipHorizontally)
-                                    SpriteEffects = SpriteEffects.None;
+                                //change next dash direction
+                                if (dashDirection == Direction.Left)
+                                    dashDirection = Direction.Right;
                                 else
-                                    SpriteEffects = SpriteEffects.FlipHorizontally;
+                                    dashDirection = Direction.Left;
                             });
                             break;
                     }

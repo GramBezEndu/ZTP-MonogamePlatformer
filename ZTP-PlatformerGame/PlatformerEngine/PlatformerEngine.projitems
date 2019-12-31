@@ -26,6 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\MapSprites\GroundGrassSprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\MapSprites\GroundSprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\MapSprites\SpikeSprite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sprites\PlayerClasses\InvincibilityEffect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\PlayerClasses\NoAttackEffect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\PlayerClasses\MegaJumpEffect.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\PlayerClasses\NoJumpEffect.cs" />

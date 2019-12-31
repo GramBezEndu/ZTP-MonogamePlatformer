@@ -20,15 +20,11 @@ namespace ZTP_PlatformerGame.States
         protected override void SpawnAllEnemies()
         {
             SpawnBoletus(new Vector2(game.LogicalSize.X * (0.9f), game.LogicalSize.Y));
-
-            //SpawnBoletus(new Vector2(game.LogicalSize.X * (0.85f), game.LogicalSize.Y), false);
-            //SpawnBoletus(new Vector2(game.LogicalSize.X * (1.2f), game.LogicalSize.Y));
-            //SpawnBoletus(new Vector2(game.LogicalSize.X * (1.01f), game.LogicalSize.Y), false);
-
-            //SpawnBoletus(new Vector2(game.LogicalSize.X * (1.2f), game.LogicalSize.Y), false);
-
-            //SpawnBoletus(new Vector2(game.LogicalSize.X * (1.35f), game.LogicalSize.Y));
-            //SpawnBoletus(new Vector2(game.LogicalSize.X * (1.85f), game.LogicalSize.Y));
+            SpawnBoletus(new Vector2(game.LogicalSize.X * (0.85f), game.LogicalSize.Y), false);
+            SpawnBoletus(new Vector2(game.LogicalSize.X * (1.2f), game.LogicalSize.Y));
+            SpawnBoletus(new Vector2(game.LogicalSize.X * (1.01f), game.LogicalSize.Y), false);
+            SpawnBoletus(new Vector2(game.LogicalSize.X * (1.35f), game.LogicalSize.Y));
+            SpawnBoletus(new Vector2(game.LogicalSize.X * (1.85f), game.LogicalSize.Y));
         }
 
         internal override void CreateMapBuilder()

@@ -24,8 +24,7 @@ namespace PlatformerEngine.Sprites.Enemies
         }
 
         public abstract MoveableBodyStates MoveableBodyState { get; set; }
-        public Vector2 Velocity { get; 
-            set; }
+        public Vector2 Velocity { get; set; }
         public EventHandler OnLoseHeart { get; set; }
 
         public virtual void PrepareMove(GameTime gameTime)

@@ -17,6 +17,7 @@ namespace PlatformerEngine.Sprites.PlayerClasses
         bool CanJump();
         void Jump();
         void Attack();
+        void Die();
         IPlayer GetDecorated();
     }
 }

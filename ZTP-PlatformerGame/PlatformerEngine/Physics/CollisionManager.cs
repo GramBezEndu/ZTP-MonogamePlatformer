@@ -54,6 +54,10 @@ namespace PlatformerEngine.Physics
                         c.LoseHeart();
                 }
             }
+            //player out of map
+            foreach (var player in players)
+                if (player.Position.Y >= 1500)
+                    player.Die();
         }
 
         private void CheckForCollision(IMoveableBody c, Rectangle s)

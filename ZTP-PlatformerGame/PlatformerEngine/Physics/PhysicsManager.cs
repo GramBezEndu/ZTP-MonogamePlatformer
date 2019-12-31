@@ -112,14 +112,14 @@ namespace PlatformerEngine.Physics
             {
                 if (collisionManager.InAir(c))
                     c.MoveableBodyState = MoveableBodyStates.InAirRight;
-                else
+                else if(c.MoveableBodyState != MoveableBodyStates.Attacking)
                     c.MoveableBodyState = MoveableBodyStates.WalkRight;
             }
             else if (c.Velocity.X < 0)
             {
                 if (collisionManager.InAir(c))
                     c.MoveableBodyState = MoveableBodyStates.InAirLeft;
-                else
+                else if (c.MoveableBodyState != MoveableBodyStates.Attacking)
                     c.MoveableBodyState = MoveableBodyStates.WalkLeft;
             }
             else

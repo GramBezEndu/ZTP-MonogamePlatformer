@@ -15,19 +15,18 @@ namespace PlatformerEngine.Sprites.Enemies.Strategies
         GameTimer attackTimer;
         public void Move(Enemy enemy)
         {
-            //Stand
+            //attack
             if (attackTimer == null)
             {
                 enemy.MoveableBodyState = Physics.MoveableBodyStates.Attacking;
-                attackTimer = new GameTimer(6f);
+                attackTimer = new GameTimer(1.2f);
                 attackTimer.OnTimedEvent = (o, e) => DestroyTimer();
             }
+            //stand
             else
             {
                 enemy.MoveableBodyState = Physics.MoveableBodyStates.Idle;
             }
-            //Move left
-            //enemy.Velocity = new Vector2(-4f, 0);
         }
 
         private void DestroyTimer()
