@@ -65,8 +65,6 @@ namespace PlatformerEngine.Physics
             collisionManager.Update(gameTime);
             foreach (var m in moveableBodies)
             {
-                if(m is Boletus)
-                    Debug.WriteLine(m.Position);
                 UpdateBodyState(m);
                 m.Update(gameTime);
                 MoveBody(m);

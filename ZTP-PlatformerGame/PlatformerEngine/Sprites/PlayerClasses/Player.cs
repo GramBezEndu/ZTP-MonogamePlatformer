@@ -117,7 +117,6 @@ namespace PlatformerEngine.Sprites.PlayerClasses
                 
                 swordSlash.Update(gameTime);
             }
-            //Debug.WriteLine(Position);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -204,24 +203,24 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 
         public void LoseHeart()
         {
-            if(MoveableBodyState != MoveableBodyStates.Dead)
-            {
-                if (healthTimer == null)
-                {
-                    OnLoseHeart?.Invoke(this, new EventArgs());
-                    currentHealth -= 1;
-                    for (int i = currentHealth; i < maxHealth; i++)
-                    {
-                        heartSprites[i].Hidden = true;
-                    }
-                    if (currentHealth <= 0)
-                        MoveableBodyState = MoveableBodyStates.Dead;
-                    healthTimer = new GameTimer(2f)
-                    {
-                        OnTimedEvent = (o, e) => DestroyTimer()
-                    };
-                }
-            }
+            //if(MoveableBodyState != MoveableBodyStates.Dead)
+            //{
+            //    if (healthTimer == null)
+            //    {
+            //        OnLoseHeart?.Invoke(this, new EventArgs());
+            //        currentHealth -= 1;
+            //        for (int i = currentHealth; i < maxHealth; i++)
+            //        {
+            //            heartSprites[i].Hidden = true;
+            //        }
+            //        if (currentHealth <= 0)
+            //            MoveableBodyState = MoveableBodyStates.Dead;
+            //        healthTimer = new GameTimer(2f)
+            //        {
+            //            OnTimedEvent = (o, e) => DestroyTimer()
+            //        };
+            //    }
+            //}
         }
 
         private void DestroyTimer()

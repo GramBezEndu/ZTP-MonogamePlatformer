@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,7 +16,7 @@ namespace PlatformerEngine.Sprites.Enemies
         private GameTimer healthTimer;
         protected int maxHealth = 2;
         protected int currentHealth;
-
+        protected bool attacking;
         public Enemy(Texture2D spritesheet, Dictionary<string, Rectangle> map, IMoveStrategy strategy) : base(spritesheet, map)
         {
             currentStrategy = strategy;
@@ -23,10 +24,11 @@ namespace PlatformerEngine.Sprites.Enemies
         }
 
         public abstract MoveableBodyStates MoveableBodyState { get; set; }
-        public Vector2 Velocity { get; set; }
+        public Vector2 Velocity { get; 
+            set; }
         public EventHandler OnLoseHeart { get; set; }
 
-        public void PrepareMove(GameTime gameTime)
+        public virtual void PrepareMove(GameTime gameTime)
         {
             //Update strategy and make move
             currentStrategy.Update(gameTime);
@@ -37,12 +39,15 @@ namespace PlatformerEngine.Sprites.Enemies
             if(!Hidden)
             {
                 healthTimer?.Update(gameTime);
-                //Got hurt - go into rage mode
+                //Got hurt - go into rage mode (if we are not already in rage mode)
                 if (currentHealth < maxHealth)
                 {
-                    currentStrategy = new RageStrategy();
+                    if(currentStrategy.GetType() != typeof(RageStrategy))
+                        currentStrategy = new RageStrategy();
                 }
-
+                if (attacking)
+                    MoveableBodyState = MoveableBodyStates.Attacking;
+                Debug.WriteLine(gameTime.TotalGameTime.ToString() + " " + MoveableBodyState);
                 base.Update(gameTime);
             }
         }

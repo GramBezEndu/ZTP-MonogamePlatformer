@@ -15,9 +15,26 @@ namespace PlatformerEngine.Sprites
 
         public Boletus(Texture2D spritesheet, Dictionary<string, Rectangle> map, IMoveStrategy strategy) : base(spritesheet, map, strategy)
         {
-            AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 0 }));
-            AddAnimation("Walk", new SpriteSheetAnimationData(new int[] { 1 }));
+            AddAnimation("Attack", new SpriteSheetAnimationData(new int[] { 0 }, frameDuration: 5f, isLooping: false));
+            AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 1 }));
+            AddAnimation("Walk", new SpriteSheetAnimationData(new int[] { 2 }));
             PlayAnimation("Idle");
+        }
+
+        public override void PrepareMove(GameTime gameTime)
+        {
+            base.PrepareMove(gameTime);
+            if (attacking)
+            {
+                if(SpriteEffects == SpriteEffects.FlipHorizontally)
+                {
+                    Velocity = new Vector2(-4f, 0f);
+                }
+                else
+                {
+                    Velocity = new Vector2(4f, 0f);
+                }
+            }
         }
 
         public override MoveableBodyStates MoveableBodyState 
@@ -25,7 +42,13 @@ namespace PlatformerEngine.Sprites
             get => moveableBodyState;
             set
             {
-                if (moveableBodyState != value)
+                //Change to death state always
+                if(value == MoveableBodyStates.Dead)
+                {
+                    Hidden = true;
+                }
+                //Allow change state if not attacking
+                else if (moveableBodyState != value && !attacking)
                 {
                     moveableBodyState = value;
                     switch (value)
@@ -55,8 +78,20 @@ namespace PlatformerEngine.Sprites
                             //PlayAnimation("InAir");
                             PlayAnimation("Walk");
                             break;
-                        case MoveableBodyStates.Dead:
-                            Hidden = true;
+                        //case MoveableBodyStates.Dead:
+                        //    Hidden = true;
+                        //    break;
+                        case MoveableBodyStates.Attacking:
+                            attacking = true;
+                            PlayAnimation("Attack", onCompleted: () =>
+                            {
+                                attacking = false;
+                                //TODO: FIX: change boletus rotation on attack end
+                                if (SpriteEffects == SpriteEffects.FlipHorizontally)
+                                    SpriteEffects = SpriteEffects.None;
+                                else
+                                    SpriteEffects = SpriteEffects.FlipHorizontally;
+                            });
                             break;
                     }
                 }
