@@ -27,9 +27,9 @@ namespace PlatformerEngine.Sprites.PlayerClasses
             swordSlash = swordSlashObj;
             CreateHeartsManager(heartTexture);
             inputManager = im;
-            AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 0 }));
-            AddAnimation("Walk", new SpriteSheetAnimationData(new int[] { 4, 5 }));
-            AddAnimation("InAir", new SpriteSheetAnimationData(new int[] { 1 }));
+            AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 6 }));
+            AddAnimation("Walk", new SpriteSheetAnimationData(new int[] { 1, 3, 13, 2}));
+            AddAnimation("InAir", new SpriteSheetAnimationData(new int[] { 6 }));
             PlayAnimation("Idle");
         }
 

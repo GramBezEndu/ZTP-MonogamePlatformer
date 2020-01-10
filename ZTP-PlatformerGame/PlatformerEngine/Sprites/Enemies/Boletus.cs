@@ -34,11 +34,11 @@ namespace PlatformerEngine.Sprites
             {
                 if(dashDirection == Direction.Left)
                 {
-                    Velocity = new Vector2(9f, 0f);
+                    Velocity = new Vector2(9f, Velocity.Y);
                 }
                 else
                 {
-                    Velocity = new Vector2(-9f, 0f);
+                    Velocity = new Vector2(-9f, Velocity.Y);
                 }
             }
         }

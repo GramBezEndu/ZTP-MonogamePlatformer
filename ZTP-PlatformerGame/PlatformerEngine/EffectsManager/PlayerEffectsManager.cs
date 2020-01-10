@@ -51,14 +51,17 @@ namespace PlatformerEngine.EffectsManager
         private GraphicsDevice graphicsDevice;
 
         private DrawableFilledRectangle timerCountdownBackground;
-        private DrawableFilledRectangle timerCountdownCurrent;
+        private Sprite timerCountdownCurrent;
+        private Vector2 baseScaleTimer = new Vector2(13.617f, 2.27f);
+        private Texture2D currentTimerTexture;
 
-        public PlayerEffectsManager(State s, GraphicsDevice gd, SpriteFont f, IPlayer p)
+        public PlayerEffectsManager(State s, GraphicsDevice gd, SpriteFont f, IPlayer p, Texture2D timerTexture)
         {
             state = s;
             player = p;
             font = f;
             graphicsDevice = gd;
+            currentTimerTexture = timerTexture;
             effectsExcludingActive = Enum.GetValues(typeof(Effects)).Cast<Effects>().ToList();
             random = new Random();
             newEffectTimer = new GameTimer(10.0)
@@ -69,10 +72,7 @@ namespace PlatformerEngine.EffectsManager
             {
                 Color = Color.Black
             };
-            timerCountdownCurrent = new DrawableFilledRectangle(graphicsDevice, new Rectangle(0, 0, 1280, 25))
-            {
-                Color = Color.BlueViolet
-            };
+            timerCountdownCurrent = new Sprite(currentTimerTexture, baseScaleTimer);
         }
 
         private void DrawEffect()
@@ -144,7 +144,7 @@ namespace PlatformerEngine.EffectsManager
         public void Update(GameTime gameTime)
         {
             newEffectTimer.Update(gameTime);
-            timerCountdownCurrent.Scale = new Vector2((float)(newEffectTimer.CurrentInterval / newEffectTimer.Interval), 1);
+            timerCountdownCurrent.Scale = new Vector2((float)(newEffectTimer.CurrentInterval / newEffectTimer.Interval) * baseScaleTimer.X, timerCountdownCurrent.Scale.Y);
         }
 
         public IPlayer GetDecoratedPlayer()

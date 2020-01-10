@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <XnaContent>
 <Asset Type="System.Collections.Generic.Dictionary[System.String, Microsoft.Xna.Framework.Rectangle]">
-<Item><Key>TestCharacter</Key><Value>0 0 280 818</Value></Item>
-<Item><Key>TestCharacterFalling</Key><Value>281 0 280 818</Value></Item>
-<Item><Key>TestCharacterFallWalk1</Key><Value>562 0 280 818</Value></Item>
-<Item><Key>TestCharacterFallWalk2</Key><Value>843 0 280 818</Value></Item>
-<Item><Key>TestCharacterWalk1</Key><Value>1124 0 280 818</Value></Item>
-<Item><Key>TestCharacterWalk2</Key><Value>1405 0 280 818</Value></Item>
+<Item><Key>Jump4</Key><Value>0 0 51 118</Value></Item>
+<Item><Key>Walk0</Key><Value>52 0 51 118</Value></Item>
+<Item><Key>Walk3</Key><Value>104 0 51 118</Value></Item>
+<Item><Key>Walk1</Key><Value>156 0 51 114</Value></Item>
+<Item><Key>Jump2</Key><Value>0 119 48 118</Value></Item>
+<Item><Key>Attack0</Key><Value>49 119 48 114</Value></Item>
+<Item><Key>Idle</Key><Value>98 119 48 114</Value></Item>
+<Item><Key>Jump0</Key><Value>147 119 48 114</Value></Item>
+<Item><Key>Jump6</Key><Value>196 115 48 114</Value></Item>
+<Item><Key>Attack2</Key><Value>208 0 47 114</Value></Item>
+<Item><Key>Jump1</Key><Value>256 0 47 103</Value></Item>
+<Item><Key>Jump3</Key><Value>304 0 47 103</Value></Item>
+<Item><Key>Jump5</Key><Value>352 0 47 100</Value></Item>
+<Item><Key>Walk2</Key><Value>256 104 46 116</Value></Item>
+<Item><Key>Attack1</Key><Value>400 0 44 114</Value></Item>
 </Asset>
 </XnaContent>

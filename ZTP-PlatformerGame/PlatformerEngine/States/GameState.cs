@@ -46,7 +46,7 @@ namespace PlatformerEngine.States
             physicsManager.SetStaticBodies(mapBuilder.GetCollisionRectangles());
             physicsManager.SetStaticSpikes(mapBuilder.GetSpikes());
 
-            playerEffectsManager = new PlayerEffectsManager(this, graphicsDevice, font, player);
+            playerEffectsManager = new PlayerEffectsManager(this, graphicsDevice, font, player, textures["Timer"]);
             SpawnAllEnemies();
             LoadThemeSong();
             game.PlaySong(levelThemeSong);
@@ -69,13 +69,13 @@ namespace PlatformerEngine.States
         {
             var gameOverText = new Text(font, "GAME OVER");
             gameOverText.Position = new Vector2(game.LogicalSize.X / 2 - gameOverText.Size.X / 2, game.LogicalSize.Y / 2 - gameOverText.Size.Y / 2);
-            gameOverText.Color = Color.Black;
+            gameOverText.Color = Color.White;
             gameOverText.Hidden = true;
             gameOverComponents.Add(gameOverText);
 
             var restartText = new Text(font, "PRESS LMB TO RESTART");
             restartText.Position = new Vector2(game.LogicalSize.X / 2 - restartText.Size.X / 2, gameOverText.Position.Y + gameOverText.Size.Y);
-            restartText.Color = Color.Black;
+            restartText.Color = Color.White;
             restartText.Hidden = true;
             gameOverComponents.Add(restartText);
 
@@ -152,7 +152,8 @@ namespace PlatformerEngine.States
         {
             var boletus = new Boletus(content.Load<Texture2D>("Boletus/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Boletus/Map"), new StandardStrategy(firstMoveToLeft))
             { 
-                Position = position 
+                Position = position,
+                Scale = new Vector2(2f)
             };
             physicsManager.AddMoveableBody(boletus);
             enemies.Add(boletus);
@@ -171,7 +172,7 @@ namespace PlatformerEngine.States
 
             player = new Player(content.Load<Texture2D>("Character/Spritesheet"),
                 content.Load<Dictionary<string, Rectangle>>("Character/Map"), inputManager, content.Load<Texture2D>("Character/Heart"), swordSlash);
-            player.Scale = new Vector2(0.15f, 0.15f);
+            player.Scale = new Vector2(1f, 1f);
             player.Position = new Vector2(140, game.LogicalSize.Y - 200);
             player.OnLoseHeart = (o, e) => PlaySound("LoseHeart");
         }

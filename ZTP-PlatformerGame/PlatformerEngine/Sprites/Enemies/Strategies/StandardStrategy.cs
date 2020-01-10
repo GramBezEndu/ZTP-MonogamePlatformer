@@ -30,9 +30,9 @@ namespace PlatformerEngine.Sprites.Enemies.Strategies
         public void Move(Enemy enemy)
         {
             if (movingLeft)
-                enemy.Velocity = new Vector2(-2f, 0);
+                enemy.Velocity = new Vector2(-2f, enemy.Velocity.Y);
             else
-                enemy.Velocity = new Vector2(2f, 0);
+                enemy.Velocity = new Vector2(2f, enemy.Velocity.Y);
         }
 
         public void Update(GameTime gameTime)

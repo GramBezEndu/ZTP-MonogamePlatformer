@@ -66,21 +66,33 @@ namespace PlatformerEngine.Physics
             {
                 float distanceX = c.Rectangle.Left - s.Right;
                 c.Velocity = new Vector2(-distanceX, c.Velocity.Y);
+
+                //c.Velocity = new Vector2(0, c.Velocity.Y);
+                //c.Position = new Vector2(c.Position.X - distanceX, c.Position.Y);
             }
             else if (IsTouchingLeft(c, s))
             {
                 float distanceX = s.Left - c.Rectangle.Right;
                 c.Velocity = new Vector2(distanceX, c.Velocity.Y);
+
+                //c.Velocity = new Vector2(0, c.Velocity.Y);
+                //c.Position = new Vector2(c.Position.X + distanceX, c.Position.Y);
             }
             if (IsTouchingBottom(c, s))
             {
                 float distanceY = c.Rectangle.Top - s.Bottom;
                 c.Velocity = new Vector2(c.Velocity.X, -distanceY);
+
+                //c.Velocity = new Vector2(c.Velocity.X, 0);
+                //c.Position = new Vector2(c.Position.X, c.Position.Y - distanceY);
             }
             if (IsTouchingTop(c, s))
             {
                 float distanceY = s.Top - c.Rectangle.Bottom;
                 c.Velocity = new Vector2(c.Velocity.X, distanceY);
+
+                //c.Velocity = new Vector2(c.Velocity.X, 0);
+                //c.Position = new Vector2(c.Position.X, c.Position.Y + distanceY);
             }
         }
 
