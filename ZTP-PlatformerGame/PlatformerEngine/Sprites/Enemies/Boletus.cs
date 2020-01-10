@@ -21,9 +21,9 @@ namespace PlatformerEngine.Sprites
 
         public Boletus(Texture2D spritesheet, Dictionary<string, Rectangle> map, IMoveStrategy strategy) : base(spritesheet, map, strategy)
         {
-            AddAnimation("Attack", new SpriteSheetAnimationData(new int[] { 0 }, frameDuration: 0.8f, isLooping: false));
-            AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 1 }));
-            AddAnimation("Walk", new SpriteSheetAnimationData(new int[] { 2 }));
+            AddAnimation("Attack", new SpriteSheetAnimationData(new int[] { 0, 1 }, frameDuration: 0.3f, isLooping: false));
+            AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 2 }));
+            AddAnimation("Walk", new SpriteSheetAnimationData(new int[] { 0, 1 }, frameDuration: 0.3f));
             PlayAnimation("Idle");
         }
 
