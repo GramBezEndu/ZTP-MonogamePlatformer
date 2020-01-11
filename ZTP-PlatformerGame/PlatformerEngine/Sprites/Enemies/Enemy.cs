@@ -46,7 +46,7 @@ namespace PlatformerEngine.Sprites.Enemies
                 }
                 if (attacking)
                     MoveableBodyState = MoveableBodyStates.Attacking;
-                Debug.WriteLine(gameTime.TotalGameTime.ToString() + " " + MoveableBodyState);
+                //Debug.WriteLine(gameTime.TotalGameTime.ToString() + " " + MoveableBodyState);
                 base.Update(gameTime);
             }
         }

@@ -96,6 +96,8 @@ namespace PlatformerEngine.Physics
 
         private void UpdateBodyState(IMoveableBody c)
         {
+            if (c.MoveableBodyState == MoveableBodyStates.Attacking)
+                return;
             if (c.Velocity.X > 0 && c.Velocity.Y != 0)
             {
                 c.MoveableBodyState = MoveableBodyStates.InAirRight;

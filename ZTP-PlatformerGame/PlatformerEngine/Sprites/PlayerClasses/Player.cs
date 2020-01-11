@@ -27,9 +27,10 @@ namespace PlatformerEngine.Sprites.PlayerClasses
             swordSlash = swordSlashObj;
             CreateHeartsManager(heartTexture);
             inputManager = im;
-            AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 6 }));
-            AddAnimation("Walk", new SpriteSheetAnimationData(new int[] { 1, 3, 13, 2}));
-            AddAnimation("InAir", new SpriteSheetAnimationData(new int[] { 6 }));
+            AddAnimation("Attack", new SpriteSheetAnimationData(new int[] { 0, 1, 2 }, frameDuration: 0.15f));
+            AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 3 }));
+            AddAnimation("Walk", new SpriteSheetAnimationData(new int[] { 4, 5, 6, 7}));
+            AddAnimation("InAir", new SpriteSheetAnimationData(new int[] { 3 }));
             PlayAnimation("Idle");
         }
 
@@ -110,12 +111,13 @@ namespace PlatformerEngine.Sprites.PlayerClasses
         {
             if(MoveableBodyState != MoveableBodyStates.Dead)
             {
+                //if (swordSlash.Hidden != true)
+                //    MoveableBodyState = MoveableBodyStates.Attacking;
                 base.Update(gameTime);
-                if (swordSlash.Hidden != true)
-                    MoveableBodyState = MoveableBodyStates.Attacking;
                 healthTimer?.Update(gameTime);
                 
                 swordSlash.Update(gameTime);
+                Debug.WriteLine(gameTime.TotalGameTime.ToString() + " " + MoveableBodyState);
             }
         }
 
@@ -182,8 +184,13 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 
         public void Attack()
         {
+            if (MoveableBodyState >= MoveableBodyStates.InAirRight && MoveableBodyState <= MoveableBodyStates.InAir)
+                return;
             MoveableBodyState = MoveableBodyStates.Attacking;
-            PlayAnimation("Idle");
+            PlayAnimation("Attack", onCompleted: () =>
+            {
+                MoveableBodyState = MoveableBodyStates.Idle;
+            });
             if (this.SpriteEffects == SpriteEffects.FlipHorizontally)
             {
                 swordSlash.Position = new Vector2(this.Position.X - swordSlash.Size.X, this.Position.Y + this.Size.Y / 3);
