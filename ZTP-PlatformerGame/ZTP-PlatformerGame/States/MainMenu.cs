@@ -15,7 +15,7 @@ namespace ZTP_PlatformerGame.States
     {
         public MainMenu(Game1 game) : base(game)
         {
-            AddUiComponent(new Text(font, "MAIN MENU"));
+            //AddUiComponent(new Text(font, "MAIN MENU"));
             var navigation = new VerticalNavigationMenu(game.inputManager, new List<IButton>()
             {
                 new TextButton(inputManager, font, "PLAY")

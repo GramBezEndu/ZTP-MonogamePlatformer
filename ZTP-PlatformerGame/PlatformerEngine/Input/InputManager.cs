@@ -27,7 +27,8 @@ namespace PlatformerEngine.Input
                 {"MoveDown", new KeyboardInput(Keys.S)},
                 {"Accept", new KeyboardInput(Keys.Enter) },
                 {"Back", new KeyboardInput(Keys.Escape)},
-                {"Attack", new MouseInput(MouseButton.LeftButton) },
+                {"Attack", new KeyboardInput(Keys.Space) },
+                //{"Attack", new MouseInput(MouseButton.LeftButton) },
             };
         }
 

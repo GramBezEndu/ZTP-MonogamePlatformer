@@ -22,6 +22,7 @@ namespace Engine.States
         protected SpriteFont font;
         protected List<IComponent> uiComponents = new List<IComponent>();
         protected SpriteBatch uiSpriteBatch;
+        //protected RenderTarget2D uiLayerRenderTarget;
         protected Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
         public Dictionary<string, SoundEffect> Sounds { get; set; } = new Dictionary<string, SoundEffect>();
 
@@ -34,7 +35,7 @@ namespace Engine.States
         {
             var message = new TextOnTimer(font, msg, 2);
             message.Position = new Vector2(game.LogicalSize.X / 2 - message.Size.X / 2,
-                game.LogicalSize.Y / 5 - message.Size.Y / 2);
+                game.LogicalSize.Y / 9 - message.Size.Y / 2);
             AddUiComponent(message);
         }
 
@@ -46,6 +47,7 @@ namespace Engine.States
             graphicsDevice = game.GraphicsDevice;
             content = game.Content;
 
+            //uiLayerRenderTarget = new RenderTarget2D(graphicsDevice, game.LogicalSize.X, game.LogicalSize.Y);
             uiSpriteBatch = new SpriteBatch(graphicsDevice);
             //Load assets
             LoadFont();

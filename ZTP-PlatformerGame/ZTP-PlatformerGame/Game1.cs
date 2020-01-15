@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using PlatformerEngine.Input;
+using System.Diagnostics;
 using ZTP_PlatformerGame.States;
 
 namespace ZTP_PlatformerGame
@@ -22,8 +23,17 @@ namespace ZTP_PlatformerGame
 
         Song currentSong;
 
-        public Point LogicalSize = new Point(1280, 720);
-        
+        public Point LogicalSize = new Point(1152, 648);
+            //new Point(1280, 720);
+
+        //public Point WindowSize
+        //{
+        //    get
+        //    {
+        //        return new Point(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+        //    }
+        //}
+
         public void ChangeState(State newState)
         {
             nextState = newState;
@@ -37,6 +47,9 @@ namespace ZTP_PlatformerGame
             graphics.PreferredBackBufferHeight = LogicalSize.Y;
             MediaPlayer.IsRepeating = true;
             //Window.IsBorderless = true;
+            //graphics.HardwareModeSwitch = false;
+            //graphics.IsFullScreen = true;
+            //Window.Position = new Point(43, 24);
         }
 
         /// <summary>
@@ -89,6 +102,7 @@ namespace ZTP_PlatformerGame
             inputManager.Update(gameTime);
             currentState.Update(gameTime);
             base.Update(gameTime);
+            //Debug.WriteLine(1 / gameTime.ElapsedGameTime.TotalSeconds);
         }
 
         /// <summary>
@@ -103,6 +117,8 @@ namespace ZTP_PlatformerGame
             currentState.Draw(gameTime);
 
             base.Draw(gameTime);
+            //Debug.WriteLine(1 / gameTime.ElapsedGameTime.TotalSeconds);
+            //Debug.WriteLine(Window.Position);
         }
 
         public void PlaySong(Song s)

@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using ZTP_PlatformerGame;
+using ZTP_PlatformerGame.States;
 
 namespace PlatformerEngine.States
 {
@@ -73,7 +74,7 @@ namespace PlatformerEngine.States
             gameOverText.Hidden = true;
             gameOverComponents.Add(gameOverText);
 
-            var restartText = new Text(font, "PRESS LMB TO RESTART");
+            var restartText = new Text(font, "PRESS SPACE TO RESTART");
             restartText.Position = new Vector2(game.LogicalSize.X / 2 - restartText.Size.X / 2, gameOverText.Position.Y + gameOverText.Size.Y);
             restartText.Color = Color.White;
             restartText.Hidden = true;
@@ -130,11 +131,11 @@ namespace PlatformerEngine.States
             physicsManager.Update(gameTime);
             foreach (var c in gameComponents)
                 c.Update(gameTime);
-            if(player.MoveableBodyState == MoveableBodyStates.Dead)
+            if (player.MoveableBodyState == MoveableBodyStates.Dead)
             {
                 foreach (var c in gameOverComponents)
                     c.Hidden = false;
-                if(inputManager.ActionWasPressed("Attack"))
+                if (inputManager.ActionWasPressed("Attack"))
                 {
                     Type type = this.GetType();
                     game.ChangeState((GameState)Activator.CreateInstance(type, game));
@@ -145,7 +146,14 @@ namespace PlatformerEngine.States
                 foreach (var c in gameOverComponents)
                     c.Hidden = true;
             }
+            BackToMainMenu();
             base.Update(gameTime);
+        }
+
+        private void BackToMainMenu()
+        {
+            if (inputManager.ActionWasPressed("Back"))
+                game.ChangeState(new MainMenu(game));
         }
 
         public void SpawnBoletus(Vector2 position, bool firstMoveToLeft = true)

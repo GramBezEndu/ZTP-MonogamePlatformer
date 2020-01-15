@@ -10,7 +10,6 @@ namespace PlatformerEngine.Sprites.PlayerClasses
     {
         List<Sprite> HeartSprites { get; }
         InputManager InputManager { get; }
-
         SpriteAnimated SwordSlash { get; }
         void MoveLeft();
         void MoveRight();

@@ -89,6 +89,7 @@ namespace PlatformerEngine.Sprites
                         //    break;
                         case MoveableBodyStates.Attacking:
                             attacking = true;
+                            Velocity = new Vector2(Velocity.X, -10f);
                             if (dashDirection == Direction.Left)
                                 SpriteEffects = SpriteEffects.FlipHorizontally;
                             else

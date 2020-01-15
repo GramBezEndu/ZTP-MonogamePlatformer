@@ -17,7 +17,7 @@ namespace PlatformerEngine.Sprites.PlayerClasses
         private GameTimer healthTimer;
         private int maxHealth = 3;
         private int currentHealth;
-        public Vector2 VelocityConst = new Vector2(5f, 2f);
+        public Vector2 VelocityConst = new Vector2(4f, -18f);
         private InputManager inputManager;
         public List<Sprite> heartSprites = new List<Sprite>();
         private SpriteAnimated swordSlash;
@@ -40,7 +40,7 @@ namespace PlatformerEngine.Sprites.PlayerClasses
             var pos = new Vector2(0, 30);
             for (int i = 0; i < maxHealth; i++)
             {
-                var heart = new Sprite(heartTexture, new Vector2(3f, 3f))
+                var heart = new Sprite(heartTexture, new Vector2(1f, 1f))
                 {
                     Position = pos,
                 };
@@ -117,7 +117,7 @@ namespace PlatformerEngine.Sprites.PlayerClasses
                 healthTimer?.Update(gameTime);
                 
                 swordSlash.Update(gameTime);
-                Debug.WriteLine(gameTime.TotalGameTime.ToString() + " " + MoveableBodyState);
+                //Debug.WriteLine(gameTime.TotalGameTime.ToString() + " " + MoveableBodyState);
             }
         }
 
@@ -132,17 +132,17 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 
         public void MoveRight()
         {
-            Velocity = new Vector2(4f, Velocity.Y);
+            Velocity = new Vector2(VelocityConst.X, Velocity.Y);
         }
 
         public void MoveLeft()
         {
-            Velocity = new Vector2(-4f, Velocity.Y);
+            Velocity = new Vector2(-VelocityConst.X, Velocity.Y);
         }
 
         public void Jump()
         {
-            Velocity = new Vector2(Velocity.X, -18f);
+            Velocity = new Vector2(Velocity.X, VelocityConst.Y);
         }
 
         public void PrepareMove(GameTime gameTime)

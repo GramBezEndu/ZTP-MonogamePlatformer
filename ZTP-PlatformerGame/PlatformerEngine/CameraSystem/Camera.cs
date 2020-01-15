@@ -53,7 +53,7 @@ namespace PlatformerEngine.CameraSystem
             //Origin = new Vector2(game.LogicalSize.X / 2 - player.Size.X / 2, game.LogicalSize.Y * (2 / 3f) - player.Size.Y / 2);
             //Position = new Vector2(player.Position.X, player.Position.Y);
             Origin = new Vector2(game.LogicalSize.X / 2 - player.Size.X / 2, 0);
-            Position = new Vector2(player.Position.X, Position.Y);
+            Position = new Vector2(player.Position.X, game.LogicalSize.Y * 0.12f/*Position.Y*/);
 
             //After updating position we can calculate view matrix
             CalculateViewMatrix();
