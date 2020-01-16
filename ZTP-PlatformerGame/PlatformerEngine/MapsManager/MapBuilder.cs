@@ -10,10 +10,7 @@ namespace PlatformerEngine.MapsManager
 {
     public abstract class MapBuilder
     {
-        protected Sprite segmentZero;
-        protected Sprite segmentOne;
-        protected Sprite segmentTwo;
-        protected Sprite segmentThree;
+        protected Sprite[] segments;
         private Vector2 position = Vector2.Zero;
         private const int TILE_SIZE_X = 32;
         private const int TILE_SIZE_Y = 32;
@@ -32,31 +29,10 @@ namespace PlatformerEngine.MapsManager
         {
             position = new Vector2(0, position.Y + TILE_SIZE_Y);
         }
-        public void BuildSegmentZero()
-        {
-            var sprite = (Sprite)segmentZero.Clone();
-            sprite.Position = position;
-            MapObjects.Add(sprite);
-            UpdatePosition();
-        }
-        public void BuildSegmentOne()
-        {
-            var sprite = (Sprite)segmentOne.Clone();
-            sprite.Position = position;
-            MapObjects.Add(sprite);
-            UpdatePosition();
-        }
-        public void BuildSegmentTwo()
-        {
-            var sprite = (Sprite)segmentTwo.Clone();
-            sprite.Position = position;
-            MapObjects.Add(sprite);
-            UpdatePosition();
-        }
 
-        public void BuildSegmentThree()
+        public void BuildSegment(int type)
         {
-            var sprite = (Sprite)segmentThree.Clone();
+            var sprite = (Sprite)segments[type].Clone();
             sprite.Position = position;
             MapObjects.Add(sprite);
             UpdatePosition();

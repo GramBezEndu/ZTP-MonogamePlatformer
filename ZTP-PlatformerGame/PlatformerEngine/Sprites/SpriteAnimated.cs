@@ -60,7 +60,6 @@ namespace PlatformerEngine.Sprites
 
         public SpriteAnimated(Texture2D spritesheet, Dictionary<string, Rectangle> map)
         {
-            //TextureAtlas name is not used now
             spriteAtlas = new TextureAtlas("animations", spritesheet, map);
             animationFactory = new SpriteSheetAnimationFactory(spriteAtlas);
             animatedSprite = new AnimatedSprite(animationFactory);

@@ -28,7 +28,6 @@ namespace PlatformerEngine.Input
                 {"Accept", new KeyboardInput(Keys.Space) },
                 {"Back", new KeyboardInput(Keys.Escape)},
                 {"Attack", new KeyboardInput(Keys.Space) },
-                //{"Attack", new MouseInput(MouseButton.LeftButton) },
             };
         }
 
@@ -37,7 +36,7 @@ namespace PlatformerEngine.Input
             return keybindings[actionName].IsPressed(this);
         }
 
-        public bool ActionWasPressed(string actionName)
+        public bool ActionWasJustPressed(string actionName)
         {
             return keybindings[actionName].WasJustPressed(this);
         }

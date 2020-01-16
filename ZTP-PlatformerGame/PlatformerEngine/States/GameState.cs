@@ -148,7 +148,7 @@ namespace PlatformerEngine.States
             {
                 foreach (var c in gameOverComponents)
                     c.Hidden = false;
-                if (inputManager.ActionWasPressed("Attack"))
+                if (inputManager.ActionWasJustPressed("Attack"))
                 {
                     Type type = this.GetType();
                     game.ChangeState((GameState)Activator.CreateInstance(type, game));
@@ -171,7 +171,7 @@ namespace PlatformerEngine.States
 
         private void CheckForBackToMenuInput()
         {
-            if (inputManager.ActionWasPressed("Back"))
+            if (inputManager.ActionWasJustPressed("Back"))
                 game.ChangeState(new MainMenu(game));
         }
 

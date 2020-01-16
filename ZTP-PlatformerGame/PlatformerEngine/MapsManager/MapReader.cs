@@ -8,7 +8,7 @@ namespace PlatformerEngine.MapsManager
 {
     public class MapReader
     {
-        private string file;
+        private readonly string file;
         /// <summary>
         /// 
         /// </summary>
@@ -28,16 +28,16 @@ namespace PlatformerEngine.MapsManager
                     switch(segment)
                     {
                         case "0":
-                            builder.BuildSegmentZero();
+                            builder.BuildSegment(0);
                             break;
                         case "1":
-                            builder.BuildSegmentOne();
+                            builder.BuildSegment(1);
                             break;
                         case "2":
-                            builder.BuildSegmentTwo();
+                            builder.BuildSegment(2);
                             break;
                         case "3":
-                            builder.BuildSegmentThree();
+                            builder.BuildSegment(3);
                             break;
                         default:
                             throw new ArgumentException("Invalid block segment in map file");

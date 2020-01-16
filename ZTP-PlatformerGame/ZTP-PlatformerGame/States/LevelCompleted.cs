@@ -42,7 +42,7 @@ namespace ZTP_PlatformerGame.States
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            if(inputManager.ActionWasPressed("Attack"))
+            if(inputManager.ActionWasJustPressed("Attack"))
             {
                 game.ChangeState(new MainMenu(game));
             }

@@ -139,7 +139,7 @@ namespace PlatformerEngine.Sprites.PlayerClasses
                     if (CanJump())
                         Jump();
                 }
-                if (InputManager.ActionWasPressed("Attack"))
+                if (InputManager.ActionWasJustPressed("Attack"))
                 {
                     Attack();
                 }

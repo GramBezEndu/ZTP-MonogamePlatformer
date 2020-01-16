@@ -63,7 +63,7 @@ namespace ZTP_PlatformerGame.States
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            if (inputManager.ActionWasPressed("Back"))
+            if (inputManager.ActionWasJustPressed("Back"))
                 game.ChangeState(new MainMenu(game));
         }
     }

@@ -46,7 +46,7 @@ namespace Engine.Controls.Buttons
             {
                 if (Selected)
                 {
-                    if (inputManager.ActionWasPressed("Accept"))
+                    if (inputManager.ActionWasJustPressed("Accept"))
                     {
                         OnClick?.Invoke(this, new EventArgs());
                     }

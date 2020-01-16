@@ -39,9 +39,9 @@ namespace PlatformerEngine.EffectsManager
         public Color Color { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public SpriteEffects SpriteEffects { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        private Random random;
-        private GameTimer newEffectTimer;
-        private double newEffectInterval = 10;
+        private readonly Random random;
+        private readonly GameTimer newEffectTimer;
+        private readonly double newEffectInterval = 10;
 
         /// <summary>
         /// List of all effects but without currectly active ones
@@ -49,14 +49,14 @@ namespace PlatformerEngine.EffectsManager
         private List<Effects> effectsExcludingActive = new List<Effects>();
 
         private IPlayer player;
-        private SpriteFont font;
-        private State state;
-        private GraphicsDevice graphicsDevice;
+        private readonly SpriteFont font;
+        private readonly State state;
+        private readonly GraphicsDevice graphicsDevice;
 
-        private DrawableFilledRectangle timerCountdownBackground;
-        private Sprite timerCountdownCurrent;
+        private readonly DrawableFilledRectangle timerCountdownBackground;
+        private readonly Sprite timerCountdownCurrent;
         private Vector2 baseScaleTimer = new Vector2(12.255f, 2.27f);
-        private Texture2D currentTimerTexture;
+        private readonly Texture2D currentTimerTexture;
 
         public PlayerEffectsManager(State s, GraphicsDevice gd, SpriteFont f, IPlayer p, Texture2D timerTexture)
         {
@@ -120,6 +120,9 @@ namespace PlatformerEngine.EffectsManager
             }
         }
 
+        /// <summary>
+        /// Unpacks player
+        /// </summary>
         private void ClearEffects()
         {
             IPlayer temp = player;

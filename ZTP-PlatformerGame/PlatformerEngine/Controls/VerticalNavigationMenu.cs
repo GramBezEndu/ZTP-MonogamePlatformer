@@ -52,14 +52,14 @@ namespace PlatformerEngine.Controls
 
         protected override void Navigate()
         {
-            if (inputManager.ActionWasPressed("MoveUp"))
+            if (inputManager.ActionWasJustPressed("MoveUp"))
             {
                 currentlySelectedButton = (currentlySelectedButton - 1) % buttons.Count;
                 //there is no button higher than this button -> set it to the index of last button
                 if (currentlySelectedButton == - 1)
                     currentlySelectedButton = buttons.Count - 1;
             }
-            else if (inputManager.ActionWasPressed("MoveDown"))
+            else if (inputManager.ActionWasJustPressed("MoveDown"))
             {
                 currentlySelectedButton = (currentlySelectedButton + 1) % buttons.Count;
             }
