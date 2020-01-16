@@ -10,9 +10,9 @@ namespace PlatformerEngine.MapsManager
     {
         private string file;
         /// <summary>
-        /// File should be located in a specific folder (TODO: implement)
+        /// 
         /// </summary>
-        /// <param name="fileName"></param>
+        /// <param name="fileName">The name of map file (it has to be located in folder where .exe file is)</param>
         public MapReader(string fileName)
         {
             file = fileName;

@@ -10,6 +10,9 @@ namespace PlatformerEngine.Timers
         public double Interval { get; private set; }
         public double CurrentInterval { get; private set; }
 
+        /// <summary>
+        /// Action performed after set time passed
+        /// </summary>
         public EventHandler OnTimedEvent;
 
         public GameTimer(double actionInterval)

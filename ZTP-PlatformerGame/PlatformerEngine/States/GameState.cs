@@ -43,10 +43,7 @@ namespace PlatformerEngine.States
             BuildMap();
             SpawnPlayer();
             camera = new Camera(game, inputManager, player);
-            physicsManager = new PhysicsManager();
-            physicsManager.AddMoveableBody(player);
-            physicsManager.SetStaticBodies(mapBuilder.GetCollisionRectangles());
-            physicsManager.SetStaticSpikes(mapBuilder.GetSpikes());
+            CreatePhysicsManager();
 
             playerEffectsManager = new PlayerEffectsManager(this, graphicsDevice, font, player, textures["Timer"]);
             SpawnAllEnemies();
@@ -57,24 +54,29 @@ namespace PlatformerEngine.States
             CreateGameOverComponents();
         }
 
+        private void CreatePhysicsManager()
+        {
+            physicsManager = new PhysicsManager();
+            physicsManager.AddMoveableBody(player);
+            physicsManager.SetStaticBodies(mapBuilder.GetCollisionRectangles());
+            physicsManager.SetStaticSpikes(mapBuilder.GetSpikes());
+        }
+
         protected void AddEndLevelFlag()
         {
             endLevelFlag = new Sprite(textures["EndFlag"])
             {
-                //Color = Color.Red,
                 Position = new Vector2(game.LogicalSize.X * 3.7f, game.LogicalSize.Y * 0.5f)
             };
             gameComponents.Add(endLevelFlag);
         }
-
-        internal abstract void LoadThemeSong();
 
         private void BuildMap()
         {
             var mapSprites = mapReader.BuildMap(mapBuilder);
             gameComponents.AddRange(mapSprites);
         }
-
+        internal abstract void LoadThemeSong();
         internal abstract void CreateMapBuilder();
         internal abstract void CreateMapReader();
         protected abstract void SpawnAllEnemies();
@@ -128,21 +130,18 @@ namespace PlatformerEngine.States
 
         public override void Update(GameTime gameTime)
         {
-            //TODO: Refactor
             //Effects management
-            physicsManager.DeleteBody(player);
             playerEffectsManager.Update(gameTime);
+            //After updating player effects manager
+            //Player reference might change (he can be packed or unpacked)
+            //We're updating the reference in GameState and in PhysicsManager
+            physicsManager.DeleteBody(player);
             player = playerEffectsManager.GetDecoratedPlayer();
             physicsManager.AddMoveableBody(player);
-            camera.Update(gameTime);
 
-            //Debug.WriteLine(player);
-            //player = playerEffectsManager.GetDecoratedPlayer();
-            //physicsManager.DeleteBody(player);
-            //physicsManager.AddMoveableBody(player);
+            camera.Update(gameTime);
             physicsManager.Update(gameTime);
-            if (physicsManager.CollisionManager.PlayerTouching(player, endLevelFlag.Rectangle))
-                game.ChangeState(new LevelCompleted(game));
+            CheckForLevelComplete();
             foreach (var c in gameComponents)
                 c.Update(gameTime);
             if (player.MoveableBodyState == MoveableBodyStates.Dead)
@@ -160,11 +159,17 @@ namespace PlatformerEngine.States
                 foreach (var c in gameOverComponents)
                     c.Hidden = true;
             }
-            BackToMainMenu();
+            CheckForBackToMenuInput();
             base.Update(gameTime);
         }
 
-        private void BackToMainMenu()
+        private void CheckForLevelComplete()
+        {
+            if (physicsManager.CollisionManager.PlayerTouching(player, endLevelFlag.Rectangle))
+                game.ChangeState(new LevelCompleted(game));
+        }
+
+        private void CheckForBackToMenuInput()
         {
             if (inputManager.ActionWasPressed("Back"))
                 game.ChangeState(new MainMenu(game));
@@ -181,11 +186,6 @@ namespace PlatformerEngine.States
             enemies.Add(boletus);
         }
 
-        public void PlaySound(string name)
-        {
-            Sounds[name].Play();
-        }
-
         protected void SpawnPlayer()
         {
             SpriteAnimated swordSlash = new SpriteAnimated(content.Load<Texture2D>("Character/SwordSlash/Spritesheet"), content.Load<Dictionary<string, Rectangle>>("Character/SwordSlash/Map"));
@@ -194,9 +194,7 @@ namespace PlatformerEngine.States
 
             player = new Player(content.Load<Texture2D>("Character/Spritesheet"),
                 content.Load<Dictionary<string, Rectangle>>("Character/Map"), inputManager, content.Load<Texture2D>("Character/Heart"), swordSlash);
-            player.Scale = new Vector2(1f, 1f);
             player.Position = new Vector2(140, game.LogicalSize.Y - 200);
-            //player.Position = new Vector2(3300, 0);
             player.OnLoseHeart = (o, e) => PlaySound("LoseHeart");
         }
     }

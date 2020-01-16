@@ -13,17 +13,19 @@ using PlatformerEngine.Timers;
 
 namespace PlatformerEngine.EffectsManager
 {
+    /// <summary>
+    /// All possible effects that will be applied to player
+    /// </summary>
     public enum Effects
     {
         Speed,
         NoAttack,
-        //NoJump,
         MegaJump,
-        Invincibility
+        Invincibility,
+        //No jump effect is disabled (it is impossible to complete levels without jumping)
+        //NoJump,
     }
-    /// <summary>
-    /// TODO: Implement multiple effects at a time (correct unpacking)
-    /// </summary>
+
     public class PlayerEffectsManager : IDrawableComponent
     {
         public bool Hidden { get; set; }
@@ -39,10 +41,10 @@ namespace PlatformerEngine.EffectsManager
 
         private Random random;
         private GameTimer newEffectTimer;
+        private double newEffectInterval = 10;
 
         /// <summary>
-        /// Used to draw new effects -> it is a copy of Effects enum but when new effect is drawn it is deleted from here (so we can not draw it second time while it's active)
-        /// After the effect ends, the value is retrieved
+        /// List of all effects but without currectly active ones
         /// </summary>
         private List<Effects> effectsExcludingActive = new List<Effects>();
 
@@ -63,9 +65,10 @@ namespace PlatformerEngine.EffectsManager
             font = f;
             graphicsDevice = gd;
             currentTimerTexture = timerTexture;
-            effectsExcludingActive = Enum.GetValues(typeof(Effects)).Cast<Effects>().ToList();
+
             random = new Random();
-            newEffectTimer = new GameTimer(10.0)
+            effectsExcludingActive = Enum.GetValues(typeof(Effects)).Cast<Effects>().ToList();
+            newEffectTimer = new GameTimer(newEffectInterval)
             {
                 OnTimedEvent = (o, e) => DrawEffect()
             };
@@ -98,6 +101,7 @@ namespace PlatformerEngine.EffectsManager
 
         private void ActivateEffect(Effects effect)
         {
+            //Create notification (regex is used to add spaces before Camel case)
             state.AddNotification("NEW EFFECT: " + Regex.Replace(effect.ToString(), "([a-z])([A-Z])", "$1 $2"));
             switch (effect)
             {
@@ -131,9 +135,10 @@ namespace PlatformerEngine.EffectsManager
         {
             timerCountdownBackground.Draw(gameTime, spriteBatch);
             timerCountdownCurrent.Draw(gameTime, spriteBatch);
-            var temp = player;
             spriteBatch.DrawString(font, "ACTIVE EFFECTS: ", new Vector2(0, 100), Color.BlueViolet);
             var pos = new Vector2(0, 135);
+            var temp = player;
+            //Draw current effects names
             while (temp is PlayerEffect effect)
             {
                 spriteBatch.DrawString(font, effect.Name, pos, Color.White);
@@ -144,8 +149,11 @@ namespace PlatformerEngine.EffectsManager
 
         public void Update(GameTime gameTime)
         {
-            newEffectTimer.Update(gameTime);
-            timerCountdownCurrent.Scale = new Vector2((float)(newEffectTimer.CurrentInterval / newEffectTimer.Interval) * baseScaleTimer.X, timerCountdownCurrent.Scale.Y);
+            if(player.MoveableBodyState != Physics.MoveableBodyStates.Dead)
+            {
+                newEffectTimer.Update(gameTime);
+                timerCountdownCurrent.Scale = new Vector2((float)(newEffectTimer.CurrentInterval / newEffectTimer.Interval) * baseScaleTimer.X, timerCountdownCurrent.Scale.Y);
+            }
         }
 
         public IPlayer GetDecoratedPlayer()

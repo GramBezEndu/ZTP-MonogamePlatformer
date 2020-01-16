@@ -22,7 +22,6 @@ namespace Engine.States
         protected SpriteFont font;
         protected List<IComponent> uiComponents = new List<IComponent>();
         protected SpriteBatch uiSpriteBatch;
-        //protected RenderTarget2D uiLayerRenderTarget;
         protected Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
         public Dictionary<string, SoundEffect> Sounds { get; set; } = new Dictionary<string, SoundEffect>();
 
@@ -47,7 +46,6 @@ namespace Engine.States
             graphicsDevice = game.GraphicsDevice;
             content = game.Content;
 
-            //uiLayerRenderTarget = new RenderTarget2D(graphicsDevice, game.LogicalSize.X, game.LogicalSize.Y);
             uiSpriteBatch = new SpriteBatch(graphicsDevice);
             //Load assets
             LoadFont();
@@ -104,6 +102,11 @@ namespace Engine.States
         {
             foreach (var c in uiComponents)
                 c.Update(gameTime);
+        }
+
+        public void PlaySound(string name)
+        {
+            Sounds[name].Play();
         }
     }
 }

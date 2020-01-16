@@ -17,9 +17,9 @@ namespace PlatformerEngine.CameraSystem
             Static
         }
         public CameraModes CameraMode = CameraModes.FollowPlayer;
-        readonly Game1 game;
-        readonly InputManager inputManager;
-        readonly IPlayer player;
+        private readonly Game1 game;
+        private readonly InputManager inputManager;
+        private readonly IPlayer player;
         public Matrix ViewMatrix { get; private set; } = Matrix.CreateTranslation(0, 0, 0);
         public Vector2 Position { get; private set; } = Vector2.Zero;
 
@@ -50,10 +50,8 @@ namespace PlatformerEngine.CameraSystem
 
         private void FollowPlayer()
         {
-            //Origin = new Vector2(game.LogicalSize.X / 2 - player.Size.X / 2, game.LogicalSize.Y * (2 / 3f) - player.Size.Y / 2);
-            //Position = new Vector2(player.Position.X, player.Position.Y);
             Origin = new Vector2(game.LogicalSize.X / 2 - player.Size.X / 2, 0);
-            Position = new Vector2(player.Position.X, game.LogicalSize.Y * 0.12f/*Position.Y*/);
+            Position = new Vector2(player.Position.X, game.LogicalSize.Y * 0.12f);
 
             //After updating position we can calculate view matrix
             CalculateViewMatrix();

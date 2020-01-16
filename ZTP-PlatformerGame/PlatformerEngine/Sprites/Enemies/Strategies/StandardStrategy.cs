@@ -7,17 +7,17 @@ using System.Text;
 namespace PlatformerEngine.Sprites.Enemies.Strategies
 {
     /// <summary>
-    /// Standard strategy = patrol
+    /// Standard strategy -> patrol area
     /// </summary>
     public class StandardStrategy : IMoveStrategy
     {
-        GameTimer moveTimer;
+        GameTimer moveInCurrentDirection;
         bool movingLeft = true;
         public StandardStrategy(bool firstMoveToLeft = true, double timePatrolInOneDirection = 2.5)
         {
             movingLeft = firstMoveToLeft;
             //For how long enemy will move in one direction
-            moveTimer = new GameTimer(timePatrolInOneDirection)
+            moveInCurrentDirection = new GameTimer(timePatrolInOneDirection)
             {
                 OnTimedEvent = (o, e) => ChangeDirection()
             };
@@ -37,7 +37,7 @@ namespace PlatformerEngine.Sprites.Enemies.Strategies
 
         public void Update(GameTime gameTime)
         {
-            moveTimer?.Update(gameTime);
+            moveInCurrentDirection?.Update(gameTime);
         }
     }
 }

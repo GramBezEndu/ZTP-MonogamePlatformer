@@ -24,15 +24,6 @@ namespace ZTP_PlatformerGame
         Song currentSong;
 
         public Point LogicalSize = new Point(1152, 648);
-            //new Point(1280, 720);
-
-        //public Point WindowSize
-        //{
-        //    get
-        //    {
-        //        return new Point(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
-        //    }
-        //}
 
         public void ChangeState(State newState)
         {
@@ -46,10 +37,6 @@ namespace ZTP_PlatformerGame
             graphics.PreferredBackBufferWidth = LogicalSize.X;
             graphics.PreferredBackBufferHeight = LogicalSize.Y;
             MediaPlayer.IsRepeating = true;
-            //Window.IsBorderless = true;
-            //graphics.HardwareModeSwitch = false;
-            //graphics.IsFullScreen = true;
-            //Window.Position = new Point(43, 24);
         }
 
         /// <summary>
@@ -60,7 +47,6 @@ namespace ZTP_PlatformerGame
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             ChangeState(new MainMenu(this));
             base.Initialize();
         }
@@ -73,8 +59,6 @@ namespace ZTP_PlatformerGame
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -83,7 +67,7 @@ namespace ZTP_PlatformerGame
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+
         }
 
         /// <summary>
@@ -102,7 +86,6 @@ namespace ZTP_PlatformerGame
             inputManager.Update(gameTime);
             currentState.Update(gameTime);
             base.Update(gameTime);
-            //Debug.WriteLine(1 / gameTime.ElapsedGameTime.TotalSeconds);
         }
 
         /// <summary>
@@ -112,13 +95,9 @@ namespace ZTP_PlatformerGame
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-
-            // TODO: Add your drawing code here
             currentState.Draw(gameTime);
 
             base.Draw(gameTime);
-            //Debug.WriteLine(1 / gameTime.ElapsedGameTime.TotalSeconds);
-            //Debug.WriteLine(Window.Position);
         }
 
         public void PlaySong(Song s)
