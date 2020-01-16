@@ -9,14 +9,14 @@ namespace PlatformerEngine.Physics
 {
     public class PhysicsManager : IComponent
     {
-        private readonly CollisionManager collisionManager;
+        public CollisionManager CollisionManager { get; private set; }
         private readonly List<IMoveableBody> moveableBodies;
         private readonly List<Rectangle> staticBodies;
         const float GRAVITY = 1f;
 
         public PhysicsManager()
         {
-            collisionManager = new CollisionManager();
+            CollisionManager = new CollisionManager();
             moveableBodies = new List<IMoveableBody>();
             staticBodies = new List<Rectangle>();
         }
@@ -51,18 +51,18 @@ namespace PlatformerEngine.Physics
         {
             staticBodies.Clear();
             rectangles.ForEach((item) => staticBodies.Add(item));
-            collisionManager.SetStaticBodies(staticBodies);
+            CollisionManager.SetStaticBodies(staticBodies);
         }
 
         public void SetStaticSpikes(List<Rectangle> rectangles)
         {
-            collisionManager.SetStaticSpikes(rectangles);
+            CollisionManager.SetStaticSpikes(rectangles);
         }
 
         public void Update(GameTime gameTime)
         {
-            collisionManager.SetCollisionBodies(moveableBodies);
-            collisionManager.Update(gameTime);
+            CollisionManager.SetCollisionBodies(moveableBodies);
+            CollisionManager.Update(gameTime);
             foreach (var m in moveableBodies)
             {
                 UpdateBodyState(m);
@@ -112,21 +112,21 @@ namespace PlatformerEngine.Physics
             }
             else if (c.Velocity.X > 0)
             {
-                if (collisionManager.InAir(c))
+                if (CollisionManager.InAir(c))
                     c.MoveableBodyState = MoveableBodyStates.InAirRight;
                 else if(c.MoveableBodyState != MoveableBodyStates.Attacking)
                     c.MoveableBodyState = MoveableBodyStates.WalkRight;
             }
             else if (c.Velocity.X < 0)
             {
-                if (collisionManager.InAir(c))
+                if (CollisionManager.InAir(c))
                     c.MoveableBodyState = MoveableBodyStates.InAirLeft;
                 else if (c.MoveableBodyState != MoveableBodyStates.Attacking)
                     c.MoveableBodyState = MoveableBodyStates.WalkLeft;
             }
             else
             {
-                if (collisionManager.InAir(c))
+                if (CollisionManager.InAir(c))
                     c.MoveableBodyState = MoveableBodyStates.InAir;
                 else
                     c.MoveableBodyState = MoveableBodyStates.Idle;

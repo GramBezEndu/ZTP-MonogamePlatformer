@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Engine.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -52,7 +53,7 @@ namespace PlatformerEngine.EffectsManager
 
         private DrawableFilledRectangle timerCountdownBackground;
         private Sprite timerCountdownCurrent;
-        private Vector2 baseScaleTimer = new Vector2(13.617f, 2.27f);
+        private Vector2 baseScaleTimer = new Vector2(12.255f, 2.27f);
         private Texture2D currentTimerTexture;
 
         public PlayerEffectsManager(State s, GraphicsDevice gd, SpriteFont f, IPlayer p, Texture2D timerTexture)
@@ -68,7 +69,7 @@ namespace PlatformerEngine.EffectsManager
             {
                 OnTimedEvent = (o, e) => DrawEffect()
             };
-            timerCountdownBackground = new DrawableFilledRectangle(graphicsDevice, new Rectangle(0, 0, 1280, 25))
+            timerCountdownBackground = new DrawableFilledRectangle(graphicsDevice, new Rectangle(0, 0, 1152, 25))
             {
                 Color = Color.Black
             };
@@ -97,7 +98,7 @@ namespace PlatformerEngine.EffectsManager
 
         private void ActivateEffect(Effects effect)
         {
-            state.AddNotification("NEW EFFECT: " + effect);
+            state.AddNotification("NEW EFFECT: " + Regex.Replace(effect.ToString(), "([a-z])([A-Z])", "$1 $2"));
             switch (effect)
             {
                 case Effects.Speed:

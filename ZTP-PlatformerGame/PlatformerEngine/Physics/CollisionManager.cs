@@ -199,5 +199,10 @@ namespace PlatformerEngine.Physics
             }
             return true;
         }
+
+        public bool PlayerTouching(IPlayer p, Rectangle r)
+        {
+            return p.Rectangle.Intersects(r);
+        }
     }
 }

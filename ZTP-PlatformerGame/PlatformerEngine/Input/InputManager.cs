@@ -25,7 +25,7 @@ namespace PlatformerEngine.Input
                 {"MoveRight", new KeyboardInput(Keys.D) },
                 {"MoveLeft", new KeyboardInput(Keys.A) },
                 {"MoveDown", new KeyboardInput(Keys.S)},
-                {"Accept", new KeyboardInput(Keys.Enter) },
+                {"Accept", new KeyboardInput(Keys.Space) },
                 {"Back", new KeyboardInput(Keys.Escape)},
                 {"Attack", new KeyboardInput(Keys.Space) },
                 //{"Attack", new MouseInput(MouseButton.LeftButton) },

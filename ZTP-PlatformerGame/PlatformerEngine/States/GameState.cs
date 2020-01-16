@@ -34,6 +34,7 @@ namespace PlatformerEngine.States
         protected List<Enemy> enemies = new List<Enemy>();
         protected Camera camera;
         protected Song levelThemeSong;
+        protected Sprite endLevelFlag;
         public GameState(Game1 gameReference) : base(gameReference)
         {
             mapBatch = new SpriteBatch(graphicsDevice);
@@ -51,8 +52,19 @@ namespace PlatformerEngine.States
             SpawnAllEnemies();
             LoadThemeSong();
             game.PlaySong(levelThemeSong);
+            AddEndLevelFlag();
 
             CreateGameOverComponents();
+        }
+
+        protected void AddEndLevelFlag()
+        {
+            endLevelFlag = new Sprite(textures["EndFlag"])
+            {
+                //Color = Color.Red,
+                Position = new Vector2(game.LogicalSize.X * 3.7f, game.LogicalSize.Y * 0.5f)
+            };
+            gameComponents.Add(endLevelFlag);
         }
 
         internal abstract void LoadThemeSong();
@@ -129,6 +141,8 @@ namespace PlatformerEngine.States
             //physicsManager.DeleteBody(player);
             //physicsManager.AddMoveableBody(player);
             physicsManager.Update(gameTime);
+            if (physicsManager.CollisionManager.PlayerTouching(player, endLevelFlag.Rectangle))
+                game.ChangeState(new LevelCompleted(game));
             foreach (var c in gameComponents)
                 c.Update(gameTime);
             if (player.MoveableBodyState == MoveableBodyStates.Dead)
@@ -182,6 +196,7 @@ namespace PlatformerEngine.States
                 content.Load<Dictionary<string, Rectangle>>("Character/Map"), inputManager, content.Load<Texture2D>("Character/Heart"), swordSlash);
             player.Scale = new Vector2(1f, 1f);
             player.Position = new Vector2(140, game.LogicalSize.Y - 200);
+            //player.Position = new Vector2(3300, 0);
             player.OnLoseHeart = (o, e) => PlaySound("LoseHeart");
         }
     }

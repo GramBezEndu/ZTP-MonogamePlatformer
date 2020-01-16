@@ -22,6 +22,10 @@ namespace ZTP_PlatformerGame.States
                 {
                     OnClick = (o, e) => game.ChangeState(new FirstLevel(game))
                 },
+                new TextButton(inputManager, font, "HOW TO PLAY")
+                {
+                    OnClick = (o, e) => game.ChangeState(new HowToPlay(game))
+                },
                 new TextButton(inputManager, font, "EXIT")
                 {
                     OnClick = (o,e) => game.Exit()
