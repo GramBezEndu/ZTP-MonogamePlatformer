@@ -66,7 +66,7 @@ namespace PlatformerEngine.States
         {
             endLevelFlag = new Sprite(textures["EndFlag"])
             {
-                Position = new Vector2(game.LogicalSize.X * 3.7f, game.LogicalSize.Y * 0.5f)
+                Position = new Vector2(game.LogicalSize.X * 4.25f, game.LogicalSize.Y * 0.7f)
             };
             gameComponents.Add(endLevelFlag);
         }
