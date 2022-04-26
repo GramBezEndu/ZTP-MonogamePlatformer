@@ -83,6 +83,9 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/Font.spritefont
 
+#begin Map.txt
+/copy:Map.txt
+
 #begin Songs/FirstLevel.mp3
 /importer:Mp3Importer
 /processor:SongProcessor

@@ -30,9 +30,9 @@ namespace PlatformerEngine.Physics
                 }
             }
             //player with enemies collision
-            foreach(var player in players)
+            foreach (var player in players)
             {
-                foreach(var c in collidableBodies)
+                foreach (var c in collidableBodies)
                 {
                     //do not check for collsion with other player (if this collidable is in player list then skip)
                     if (players.Contains(c) || c.Hidden)
@@ -42,9 +42,9 @@ namespace PlatformerEngine.Physics
                 }
             }
             //player attack
-            foreach(var player in players)
+            foreach (var player in players)
             {
-                foreach(var c in collidableBodies)
+                foreach (var c in collidableBodies)
                 {
                     if (c == player)
                         continue;

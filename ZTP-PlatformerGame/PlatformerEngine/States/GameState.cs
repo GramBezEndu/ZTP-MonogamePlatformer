@@ -106,7 +106,7 @@ namespace PlatformerEngine.States
         public override void Draw(GameTime gameTime)
         {
             mapBatch.Begin(transformMatrix: camera.ViewMatrix);
-            foreach(var c in gameComponents)
+            foreach (var c in gameComponents)
             {
                 if(c is IDrawableComponent drawable)
                 {

@@ -34,7 +34,7 @@ namespace ZTP_PlatformerGame.States
 
         internal override void CreateMapReader()
         {
-            mapReader = new MapReader("Map.txt");
+            mapReader = new MapReader(content.RootDirectory + "/Map.txt");
         }
 
         internal override void LoadThemeSong()
