@@ -1,35 +1,38 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PlatformerEngine.Input
+﻿namespace PlatformerEngine.Input
 {
+    using System.Collections.Generic;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Input;
+
     public class InputManager : IComponent
     {
         private static readonly InputManager inputManager = new InputManager();
 
-        public KeyboardState CurrentKeyboardState;
-        public KeyboardState PreviousKeyboardState;
-        public MouseState CurrentMouseState;
-        public MouseState PreviousMouseState;
-        private Dictionary<string, IInput> keybindings = new Dictionary<string, IInput>();
+        private readonly Dictionary<string, IInput> keybindings = new Dictionary<string, IInput>();
+
         public static InputManager GetInputManager => inputManager;
 
         private InputManager()
         {
             keybindings = new Dictionary<string, IInput>
             {
-                {"MoveUp", new KeyboardInput(Keys.W)},
-                {"MoveRight", new KeyboardInput(Keys.D) },
-                {"MoveLeft", new KeyboardInput(Keys.A) },
-                {"MoveDown", new KeyboardInput(Keys.S)},
-                {"Accept", new KeyboardInput(Keys.Space) },
-                {"Back", new KeyboardInput(Keys.Escape)},
-                {"Attack", new KeyboardInput(Keys.Space) },
+                { "MoveUp", new KeyboardInput(Keys.W) },
+                { "MoveRight", new KeyboardInput(Keys.D) },
+                { "MoveLeft", new KeyboardInput(Keys.A) },
+                { "MoveDown", new KeyboardInput(Keys.S) },
+                { "Accept", new KeyboardInput(Keys.Space) },
+                { "Back", new KeyboardInput(Keys.Escape) },
+                { "Attack", new KeyboardInput(Keys.Space) },
             };
         }
+
+        public KeyboardState CurrentKeyboardState { get; private set; }
+
+        public KeyboardState PreviousKeyboardState { get; private set; }
+
+        public MouseState CurrentMouseState { get; private set; }
+
+        public MouseState PreviousMouseState { get; private set; }
 
         public bool ActionIsPressed(string actionName)
         {
@@ -50,5 +53,4 @@ namespace PlatformerEngine.Input
             CurrentMouseState = Mouse.GetState();
         }
     }
-
 }

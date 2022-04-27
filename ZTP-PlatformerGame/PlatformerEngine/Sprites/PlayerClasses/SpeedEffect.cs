@@ -1,17 +1,16 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PlatformerEngine.Sprites.PlayerClasses
+﻿namespace PlatformerEngine.Sprites.PlayerClasses
 {
+    using Microsoft.Xna.Framework;
+
     /// <summary>
-    /// Increase movement speed effect
+    /// Increase movement speed effect.
     /// </summary>
     public class SpeedEffect : PlayerEffect
     {
-        public override string Name { get { return "SPEEDBOI"; } }
-        public SpeedEffect(IPlayer p) : base(p)
+        public override string Name => "SPEEDBOI";
+
+        public SpeedEffect(IPlayer p)
+            : base(p)
         {
         }
 
@@ -19,6 +18,7 @@ namespace PlatformerEngine.Sprites.PlayerClasses
         {
             Velocity = new Vector2(-8f, Velocity.Y);
         }
+
         public override void MoveRight()
         {
             Velocity = new Vector2(8f, Velocity.Y);

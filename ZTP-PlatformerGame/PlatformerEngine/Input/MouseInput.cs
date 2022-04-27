@@ -1,45 +1,50 @@
-﻿using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PlatformerEngine.Input
+﻿namespace PlatformerEngine.Input
 {
+    using System;
+    using Microsoft.Xna.Framework.Input;
+
     public enum MouseButton
     {
         LeftButton,
-        RightButton
+        RightButton,
     }
+
     public class MouseInput : IInput
     {
-        private MouseButton mouseButton;
+        private readonly MouseButton mouseButton;
+
         public MouseInput(MouseButton mouseBtn)
         {
             mouseButton = mouseBtn;
         }
+
         public bool IsPressed(InputManager im)
         {
-            return IsDown(im.CurrentMouseState, this.mouseButton);
+            return IsDown(im.CurrentMouseState, mouseButton);
         }
 
         public bool WasJustPressed(InputManager im)
         {
-            if (IsDown(im.CurrentMouseState, this.mouseButton) && IsUp(im.PreviousMouseState, this.mouseButton))
+            if (IsDown(im.CurrentMouseState, mouseButton) && IsUp(im.PreviousMouseState, mouseButton))
+            {
                 return true;
+            }
             else
+            {
                 return false;
+            }
         }
 
         private bool IsDown(MouseState mouseState, MouseButton mouseButton)
         {
-            switch(mouseButton)
+            switch (mouseButton)
             {
-                case MouseButton.LeftButton:
-                    return mouseState.LeftButton == ButtonState.Pressed;
-                case MouseButton.RightButton:
-                    return mouseState.RightButton == ButtonState.Pressed;
-                default:
-                    throw new ArgumentException("Invalid mouse button");
+            case MouseButton.LeftButton:
+                return mouseState.LeftButton == ButtonState.Pressed;
+            case MouseButton.RightButton:
+                return mouseState.RightButton == ButtonState.Pressed;
+            default:
+                throw new ArgumentException("Invalid mouse button");
             }
         }
 
@@ -47,12 +52,12 @@ namespace PlatformerEngine.Input
         {
             switch (mouseButton)
             {
-                case MouseButton.LeftButton:
-                    return mouseState.LeftButton == ButtonState.Released;
-                case MouseButton.RightButton:
-                    return mouseState.RightButton == ButtonState.Released;
-                default:
-                    throw new ArgumentException("Invalid mouse button");
+            case MouseButton.LeftButton:
+                return mouseState.LeftButton == ButtonState.Released;
+            case MouseButton.RightButton:
+                return mouseState.RightButton == ButtonState.Released;
+            default:
+                throw new ArgumentException("Invalid mouse button");
             }
         }
     }

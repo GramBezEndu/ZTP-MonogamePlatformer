@@ -1,17 +1,16 @@
-﻿using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PlatformerEngine.Input
+﻿namespace PlatformerEngine.Input
 {
+    using Microsoft.Xna.Framework.Input;
+
     public class KeyboardInput : IInput
     {
-        private Keys assignedKey;
+        private readonly Keys assignedKey;
+
         public KeyboardInput(Keys key)
         {
             assignedKey = key;
         }
+
         public bool IsPressed(InputManager input)
         {
             return input.CurrentKeyboardState.IsKeyDown(assignedKey);
@@ -19,7 +18,7 @@ namespace PlatformerEngine.Input
 
         public bool WasJustPressed(InputManager input)
         {
-            if(this.IsPressed(input) && input.PreviousKeyboardState.IsKeyUp(assignedKey))
+            if (IsPressed(input) && input.PreviousKeyboardState.IsKeyUp(assignedKey))
             {
                 return true;
             }

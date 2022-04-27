@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using PlatformerEngine.Timers;
-
-namespace PlatformerEngine.Controls
+﻿namespace PlatformerEngine.Controls
 {
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using PlatformerEngine.Timers;
+
     public class TextOnTimer : Text
     {
-        GameTimer displayTimer;
-        public TextOnTimer(SpriteFont f, string msg, double displayTime = 3) : base(f, msg)
+        private readonly GameTimer displayTimer;
+
+        public TextOnTimer(SpriteFont f, string msg, double displayTime = 3)
+            : base(f, msg)
         {
-            displayTimer = new GameTimer(displayTime)
-            {
-                OnTimedEvent = (o, e) => this.Hidden = true
-            };
+            displayTimer = new GameTimer(displayTime);
+            displayTimer.OnTimedEvent += (o, e) => Hidden = true;
         }
 
         public override void Update(GameTime gameTime)

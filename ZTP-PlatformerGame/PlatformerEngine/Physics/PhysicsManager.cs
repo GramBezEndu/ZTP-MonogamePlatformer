@@ -1,18 +1,16 @@
-﻿using Microsoft.Xna.Framework;
-using PlatformerEngine.Sprites;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-
-namespace PlatformerEngine.Physics
+﻿namespace PlatformerEngine.Physics
 {
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.Xna.Framework;
+
     public class PhysicsManager : IComponent
     {
-        public CollisionManager CollisionManager { get; private set; }
+        private const float Gravity = 1f;
+
         private readonly List<IMoveableBody> moveableBodies;
+
         private readonly List<Rectangle> staticBodies;
-        const float GRAVITY = 1f;
 
         public PhysicsManager()
         {
@@ -20,6 +18,8 @@ namespace PlatformerEngine.Physics
             moveableBodies = new List<IMoveableBody>();
             staticBodies = new List<Rectangle>();
         }
+
+        public CollisionManager CollisionManager { get; private set; }
 
         public void AddMoveableBody(IMoveableBody c)
         {
@@ -34,17 +34,25 @@ namespace PlatformerEngine.Physics
         public void DeleteBody(IMoveableBody c)
         {
             if (moveableBodies.Contains(c))
+            {
                 moveableBodies.Remove(c);
+            }
             else
+            {
                 throw new ArgumentException("Body not found");
+            }
         }
 
         public void DeleteStaticBlock(Rectangle r)
         {
             if (staticBodies.Contains(r))
+            {
                 staticBodies.Remove(r);
+            }
             else
+            {
                 throw new ArgumentException("Block not found");
+            }
         }
 
         public void SetStaticBodies(List<Rectangle> rectangles)
@@ -63,12 +71,12 @@ namespace PlatformerEngine.Physics
         {
             CollisionManager.SetCollisionBodies(moveableBodies);
             CollisionManager.Update(gameTime);
-            foreach (var m in moveableBodies)
+            foreach (IMoveableBody m in moveableBodies)
             {
                 UpdateBodyState(m);
                 m.Update(gameTime);
                 MoveBody(m);
-                ApplyDownForce(m, GRAVITY);
+                ApplyDownForce(m, Gravity);
             }
         }
 
@@ -79,13 +87,17 @@ namespace PlatformerEngine.Physics
             {
                 c.Velocity = new Vector2(c.Velocity.X - 1f, c.Velocity.Y);
                 if (c.Velocity.X < 0)
+                {
                     c.Velocity = new Vector2(0, c.Velocity.Y);
+                }
             }
             else if (c.Velocity.X < 0)
             {
                 c.Velocity = new Vector2(c.Velocity.X + 1f, c.Velocity.Y);
                 if (c.Velocity.X > 0)
+                {
                     c.Velocity = new Vector2(0, c.Velocity.Y);
+                }
             }
         }
 
@@ -97,7 +109,10 @@ namespace PlatformerEngine.Physics
         private void UpdateBodyState(IMoveableBody c)
         {
             if (c.MoveableBodyState == MoveableBodyStates.Attacking)
+            {
                 return;
+            }
+
             if (c.Velocity.X > 0 && c.Velocity.Y != 0)
             {
                 c.MoveableBodyState = MoveableBodyStates.InAirRight;
@@ -113,23 +128,35 @@ namespace PlatformerEngine.Physics
             else if (c.Velocity.X > 0)
             {
                 if (CollisionManager.InAir(c))
+                {
                     c.MoveableBodyState = MoveableBodyStates.InAirRight;
-                else if(c.MoveableBodyState != MoveableBodyStates.Attacking)
+                }
+                else if (c.MoveableBodyState != MoveableBodyStates.Attacking)
+                {
                     c.MoveableBodyState = MoveableBodyStates.WalkRight;
+                }
             }
             else if (c.Velocity.X < 0)
             {
                 if (CollisionManager.InAir(c))
+                {
                     c.MoveableBodyState = MoveableBodyStates.InAirLeft;
+                }
                 else if (c.MoveableBodyState != MoveableBodyStates.Attacking)
+                {
                     c.MoveableBodyState = MoveableBodyStates.WalkLeft;
+                }
             }
             else
             {
                 if (CollisionManager.InAir(c))
+                {
                     c.MoveableBodyState = MoveableBodyStates.InAir;
+                }
                 else
+                {
                     c.MoveableBodyState = MoveableBodyStates.Idle;
+                }
             }
         }
     }

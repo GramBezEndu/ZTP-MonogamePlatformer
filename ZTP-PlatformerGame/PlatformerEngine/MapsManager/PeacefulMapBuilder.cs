@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework.Graphics;
-using PlatformerEngine.Sprites.MapSprites;
-
-namespace PlatformerEngine.MapsManager
+﻿namespace PlatformerEngine.MapsManager
 {
+    using Microsoft.Xna.Framework.Graphics;
+    using PlatformerEngine.Sprites.MapSprites;
+
     public class PeacefulMapBuilder : StandardBuilder
     {
-        public PeacefulMapBuilder(Texture2D air, Texture2D ground, Texture2D spike, Texture2D groundGrass) : base(air, ground, spike, groundGrass)
+        public PeacefulMapBuilder(Texture2D air, Texture2D ground, Texture2D spike, Texture2D groundGrass)
+            : base(air, ground, spike, groundGrass)
         {
-            segments[2] = new GroundSprite(ground);
+            Segments[2] = new GroundSprite(ground);
         }
     }
 }

@@ -1,17 +1,16 @@
-﻿using Microsoft.Xna.Framework;
-using PlatformerEngine.Controls.Buttons;
-using PlatformerEngine.Input;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PlatformerEngine.Controls
+﻿namespace PlatformerEngine.Controls
 {
+    using System.Collections.Generic;
+    using Microsoft.Xna.Framework;
+    using PlatformerEngine.Controls.Buttons;
+    using PlatformerEngine.Input;
+
     public class VerticalNavigationMenu : NavigationMenu
     {
         private Vector2 position;
 
-        public VerticalNavigationMenu(InputManager im, List<IButton> listButtons, int margin = 0) : base(im, listButtons, margin)
+        public VerticalNavigationMenu(InputManager im, List<IButton> listButtons, int margin = 0)
+            : base(im, listButtons, margin)
         {
         }
 
@@ -22,7 +21,7 @@ namespace PlatformerEngine.Controls
             {
                 position = value;
                 Vector2 currentPos = position;
-                foreach (var button in buttons)
+                foreach (IButton button in Buttons)
                 {
                     button.Position = currentPos;
                     currentPos += new Vector2(0, button.Size.Y + Margin);
@@ -32,36 +31,47 @@ namespace PlatformerEngine.Controls
 
         public override Point Size
         {
-            //Size: X equals the biggest width of buttons; Y equals sum of heights + margin heights
+            // Size: X equals the biggest width of buttons; Y equals sum of heights + margin heights
             get
             {
                 Point size = new Point(0, 0);
-                for (int i = 0; i < buttons.Count; i++)
+                for (int i = 0; i < Buttons.Count; i++)
                 {
-                    if (buttons[i].Size.X > size.X)
-                        size.X = buttons[i].Size.X;
-                    //Last button - do not add margin
-                    if (i == buttons.Count - 1)
-                        size.Y += buttons[i].Size.Y;
+                    if (Buttons[i].Size.X > size.X)
+                    {
+                        size.X = Buttons[i].Size.X;
+                    }
+
+                    // Last button - do not add margin
+                    if (i == Buttons.Count - 1)
+                    {
+                        size.Y += Buttons[i].Size.Y;
+                    }
                     else
-                        size.Y += buttons[i].Size.Y + Margin;
+                    {
+                        size.Y += Buttons[i].Size.Y + Margin;
+                    }
                 }
+
                 return size;
             }
         }
 
         protected override void Navigate()
         {
-            if (inputManager.ActionWasJustPressed("MoveUp"))
+            if (InputManager.ActionWasJustPressed("MoveUp"))
             {
-                currentlySelectedButton = (currentlySelectedButton - 1) % buttons.Count;
-                //there is no button higher than this button -> set it to the index of last button
-                if (currentlySelectedButton == - 1)
-                    currentlySelectedButton = buttons.Count - 1;
+                CurrentlySelectedButtonIndex = (CurrentlySelectedButtonIndex - 1) % Buttons.Count;
+
+                // There is no button higher than this button -> set it to the index of last button
+                if (CurrentlySelectedButtonIndex == -1)
+                {
+                    CurrentlySelectedButtonIndex = Buttons.Count - 1;
+                }
             }
-            else if (inputManager.ActionWasJustPressed("MoveDown"))
+            else if (InputManager.ActionWasJustPressed("MoveDown"))
             {
-                currentlySelectedButton = (currentlySelectedButton + 1) % buttons.Count;
+                CurrentlySelectedButtonIndex = (CurrentlySelectedButtonIndex + 1) % Buttons.Count;
             }
         }
     }

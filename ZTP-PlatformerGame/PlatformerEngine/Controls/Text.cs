@@ -1,34 +1,37 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PlatformerEngine.Controls
+﻿namespace PlatformerEngine.Controls
 {
+    using System;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+
     public class Text : IDrawableComponent
     {
-        private string _message;
+        private string message;
+
         public bool Hidden { get; set; }
+
         public Vector2 Position { get; set; }
-        protected SpriteFont font;
+
         public string Message
         {
-            get => _message;
-            set
-            {
-                _message = value;
-            }
+            get => message;
+            set => message = value;
         }
+
+        protected SpriteFont Font { get; private set; }
 
         public Point Size
         {
             get
             {
-                if (font != null && _message != null)
-                    return new Point((int)(font.MeasureString(_message).X * Scale.X), (int)(font.MeasureString(_message).Y * Scale.Y));
+                if (Font != null && message != null)
+                {
+                    return new Point((int)(Font.MeasureString(message).X * Scale.X), (int)(Font.MeasureString(message).Y * Scale.Y));
+                }
                 else
+                {
                     return new Point(0, 0);
+                }
             }
         }
 
@@ -36,19 +39,13 @@ namespace PlatformerEngine.Controls
 
         public Color Color { get; set; } = Color.White;
 
-        public Rectangle Rectangle
-        {
-            get
-            {
-                return new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y);
-            }
-        }
+        public Rectangle Rectangle => new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y);
 
         public SpriteEffects SpriteEffects { get; set; }
 
-        public Text(SpriteFont f, String msg)
+        public Text(SpriteFont f, string msg)
         {
-            font = f;
+            Font = f;
             Message = msg;
         }
 
@@ -56,13 +53,12 @@ namespace PlatformerEngine.Controls
         {
             if (!Hidden)
             {
-                spriteBatch.DrawString(font, Message, Position, Color, 0f, new Vector2(0, 0), Scale, SpriteEffects.None, 0f);
+                spriteBatch.DrawString(Font, Message, Position, Color, 0f, new Vector2(0, 0), Scale, SpriteEffects.None, 0f);
             }
         }
 
         public virtual void Update(GameTime gameTime)
         {
-
         }
     }
 }

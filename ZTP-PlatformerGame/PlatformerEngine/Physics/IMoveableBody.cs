@@ -1,10 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PlatformerEngine.Physics
+﻿namespace PlatformerEngine.Physics
 {
+    using System;
+    using Microsoft.Xna.Framework;
+
     public enum MoveableBodyStates
     {
         Idle,
@@ -14,15 +12,19 @@ namespace PlatformerEngine.Physics
         InAirLeft,
         InAir,
         Dead,
-        Attacking
+        Attacking,
     }
 
     public interface IMoveableBody : IDrawableComponent
     {
         MoveableBodyStates MoveableBodyState { get; set; }
+
         Vector2 Velocity { get; set; }
+
         void PrepareMove(GameTime gameTime);
+
         void LoseHeart();
+
         EventHandler OnLoseHeart { get; set; }
     }
 }

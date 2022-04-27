@@ -20,7 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)EffectsManager\PlayerEffectsManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MapsManager\PeacefulMapBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Physics\CollisionManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Physics\IMovableBody.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Physics\IMoveableBody.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Physics\PhysicsManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\MapSprites\AirSprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sprites\MapSprites\GroundGrassSprite.cs" />

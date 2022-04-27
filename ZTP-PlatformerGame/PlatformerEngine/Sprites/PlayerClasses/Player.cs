@@ -1,35 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended;
-using MonoGame.Extended.Animations.SpriteSheets;
-using PlatformerEngine.Input;
-using PlatformerEngine.Physics;
-using PlatformerEngine.Timers;
-
-namespace PlatformerEngine.Sprites.PlayerClasses
+﻿namespace PlatformerEngine.Sprites.PlayerClasses
 {
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using MonoGame.Extended.Animations.SpriteSheets;
+    using PlatformerEngine.Input;
+    using PlatformerEngine.Physics;
+    using PlatformerEngine.Timers;
+
     public class Player : SpriteAnimated, IPlayer
     {
-        private GameTimer healthTimer;
-        private int maxHealth = 3;
-        private int currentHealth;
-        public Vector2 VelocityConst = new Vector2(4f, -18f);
-        private InputManager inputManager;
-        public List<Sprite> heartSprites = new List<Sprite>();
-        private SpriteAnimated swordSlash;
+        private readonly int maxHealth = 3;
 
-        public Player(Texture2D spritesheet, Dictionary<string, Rectangle> map, InputManager im, Texture2D heartTexture, SpriteAnimated swordSlashObj) : base(spritesheet, map)
+        private GameTimer healthTimer;
+
+        private int currentHealth;
+
+        public Vector2 VelocityConst = new Vector2(4f, -18f);
+
+        private readonly InputManager inputManager;
+
+        public List<Sprite> heartSprites = new List<Sprite>();
+
+        private readonly SpriteAnimated swordSlash;
+
+        public Player(Texture2D spritesheet, Dictionary<string, Rectangle> map, InputManager im, Texture2D heartTexture, SpriteAnimated swordSlashObj)
+            : base(spritesheet, map)
         {
             swordSlash = swordSlashObj;
             CreateHeartsManager(heartTexture);
             inputManager = im;
             AddAnimation("Attack", new SpriteSheetAnimationData(new int[] { 0, 1, 2 }, frameDuration: 0.15f));
             AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 3 }));
-            AddAnimation("Walk", new SpriteSheetAnimationData(new int[] { 4, 5, 6, 7}));
+            AddAnimation("Walk", new SpriteSheetAnimationData(new int[] { 4, 5, 6, 7 }));
             AddAnimation("InAir", new SpriteSheetAnimationData(new int[] { 3 }));
             PlayAnimation("Idle");
         }
@@ -37,10 +41,10 @@ namespace PlatformerEngine.Sprites.PlayerClasses
         private void CreateHeartsManager(Texture2D heartTexture)
         {
             currentHealth = maxHealth;
-            var pos = new Vector2(0, 30);
+            Vector2 pos = new Vector2(0, 30);
             for (int i = 0; i < maxHealth; i++)
             {
-                var heart = new Sprite(heartTexture, new Vector2(1f, 1f))
+                Sprite heart = new Sprite(heartTexture, new Vector2(1f, 1f))
                 {
                     Position = pos,
                 };
@@ -58,73 +62,71 @@ namespace PlatformerEngine.Sprites.PlayerClasses
             {
                 if (moveableBodyState != value)
                 {
-                    //Do not allow changing states when player is dead
-                    if(moveableBodyState != MoveableBodyStates.Dead)
+                    // Do not allow changing states when player is dead
+                    if (moveableBodyState != MoveableBodyStates.Dead)
                     {
                         moveableBodyState = value;
                         switch (value)
                         {
-                            case MoveableBodyStates.Idle:
-                                PlayAnimation("Idle");
-                                break;
-                            case MoveableBodyStates.WalkRight:
-                                SpriteEffects = SpriteEffects.None;
-                                PlayAnimation("Walk");
-                                break;
-                            case MoveableBodyStates.WalkLeft:
-                                SpriteEffects = SpriteEffects.FlipHorizontally;
-                                PlayAnimation("Walk");
-                                break;
-                            case MoveableBodyStates.InAirRight:
-                                SpriteEffects = SpriteEffects.None;
-                                PlayAnimation("InAir");
-                                break;
-                            case MoveableBodyStates.InAirLeft:
-                                SpriteEffects = SpriteEffects.FlipHorizontally;
-                                PlayAnimation("InAir");
-                                break;
-                            case MoveableBodyStates.InAir:
-                                PlayAnimation("InAir");
-                                break;
-                            case MoveableBodyStates.Dead:
-                                PlayAnimation("Idle");
-                                break;
-                            case MoveableBodyStates.Attacking:
-                                Attack();
-                                break;
+                        case MoveableBodyStates.Idle:
+                            PlayAnimation("Idle");
+                            break;
+                        case MoveableBodyStates.WalkRight:
+                            SpriteEffects = SpriteEffects.None;
+                            PlayAnimation("Walk");
+                            break;
+                        case MoveableBodyStates.WalkLeft:
+                            SpriteEffects = SpriteEffects.FlipHorizontally;
+                            PlayAnimation("Walk");
+                            break;
+                        case MoveableBodyStates.InAirRight:
+                            SpriteEffects = SpriteEffects.None;
+                            PlayAnimation("InAir");
+                            break;
+                        case MoveableBodyStates.InAirLeft:
+                            SpriteEffects = SpriteEffects.FlipHorizontally;
+                            PlayAnimation("InAir");
+                            break;
+                        case MoveableBodyStates.InAir:
+                            PlayAnimation("InAir");
+                            break;
+                        case MoveableBodyStates.Dead:
+                            PlayAnimation("Idle");
+                            break;
+                        case MoveableBodyStates.Attacking:
+                            Attack();
+                            break;
                         }
                     }
                 }
             }
         }
+
         public Vector2 Velocity { get; set; }
 
-        public InputManager InputManager { get { return inputManager; } }
+        public InputManager InputManager => inputManager;
 
-        public List<Sprite> HeartSprites { get { return heartSprites; } }
+        public List<Sprite> HeartSprites => heartSprites;
 
-        public SpriteAnimated SwordSlash { get { return swordSlash; } }
+        public SpriteAnimated SwordSlash => swordSlash;
 
         public EventHandler OnLoseHeart { get; set; }
 
         public override void Update(GameTime gameTime)
         {
-            if(MoveableBodyState != MoveableBodyStates.Dead)
+            if (MoveableBodyState != MoveableBodyStates.Dead)
             {
-                //if (swordSlash.Hidden != true)
-                //    MoveableBodyState = MoveableBodyStates.Attacking;
                 base.Update(gameTime);
                 healthTimer?.Update(gameTime);
-                
+
                 swordSlash.Update(gameTime);
-                //Debug.WriteLine(gameTime.TotalGameTime.ToString() + " " + MoveableBodyState);
             }
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             base.Draw(gameTime, spriteBatch);
-            if(!Hidden)
+            if (!Hidden)
             {
                 swordSlash.Draw(gameTime, spriteBatch);
             }
@@ -147,7 +149,7 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 
         public void PrepareMove(GameTime gameTime)
         {
-            if(MoveableBodyState != MoveableBodyStates.Dead && MoveableBodyState != MoveableBodyStates.Attacking)
+            if (MoveableBodyState != MoveableBodyStates.Dead && MoveableBodyState != MoveableBodyStates.Attacking)
             {
                 if (InputManager.ActionIsPressed("MoveRight"))
                 {
@@ -157,12 +159,16 @@ namespace PlatformerEngine.Sprites.PlayerClasses
                 {
                     MoveLeft();
                 }
+
                 if (InputManager.ActionIsPressed("MoveUp"))
                 {
                     if (CanJump())
+                    {
                         Jump();
+                    }
                 }
-                if(InputManager.ActionWasJustPressed("Attack"))
+
+                if (InputManager.ActionWasJustPressed("Attack"))
                 {
                     Attack();
                 }
@@ -171,10 +177,14 @@ namespace PlatformerEngine.Sprites.PlayerClasses
 
         public bool CanJump()
         {
-            if (MoveableBodyStates.Idle <= MoveableBodyState && MoveableBodyState <= MoveableBodyStates.WalkLeft)
+            if (MoveableBodyState >= MoveableBodyStates.Idle && MoveableBodyState <= MoveableBodyStates.WalkLeft)
+            {
                 return true;
+            }
             else
+            {
                 return false;
+            }
         }
 
         public IPlayer GetDecorated()
@@ -185,25 +195,31 @@ namespace PlatformerEngine.Sprites.PlayerClasses
         public void Attack()
         {
             if (MoveableBodyState >= MoveableBodyStates.InAirRight && MoveableBodyState <= MoveableBodyStates.InAir)
+            {
                 return;
+            }
+
             MoveableBodyState = MoveableBodyStates.Attacking;
             PlayAnimation("Attack", onCompleted: () =>
             {
                 MoveableBodyState = MoveableBodyStates.Idle;
             });
-            if (this.SpriteEffects == SpriteEffects.FlipHorizontally)
+            if (SpriteEffects == SpriteEffects.FlipHorizontally)
             {
-                swordSlash.Position = new Vector2(this.Position.X - swordSlash.Size.X, this.Position.Y + this.Size.Y / 3);
+                swordSlash.Position = new Vector2(Position.X - swordSlash.Size.X, Position.Y + (Size.Y / 3));
                 swordSlash.SpriteEffects = SpriteEffects.FlipHorizontally;
             }
             else
             {
-                swordSlash.Position = new Vector2(this.Position.X + this.Size.X, this.Position.Y + this.Size.Y / 3);
+                swordSlash.Position = new Vector2(Position.X + Size.X, Position.Y + (Size.Y / 3));
                 swordSlash.SpriteEffects = SpriteEffects.None;
             }
+
             swordSlash.Hidden = false;
-            swordSlash.PlayAnimation("Slash",
-                onCompleted: () => {
+            swordSlash.PlayAnimation(
+                "Slash",
+                onCompleted: () =>
+                {
                     swordSlash.Hidden = true;
                 });
         }
@@ -220,25 +236,27 @@ namespace PlatformerEngine.Sprites.PlayerClasses
                     {
                         heartSprites[i].Hidden = true;
                     }
+
                     if (currentHealth <= 0)
-                        Die();
-                    healthTimer = new GameTimer(2f)
                     {
-                        OnTimedEvent = (o, e) => DestroyTimer()
-                    };
+                        Die();
+                    }
+
+                    healthTimer = new GameTimer(2f);
+                    healthTimer.OnTimedEvent += (o, e) => DestroyTimer();
                 }
             }
-        }
-
-        private void DestroyTimer()
-        {
-            healthTimer = null;
         }
 
         public void Die()
         {
             currentHealth = 0;
             MoveableBodyState = MoveableBodyStates.Dead;
+        }
+
+        private void DestroyTimer()
+        {
+            healthTimer = null;
         }
     }
 }

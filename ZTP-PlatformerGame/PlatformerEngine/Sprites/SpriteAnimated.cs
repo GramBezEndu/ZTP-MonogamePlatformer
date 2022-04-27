@@ -1,46 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended;
-using MonoGame.Extended.Animations;
-using MonoGame.Extended.Animations.SpriteSheets;
-using MonoGame.Extended.TextureAtlases;
-
-namespace PlatformerEngine.Sprites
+﻿namespace PlatformerEngine.Sprites
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using MonoGame.Extended;
+    using MonoGame.Extended.Animations;
+    using MonoGame.Extended.Animations.SpriteSheets;
+    using MonoGame.Extended.TextureAtlases;
+
     public class SpriteAnimated : IDrawableComponent
     {
         public Vector2 Scale { get; set; } = Vector2.One;
 
         public SpriteEffects SpriteEffects { get; set; } = SpriteEffects.None;
+
         public bool Hidden { get; set; }
+
         public Vector2 Position { get; set; }
 
-        public Point Size
-        {
-            get
-            {
-                return new Point((int)(animatedSprite.TextureRegion.Width * Scale.X),
-                    (int)(animatedSprite.TextureRegion.Height * Scale.Y));
-            }
-        }
+        public Point Size => new Point(
+            (int)(animatedSprite.TextureRegion.Width * Scale.X),
+            (int)(animatedSprite.TextureRegion.Height * Scale.Y));
 
         private readonly AnimatedSprite animatedSprite;
+
         private readonly SpriteSheetAnimationFactory animationFactory;
+
         private readonly TextureAtlas spriteAtlas;
 
         public Color Color { get; set; } = Color.White;
 
-        public Rectangle Rectangle
-        {
-            get
-            {
-                return new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y);
-            }
-        }
+        public Rectangle Rectangle => new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y);
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
@@ -48,14 +40,18 @@ namespace PlatformerEngine.Sprites
             {
                 spriteBatch.Draw(animatedSprite.TextureRegion, Position, Color, 0f, new Vector2(0, 0), Scale, SpriteEffects, 0f);
                 if (Debugger.IsAttached)
+                {
                     spriteBatch.DrawRectangle(Rectangle, Color.Blue);
+                }
             }
         }
 
         public virtual void Update(GameTime gameTime)
         {
             if (!Hidden)
+            {
                 animatedSprite.Update(gameTime);
+            }
         }
 
         public SpriteAnimated(Texture2D spritesheet, Dictionary<string, Rectangle> map)
@@ -66,7 +62,7 @@ namespace PlatformerEngine.Sprites
         }
 
         /// <summary>
-        /// Calls Play on member animatedSprite
+        /// Calls Play on member animatedSprite.
         /// </summary>
         /// <param name="name"></param>
         /// <param name="onCompleted"></param>

@@ -1,36 +1,35 @@
-﻿using Engine.Controls.Buttons;
-using Engine.States;
-using Microsoft.Xna.Framework;
-using PlatformerEngine.Controls;
-using PlatformerEngine.Controls.Buttons;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ZTP_PlatformerGame.States
+﻿namespace ZTP_PlatformerGame.States
 {
+    using System.Collections.Generic;
+    using Engine.Controls.Buttons;
+    using Engine.States;
+    using Microsoft.Xna.Framework;
+    using PlatformerEngine.Controls;
+    using PlatformerEngine.Controls.Buttons;
+
     public class MainMenu : State
     {
-        public MainMenu(Game1 game) : base(game)
+        public MainMenu(Game1 game)
+            : base(game)
         {
-            var navigation = new VerticalNavigationMenu(game.inputManager, new List<IButton>()
+            VerticalNavigationMenu navigation = new VerticalNavigationMenu(game.inputManager, new List<IButton>()
             {
-                new TextButton(inputManager, font, "PLAY")
+                new TextButton(inputManager, Font, "PLAY")
                 {
-                    OnClick = (o, e) => game.ChangeState(new FirstLevel(game))
+                    OnClick = (o, e) => game.ChangeState(new FirstLevel(game)),
                 },
-                new TextButton(inputManager, font, "HOW TO PLAY")
+                new TextButton(inputManager, Font, "HOW TO PLAY")
                 {
-                    OnClick = (o, e) => game.ChangeState(new HowToPlay(game))
+                    OnClick = (o, e) => game.ChangeState(new HowToPlay(game)),
                 },
-                new TextButton(inputManager, font, "EXIT")
+                new TextButton(inputManager, Font, "EXIT")
                 {
-                    OnClick = (o,e) => game.Exit()
-                }
+                    OnClick = (o, e) => game.Exit(),
+                },
             });
-            navigation.Position = new Vector2(game.LogicalSize.X / 2 - navigation.Size.X / 2, game.LogicalSize.Y / 2 - navigation.Size.Y / 2);
+            navigation.Position = new Vector2(
+                (game.LogicalSize.X / 2) - (navigation.Size.X / 2),
+                (game.LogicalSize.Y / 2) - (navigation.Size.Y / 2));
             AddUiComponent(navigation);
         }
     }

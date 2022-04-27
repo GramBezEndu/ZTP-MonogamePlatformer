@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace ZTP_PlatformerGame
+﻿namespace ZTP_PlatformerGame
 {
+    using System;
+
     /// <summary>
     /// The main class.
     /// </summary>
@@ -11,10 +11,12 @@ namespace ZTP_PlatformerGame
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
-            using (var game = new Game1())
+            using (Game1 game = new Game1())
+            {
                 game.Run();
+            }
         }
     }
 }

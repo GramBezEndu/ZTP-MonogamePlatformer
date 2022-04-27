@@ -1,90 +1,79 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended;
-using PlatformerEngine.Input;
-using PlatformerEngine.Physics;
-
-namespace PlatformerEngine.Sprites.PlayerClasses
+﻿namespace PlatformerEngine.Sprites.PlayerClasses
 {
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using PlatformerEngine.Input;
+    using PlatformerEngine.Physics;
+
     public abstract class PlayerEffect : IPlayer
     {
         public abstract string Name { get; }
-        private readonly IPlayer player;        
+
+        private readonly IPlayer player;
 
         public PlayerEffect(IPlayer p)
         {
             player = p;
         }
 
-        public bool Hidden 
-        { 
-            get { return player.Hidden; } 
-            set { player.Hidden = value; } 
-        }
-        public Vector2 Position 
+        public bool Hidden
         {
-            get { return player.Position; }
-            set { player.Position = value; }
-        }
-        public Vector2 Scale 
-        {
-            get { return player.Scale; }
-            set { player.Scale = value; }
+            get => player.Hidden;
+            set => player.Hidden = value;
         }
 
-        public Point Size
+        public Vector2 Position
         {
-            get { return player.Size; }
+            get => player.Position;
+            set => player.Position = value;
         }
 
-        public Rectangle Rectangle
+        public Vector2 Scale
         {
-            get { return player.Rectangle; }
+            get => player.Scale;
+            set => player.Scale = value;
         }
 
-        public Color Color 
-        { 
-            get { return player.Color; }
-            set { player.Color = value; } 
-        }
-        public SpriteEffects SpriteEffects 
+        public Point Size => player.Size;
+
+        public Rectangle Rectangle => player.Rectangle;
+
+        public Color Color
         {
-            get { return player.SpriteEffects; }
-            set { player.SpriteEffects = value; }
-        }
-        public MoveableBodyStates MoveableBodyState 
-        {
-            get { return player.MoveableBodyState; }
-            set { player.MoveableBodyState = value; }
-        }
-        public Vector2 Velocity 
-        {
-            get { return player.Velocity; }
-            set { player.Velocity = value; }
+            get => player.Color;
+            set => player.Color = value;
         }
 
-        public InputManager InputManager
+        public SpriteEffects SpriteEffects
         {
-            get { return player.InputManager; }
+            get => player.SpriteEffects;
+            set => player.SpriteEffects = value;
         }
 
-        public List<Sprite> HeartSprites
+        public MoveableBodyStates MoveableBodyState
         {
-            get { return player.HeartSprites; }
+            get => player.MoveableBodyState;
+            set => player.MoveableBodyState = value;
         }
 
-        public SpriteAnimated SwordSlash
+        public Vector2 Velocity
         {
-            get { return player.SwordSlash; }
+            get => player.Velocity;
+            set => player.Velocity = value;
         }
 
-        public EventHandler OnLoseHeart 
-        { 
-            get { return player.OnLoseHeart; }
-            set { player.OnLoseHeart = value; }
+        public InputManager InputManager => player.InputManager;
+
+        public List<Sprite> HeartSprites => player.HeartSprites;
+
+        public SpriteAnimated SwordSlash => player.SwordSlash;
+
+        public EventHandler OnLoseHeart
+        {
+            get => player.OnLoseHeart;
+            set => player.OnLoseHeart = value;
         }
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -134,11 +123,15 @@ namespace PlatformerEngine.Sprites.PlayerClasses
                 {
                     MoveLeft();
                 }
+
                 if (InputManager.ActionIsPressed("MoveUp"))
                 {
                     if (CanJump())
+                    {
                         Jump();
+                    }
                 }
+
                 if (InputManager.ActionWasJustPressed("Attack"))
                 {
                     Attack();

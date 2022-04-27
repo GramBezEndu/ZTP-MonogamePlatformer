@@ -1,59 +1,64 @@
-﻿using Microsoft.Xna.Framework;
-using PlatformerEngine.Input;
-using PlatformerEngine.Sprites.PlayerClasses;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using ZTP_PlatformerGame;
-
-namespace PlatformerEngine.CameraSystem
+﻿namespace PlatformerEngine.CameraSystem
 {
+    using Microsoft.Xna.Framework;
+    using PlatformerEngine.Input;
+    using PlatformerEngine.Sprites.PlayerClasses;
+    using ZTP_PlatformerGame;
+
+    public enum CameraMode
+    {
+        FollowPlayer,
+        FreeRoam,
+        Static,
+    }
+
     public class Camera : IComponent
     {
-        public enum CameraModes
-        {
-            FollowPlayer,
-            FreeRoam,
-            Static
-        }
-        public CameraModes CameraMode = CameraModes.FollowPlayer;
         private readonly Game1 game;
-        private readonly InputManager inputManager;
-        private readonly IPlayer player;
-        public Matrix ViewMatrix { get; private set; } = Matrix.CreateTranslation(0, 0, 0);
-        public Vector2 Position { get; private set; } = Vector2.Zero;
 
-        public Vector2 Origin { get; private set; } = Vector2.Zero;
+        private readonly InputManager inputManager;
+
+        private readonly IPlayer player;
 
         private Vector2 freeroamVelocity = new Vector2(10f, 10f);
+
         public Camera(Game1 gameReference, InputManager input, IPlayer p)
         {
             game = gameReference;
             inputManager = input;
             player = p;
         }
+
+        public Matrix ViewMatrix { get; private set; } = Matrix.CreateTranslation(0, 0, 0);
+
+        public Vector2 Position { get; private set; } = Vector2.Zero;
+
+        public Vector2 Origin { get; private set; } = Vector2.Zero;
+
+        public CameraMode CameraMode { get; set; } = CameraMode.FollowPlayer;
+
         public void Update(GameTime gameTime)
         {
             switch (CameraMode)
             {
-                case CameraModes.FollowPlayer:
-                    FollowPlayer();
-                    break;
-                case CameraModes.FreeRoam:
-                    FreeRoamCamera();
-                    break;
-                case CameraModes.Static:
-                    StaticCamera();
-                    break;
+            case CameraMode.FollowPlayer:
+                FollowPlayer();
+                break;
+            case CameraMode.FreeRoam:
+                FreeRoamCamera();
+                break;
+            case CameraMode.Static:
+                StaticCamera();
+                break;
             }
         }
 
         private void FollowPlayer()
         {
-            Origin = new Vector2(game.LogicalSize.X / 2 - player.Size.X / 2, 0);
+            Origin = new Vector2((game.LogicalSize.X / 2) - (player.Size.X / 2), 0);
             Position = new Vector2(player.Position.X, game.LogicalSize.Y * 0.12f);
 
-            //After updating position we can calculate view matrix
+            // After updating position we can calculate view matrix
             CalculateViewMatrix();
         }
 
@@ -63,19 +68,21 @@ namespace PlatformerEngine.CameraSystem
             {
                 Position += new Vector2(-freeroamVelocity.X, 0);
             }
-            if (inputManager.ActionIsPressed("MoveRight"))
+            else if (inputManager.ActionIsPressed("MoveRight"))
             {
                 Position += new Vector2(freeroamVelocity.X, 0);
             }
+
             if (inputManager.ActionIsPressed("MoveUp"))
             {
                 Position += new Vector2(0, -freeroamVelocity.Y);
             }
-            if (inputManager.ActionIsPressed("MoveDown"))
+            else if (inputManager.ActionIsPressed("MoveDown"))
             {
                 Position += new Vector2(0, freeroamVelocity.Y);
             }
-            //After updating position we can calculate view matrix
+
+            // After updating position we can calculate view matrix
             CalculateViewMatrix();
         }
 

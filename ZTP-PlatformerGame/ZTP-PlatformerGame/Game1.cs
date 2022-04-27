@@ -1,34 +1,28 @@
-﻿using Engine.States;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-using PlatformerEngine.Input;
-using System.Diagnostics;
-using ZTP_PlatformerGame.States;
-
-namespace ZTP_PlatformerGame
+﻿namespace ZTP_PlatformerGame
 {
+    using Engine.States;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Media;
+    using PlatformerEngine.Input;
+    using ZTP_PlatformerGame.States;
+
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        private readonly GraphicsDeviceManager graphics;
+
         public InputManager inputManager = InputManager.GetInputManager;
 
-        State currentState;
-        State nextState;
+        private State currentState;
 
-        Song currentSong;
+        private State nextState;
+
+        private Song currentSong;
 
         public Point LogicalSize = new Point(1152, 648);
-
-        public void ChangeState(State newState)
-        {
-            nextState = newState;
-        }
 
         public Game1()
         {
@@ -37,6 +31,33 @@ namespace ZTP_PlatformerGame
             graphics.PreferredBackBufferWidth = LogicalSize.X;
             graphics.PreferredBackBufferHeight = LogicalSize.Y;
             MediaPlayer.IsRepeating = true;
+        }
+
+        public void PlaySong(Song s)
+        {
+            // We do not allow to change song to the same song
+            if (IsThisSongPlaying(s))
+            {
+                return;
+            }
+
+            // If parameter is null we stop playing music
+            if (s == null)
+            {
+                currentSong = null;
+                MediaPlayer.Stop();
+                return;
+            }
+
+            // Regular case: stop playing old song and start playing new song
+            currentSong = s;
+            MediaPlayer.Stop();
+            MediaPlayer.Play(s);
+        }
+
+        public void ChangeState(State newState)
+        {
+            nextState = newState;
         }
 
         /// <summary>
@@ -57,8 +78,6 @@ namespace ZTP_PlatformerGame
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
         /// <summary>
@@ -67,7 +86,6 @@ namespace ZTP_PlatformerGame
         /// </summary>
         protected override void UnloadContent()
         {
-
         }
 
         /// <summary>
@@ -77,12 +95,13 @@ namespace ZTP_PlatformerGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            //Handle changing states
+            // Handle changing states
             if (nextState != null)
             {
                 currentState = nextState;
                 nextState = null;
             }
+
             inputManager.Update(gameTime);
             currentState.Update(gameTime);
             base.Update(gameTime);
@@ -100,30 +119,16 @@ namespace ZTP_PlatformerGame
             base.Draw(gameTime);
         }
 
-        public void PlaySong(Song s)
-        {
-            //We do not allow to change song to the same song
-            if (IsThisSongPlaying(s))
-                return;
-            //If parameter is null we stop playing music
-            if (s == null)
-            {
-                currentSong = null;
-                MediaPlayer.Stop();
-                return;
-            }
-            //Regular case: stop playing old song and start playing new song
-            currentSong = s;
-            MediaPlayer.Stop();
-            MediaPlayer.Play(s);
-        }
-
         private bool IsThisSongPlaying(Song song)
         {
             if (currentSong == song)
+            {
                 return true;
+            }
             else
+            {
                 return false;
+            }
         }
     }
 }

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace PlatformerEngine.Sprites.MapSprites
+﻿namespace PlatformerEngine.Sprites.MapSprites
 {
+    using Microsoft.Xna.Framework.Graphics;
+
     public class GroundSprite : Sprite
     {
-        public GroundSprite(Texture2D t) : base(t)
+        public GroundSprite(Texture2D t)
+            : base(t)
         {
         }
     }

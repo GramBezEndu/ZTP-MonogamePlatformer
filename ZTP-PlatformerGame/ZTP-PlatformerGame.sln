@@ -7,6 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZTP-PlatformerGame", "ZTP-P
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "PlatformerEngine", "PlatformerEngine\PlatformerEngine.shproj", "{907421BA-AABE-4137-BF58-4BE3A378B58F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B0B59F64-7FDC-43B0-BFFB-680914A35864}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		PlatformerEngine\PlatformerEngine.projitems*{907421ba-aabe-4137-bf58-4be3a378b58f}*SharedItemsImports = 13
