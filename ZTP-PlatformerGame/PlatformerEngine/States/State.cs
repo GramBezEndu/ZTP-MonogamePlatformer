@@ -13,13 +13,11 @@
 
     public abstract class State : IComponent
     {
-        protected readonly InputManager inputManager;
-
         public State(Game1 gameReference)
         {
             // Assign variables
             Game = gameReference;
-            inputManager = Game.inputManager;
+            InputManager = Game.InputManager;
             GraphicsDevice = Game.GraphicsDevice;
             Content = Game.Content;
 
@@ -44,6 +42,8 @@
         protected List<IComponent> UiComponents { get; private set; } = new List<IComponent>();
 
         protected SpriteBatch UiBatch { get; private set; }
+
+        protected InputManager InputManager { get; private set; }
 
         protected Dictionary<string, Texture2D> Textures { get; private set; } = new Dictionary<string, Texture2D>();
 

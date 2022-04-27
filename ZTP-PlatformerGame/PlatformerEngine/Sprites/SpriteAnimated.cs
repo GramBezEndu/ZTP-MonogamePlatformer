@@ -12,6 +12,19 @@
 
     public class SpriteAnimated : IDrawableComponent
     {
+        private readonly AnimatedSprite animatedSprite;
+
+        private readonly SpriteSheetAnimationFactory animationFactory;
+
+        private readonly TextureAtlas spriteAtlas;
+
+        public SpriteAnimated(Texture2D spritesheet, Dictionary<string, Rectangle> map)
+        {
+            spriteAtlas = new TextureAtlas("animations", spritesheet, map);
+            animationFactory = new SpriteSheetAnimationFactory(spriteAtlas);
+            animatedSprite = new AnimatedSprite(animationFactory);
+        }
+
         public Vector2 Scale { get; set; } = Vector2.One;
 
         public SpriteEffects SpriteEffects { get; set; } = SpriteEffects.None;
@@ -23,12 +36,6 @@
         public Point Size => new Point(
             (int)(animatedSprite.TextureRegion.Width * Scale.X),
             (int)(animatedSprite.TextureRegion.Height * Scale.Y));
-
-        private readonly AnimatedSprite animatedSprite;
-
-        private readonly SpriteSheetAnimationFactory animationFactory;
-
-        private readonly TextureAtlas spriteAtlas;
 
         public Color Color { get; set; } = Color.White;
 
@@ -54,18 +61,11 @@
             }
         }
 
-        public SpriteAnimated(Texture2D spritesheet, Dictionary<string, Rectangle> map)
-        {
-            spriteAtlas = new TextureAtlas("animations", spritesheet, map);
-            animationFactory = new SpriteSheetAnimationFactory(spriteAtlas);
-            animatedSprite = new AnimatedSprite(animationFactory);
-        }
-
         /// <summary>
-        /// Calls Play on member animatedSprite.
+        /// Calls Play() on animatedSprite member.
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="onCompleted"></param>
+        /// <param name="name">Animation name.</param>
+        /// <param name="onCompleted">Action performed when animation is completed.</param>
         public void PlayAnimation(string name, Action onCompleted = null)
         {
             animatedSprite.Play(name, onCompleted);

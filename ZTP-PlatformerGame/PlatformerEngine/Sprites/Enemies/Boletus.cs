@@ -16,6 +16,7 @@
     public class Boletus : Enemy
     {
         private MoveableBodyStates moveableBodyState;
+
         private Direction dashDirection = Direction.Left;
 
         public Boletus(Texture2D spritesheet, Dictionary<string, Rectangle> map, IMoveStrategy strategy)
@@ -25,22 +26,6 @@
             AddAnimation("Idle", new SpriteSheetAnimationData(new int[] { 0 }));
             AddAnimation("Walk", new SpriteSheetAnimationData(new int[] { 1, 2 }, frameDuration: 0.3f));
             PlayAnimation("Idle");
-        }
-
-        public override void PrepareMove(GameTime gameTime)
-        {
-            base.PrepareMove(gameTime);
-            if (Attacking)
-            {
-                if (dashDirection == Direction.Left)
-                {
-                    Velocity = new Vector2(-9f, Velocity.Y);
-                }
-                else
-                {
-                    Velocity = new Vector2(9f, Velocity.Y);
-                }
-            }
         }
 
         public override MoveableBodyStates MoveableBodyState
@@ -109,6 +94,22 @@
                         });
                         break;
                     }
+                }
+            }
+        }
+
+        public override void PrepareMove(GameTime gameTime)
+        {
+            base.PrepareMove(gameTime);
+            if (Attacking)
+            {
+                if (dashDirection == Direction.Left)
+                {
+                    Velocity = new Vector2(-9f, Velocity.Y);
+                }
+                else
+                {
+                    Velocity = new Vector2(9f, Velocity.Y);
                 }
             }
         }

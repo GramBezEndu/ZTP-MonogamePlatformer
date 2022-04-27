@@ -85,6 +85,53 @@
             }
         }
 
+        public void SetCollisionBodies(List<IMoveableBody> collidables)
+        {
+            collidableBodies = collidables;
+            players = collidables.OfType<IPlayer>().ToList();
+        }
+
+        public void SetStaticBodies(List<Rectangle> rectangles)
+        {
+            staticBodies = rectangles;
+        }
+
+        public bool InAir(IMoveableBody c)
+        {
+            Rectangle collidableEnlarged = new Rectangle(
+                (int)c.Position.X,
+                (int)c.Position.Y,
+                (int)c.Size.X,
+                (int)c.Size.Y + 1);
+            foreach (Rectangle s in staticBodies)
+            {
+                if (collidableEnlarged.Intersects(s))
+                {
+                    return false;
+                }
+            }
+
+            foreach (Rectangle spike in staticSpikes)
+            {
+                if (collidableEnlarged.Intersects(spike))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public bool PlayerTouching(IPlayer p, Rectangle r)
+        {
+            return p.Rectangle.Intersects(r);
+        }
+
+        public void SetStaticSpikes(List<Rectangle> rectangles)
+        {
+            staticSpikes = rectangles;
+        }
+
         private void CheckForCollision(IMoveableBody c, Rectangle s)
         {
             if (IsTouchingRight(c, s))
@@ -145,53 +192,6 @@
             {
                 c.LoseHeart();
             }
-        }
-
-        public void SetCollisionBodies(List<IMoveableBody> collidables)
-        {
-            collidableBodies = collidables;
-            players = collidables.OfType<IPlayer>().ToList();
-        }
-
-        public void SetStaticBodies(List<Rectangle> rectangles)
-        {
-            staticBodies = rectangles;
-        }
-
-        public bool InAir(IMoveableBody c)
-        {
-            Rectangle collidableEnlarged = new Rectangle(
-                (int)c.Position.X,
-                (int)c.Position.Y,
-                (int)c.Size.X,
-                (int)c.Size.Y + 1);
-            foreach (Rectangle s in staticBodies)
-            {
-                if (collidableEnlarged.Intersects(s))
-                {
-                    return false;
-                }
-            }
-
-            foreach (Rectangle spike in staticSpikes)
-            {
-                if (collidableEnlarged.Intersects(spike))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        public bool PlayerTouching(IPlayer p, Rectangle r)
-        {
-            return p.Rectangle.Intersects(r);
-        }
-
-        public void SetStaticSpikes(List<Rectangle> rectangles)
-        {
-            staticSpikes = rectangles;
         }
 
         private bool IsTouchingLeft(IMoveableBody c, Rectangle r)

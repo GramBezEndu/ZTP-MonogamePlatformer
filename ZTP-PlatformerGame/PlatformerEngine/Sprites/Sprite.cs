@@ -6,6 +6,19 @@
 
     public class Sprite : IDrawableComponent, ICloneable
     {
+        private readonly Texture2D texture;
+
+        public Sprite(Texture2D t, Vector2 objScale)
+        {
+            texture = t;
+            Scale = objScale;
+        }
+
+        public Sprite(Texture2D t)
+        {
+            texture = t;
+        }
+
         public Vector2 Scale { get; set; } = Vector2.One;
 
         public bool Hidden { get; set; }
@@ -19,19 +32,6 @@
         public SpriteEffects SpriteEffects { get; set; } = SpriteEffects.None;
 
         public Rectangle Rectangle => new Rectangle((int)Position.X, (int)Position.Y, Size.X, Size.Y);
-
-        protected readonly Texture2D texture;
-
-        public Sprite(Texture2D t, Vector2 objScale)
-        {
-            texture = t;
-            Scale = objScale;
-        }
-
-        public Sprite(Texture2D t)
-        {
-            texture = t;
-        }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {

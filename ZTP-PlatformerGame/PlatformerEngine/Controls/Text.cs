@@ -1,12 +1,17 @@
 ﻿namespace PlatformerEngine.Controls
 {
-    using System;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
     public class Text : IDrawableComponent
     {
         private string message;
+
+        public Text(SpriteFont f, string msg)
+        {
+            Font = f;
+            Message = msg;
+        }
 
         public bool Hidden { get; set; }
 
@@ -17,8 +22,6 @@
             get => message;
             set => message = value;
         }
-
-        protected SpriteFont Font { get; private set; }
 
         public Point Size
         {
@@ -43,11 +46,7 @@
 
         public SpriteEffects SpriteEffects { get; set; }
 
-        public Text(SpriteFont f, string msg)
-        {
-            Font = f;
-            Message = msg;
-        }
+        protected SpriteFont Font { get; private set; }
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {

@@ -9,14 +9,20 @@
 
     public abstract class PlayerEffect : IPlayer
     {
-        public abstract string Name { get; }
-
         private readonly IPlayer player;
 
         public PlayerEffect(IPlayer p)
         {
             player = p;
         }
+
+        public event EventHandler OnLoseHeart
+        {
+            add => player.OnLoseHeart += value;
+            remove => player.OnLoseHeart -= value;
+        }
+
+        public abstract string Name { get; }
 
         public bool Hidden
         {
@@ -69,12 +75,6 @@
         public List<Sprite> HeartSprites => player.HeartSprites;
 
         public SpriteAnimated SwordSlash => player.SwordSlash;
-
-        public EventHandler OnLoseHeart
-        {
-            get => player.OnLoseHeart;
-            set => player.OnLoseHeart = value;
-        }
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {

@@ -17,6 +17,8 @@
 
     public interface IMoveableBody : IDrawableComponent
     {
+        event EventHandler OnLoseHeart;
+
         MoveableBodyStates MoveableBodyState { get; set; }
 
         Vector2 Velocity { get; set; }
@@ -24,7 +26,5 @@
         void PrepareMove(GameTime gameTime);
 
         void LoseHeart();
-
-        EventHandler OnLoseHeart { get; set; }
     }
 }

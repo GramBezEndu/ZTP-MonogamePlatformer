@@ -5,20 +5,20 @@
 
     public class GameTimer : IComponent
     {
-        public double Interval { get; private set; }
-
-        public double CurrentInterval { get; private set; }
-
-        /// <summary>
-        /// Action performed after set time passed
-        /// </summary>
-        public event EventHandler OnTimedEvent;
-
         public GameTimer(double actionInterval)
         {
             Interval = actionInterval;
             CurrentInterval = Interval;
         }
+
+        /// <summary>
+        /// Action performed after set time passed.
+        /// </summary>
+        public event EventHandler OnTimedEvent;
+
+        public double Interval { get; private set; }
+
+        public double CurrentInterval { get; private set; }
 
         public void Update(GameTime gameTime)
         {

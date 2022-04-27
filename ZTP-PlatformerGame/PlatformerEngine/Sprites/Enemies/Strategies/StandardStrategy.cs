@@ -4,7 +4,7 @@
     using PlatformerEngine.Timers;
 
     /// <summary>
-    /// Standard strategy -> patrol area
+    /// Standard strategy -> patrol area.
     /// </summary>
     public class StandardStrategy : IMoveStrategy
     {
@@ -19,11 +19,6 @@
             // How long enemy will move in one direction
             moveInCurrentDirection = new GameTimer(timePatrolInOneDirection);
             moveInCurrentDirection.OnTimedEvent += (o, e) => ChangeDirection();
-        }
-
-        private void ChangeDirection()
-        {
-            movingLeft = !movingLeft;
         }
 
         public void Move(Enemy enemy)
@@ -41,6 +36,11 @@
         public void Update(GameTime gameTime)
         {
             moveInCurrentDirection?.Update(gameTime);
+        }
+
+        private void ChangeDirection()
+        {
+            movingLeft = !movingLeft;
         }
     }
 }

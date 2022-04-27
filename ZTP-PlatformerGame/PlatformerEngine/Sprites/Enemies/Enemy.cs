@@ -10,11 +10,11 @@
 
     public abstract class Enemy : SpriteAnimated, IMoveableBody
     {
+        private readonly int maxHealth = 2;
+
         private IMoveStrategy currentStrategy;
 
         private GameTimer healthTimer;
-
-        private int maxHealth = 2;
 
         private int currentHealth;
 
@@ -25,11 +25,11 @@
             currentHealth = maxHealth;
         }
 
+        public event EventHandler OnLoseHeart;
+
         public abstract MoveableBodyStates MoveableBodyState { get; set; }
 
         public Vector2 Velocity { get; set; }
-
-        public EventHandler OnLoseHeart { get; set; }
 
         protected bool Attacking { get; set; }
 

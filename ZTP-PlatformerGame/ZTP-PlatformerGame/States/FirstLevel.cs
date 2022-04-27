@@ -14,17 +14,17 @@
 
         internal override void CreateMapBuilder()
         {
-            mapBuilder = new StandardBuilder(Textures["Air"], Textures["Ground"], Textures["Spike"], Textures["GroundGrass"]);
+            MapBuilder = new StandardBuilder(Textures["Air"], Textures["Ground"], Textures["Spike"], Textures["GroundGrass"]);
         }
 
         internal override void CreateMapReader()
         {
-            mapReader = new MapReader(Content.RootDirectory + "/Map.txt");
+            MapReader = new MapReader(Content.RootDirectory + "/Map.txt");
         }
 
         internal override void LoadThemeSong()
         {
-            levelThemeSong = Content.Load<Song>("Songs/FirstLevel");
+            LevelThemeSong = Content.Load<Song>("Songs/FirstLevel");
         }
 
         protected override void SpawnAllEnemies()

@@ -21,29 +21,23 @@
 
     public abstract class GameState : State
     {
-        protected SpriteBatch mapBatch;
+        private readonly SpriteBatch mapBatch;
 
-        protected List<IComponent> gameComponents = new List<IComponent>();
+        private readonly List<IComponent> gameComponents = new List<IComponent>();
 
-        protected List<IDrawableComponent> gameOverComponents = new List<IDrawableComponent>();
+        private readonly List<IDrawableComponent> gameOverComponents = new List<IDrawableComponent>();
 
-        protected IPlayer player;
+        private readonly Camera camera;
 
-        protected MapReader mapReader;
+        private readonly List<Enemy> enemies = new List<Enemy>();
 
-        protected MapBuilder mapBuilder;
+        private readonly PlayerEffectsManager playerEffectsManager;
 
-        protected PhysicsManager physicsManager;
+        private PhysicsManager physicsManager;
 
-        protected PlayerEffectsManager playerEffectsManager;
+        private Sprite endLevelFlag;
 
-        protected List<Enemy> enemies = new List<Enemy>();
-
-        protected Camera camera;
-
-        protected Song levelThemeSong;
-
-        protected Sprite endLevelFlag;
+        private IPlayer player;
 
         public GameState(Game1 gameReference)
             : base(gameReference)
@@ -53,34 +47,23 @@
             CreateMapBuilder();
             BuildMap();
             SpawnPlayer();
-            camera = new Camera(Game, inputManager, player);
+            camera = new Camera(Game, InputManager, player);
             CreatePhysicsManager();
 
             playerEffectsManager = new PlayerEffectsManager(this, GraphicsDevice, Font, player, Textures["Timer"]);
             SpawnAllEnemies();
             LoadThemeSong();
-            Game.PlaySong(levelThemeSong);
+            Game.PlaySong(LevelThemeSong);
             AddEndLevelFlag();
 
             CreateGameOverComponents();
         }
 
-        internal abstract void LoadThemeSong();
+        protected Song LevelThemeSong { get; set; }
 
-        internal abstract void CreateMapBuilder();
+        protected MapReader MapReader { get; set; }
 
-        internal abstract void CreateMapReader();
-
-        protected abstract void SpawnAllEnemies();
-
-        protected void AddEndLevelFlag()
-        {
-            endLevelFlag = new Sprite(Textures["EndFlag"])
-            {
-                Position = new Vector2(Game.LogicalSize.X * 4.25f, Game.LogicalSize.Y * 0.7f),
-            };
-            gameComponents.Add(endLevelFlag);
-        }
+        protected MapBuilder MapBuilder { get; set; }
 
         public override void Update(GameTime gameTime)
         {
@@ -109,7 +92,7 @@
                     c.Hidden = false;
                 }
 
-                if (inputManager.ActionWasJustPressed("Attack"))
+                if (InputManager.ActionWasJustPressed("Attack"))
                 {
                     Type type = GetType();
                     Game.ChangeState((GameState)Activator.CreateInstance(type, Game));
@@ -167,6 +150,23 @@
             base.Draw(gameTime);
         }
 
+        internal abstract void LoadThemeSong();
+
+        internal abstract void CreateMapBuilder();
+
+        internal abstract void CreateMapReader();
+
+        protected abstract void SpawnAllEnemies();
+
+        protected void AddEndLevelFlag()
+        {
+            endLevelFlag = new Sprite(Textures["EndFlag"])
+            {
+                Position = new Vector2(Game.LogicalSize.X * 4.25f, Game.LogicalSize.Y * 0.7f),
+            };
+            gameComponents.Add(endLevelFlag);
+        }
+
         protected override void DrawUI(GameTime gameTime)
         {
             base.DrawUI(gameTime);
@@ -193,13 +193,13 @@
             player = new Player(
                 Content.Load<Texture2D>("Character/Spritesheet"),
                 Content.Load<Dictionary<string, Rectangle>>("Character/Map"),
-                inputManager,
+                InputManager,
                 Content.Load<Texture2D>("Character/Heart"),
                 swordSlash)
             {
                 Position = new Vector2(140, Game.LogicalSize.Y - 200),
-                OnLoseHeart = (o, e) => PlaySound("LoseHeart"),
             };
+            player.OnLoseHeart += (o, e) => PlaySound("LoseHeart");
         }
 
         private void CheckForLevelComplete()
@@ -212,7 +212,7 @@
 
         private void CheckForBackToMenuInput()
         {
-            if (inputManager.ActionWasJustPressed("Back"))
+            if (InputManager.ActionWasJustPressed("Back"))
             {
                 Game.ChangeState(new MainMenu(Game));
             }
@@ -220,7 +220,7 @@
 
         private void BuildMap()
         {
-            List<Sprite> mapSprites = mapReader.BuildMap(mapBuilder);
+            List<Sprite> mapSprites = MapReader.BuildMap(MapBuilder);
             gameComponents.AddRange(mapSprites);
         }
 
@@ -228,8 +228,8 @@
         {
             physicsManager = new PhysicsManager();
             physicsManager.AddMoveableBody(player);
-            physicsManager.SetStaticBodies(mapBuilder.GetCollisionRectangles());
-            physicsManager.SetStaticSpikes(mapBuilder.GetSpikes());
+            physicsManager.SetStaticBodies(MapBuilder.GetCollisionRectangles());
+            physicsManager.SetStaticSpikes(MapBuilder.GetSpikes());
         }
 
         private void CreateGameOverComponents()

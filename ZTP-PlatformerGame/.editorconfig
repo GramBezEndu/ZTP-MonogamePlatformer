@@ -107,4 +107,4 @@ dotnet_style_qualification_for_method=false:none
 dotnet_style_qualification_for_event=false:none
 
 # SA0001: XML comment analysis disabled
-dotnet_diagnostic.SA0001.severity = suggestion
+dotnet_diagnostic.SA0001.severity = none

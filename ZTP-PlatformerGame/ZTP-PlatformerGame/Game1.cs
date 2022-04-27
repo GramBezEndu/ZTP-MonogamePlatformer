@@ -14,15 +14,11 @@
     {
         private readonly GraphicsDeviceManager graphics;
 
-        public InputManager inputManager = InputManager.GetInputManager;
-
         private State currentState;
 
         private State nextState;
 
         private Song currentSong;
-
-        public Point LogicalSize = new Point(1152, 648);
 
         public Game1()
         {
@@ -32,6 +28,10 @@
             graphics.PreferredBackBufferHeight = LogicalSize.Y;
             MediaPlayer.IsRepeating = true;
         }
+
+        public InputManager InputManager { get; } = InputManager.Instance;
+
+        public Point LogicalSize { get; } = new Point(1152, 648);
 
         public void PlaySong(Song s)
         {
@@ -102,7 +102,7 @@
                 nextState = null;
             }
 
-            inputManager.Update(gameTime);
+            InputManager.Update(gameTime);
             currentState.Update(gameTime);
             base.Update(gameTime);
         }

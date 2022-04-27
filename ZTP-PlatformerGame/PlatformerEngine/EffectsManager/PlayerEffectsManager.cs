@@ -33,13 +33,6 @@
 
         private readonly double newEffectInterval = 10;
 
-        /// <summary>
-        /// List of all effects but without currectly active ones
-        /// </summary>
-        private List<Effects> effectsExcludingActive = new List<Effects>();
-
-        private IPlayer player;
-
         private readonly SpriteFont font;
 
         private readonly State state;
@@ -50,9 +43,16 @@
 
         private readonly Sprite timerCountdownCurrent;
 
-        private Vector2 baseScaleTimer = new Vector2(12.255f, 2.27f);
-
         private readonly Texture2D currentTimerTexture;
+
+        /// <summary>
+        /// List of all effects without currectly active ones.
+        /// </summary>
+        private List<Effects> effectsExcludingActive = new List<Effects>();
+
+        private IPlayer player;
+
+        private Vector2 baseScaleTimer = new Vector2(12.255f, 2.27f);
 
         public PlayerEffectsManager(State s, GraphicsDevice gd, SpriteFont f, IPlayer p, Texture2D timerTexture)
         {
@@ -161,7 +161,7 @@
         }
 
         /// <summary>
-        /// Unpacks player
+        /// Unpacks player.
         /// </summary>
         private void ClearEffects()
         {

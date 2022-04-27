@@ -12,20 +12,17 @@
         public MainMenu(Game1 game)
             : base(game)
         {
-            VerticalNavigationMenu navigation = new VerticalNavigationMenu(game.inputManager, new List<IButton>()
+            TextButton play = new TextButton(InputManager, Font, "PLAY");
+            play.OnClick += (o, e) => game.ChangeState(new FirstLevel(game));
+            TextButton howToPlay = new TextButton(InputManager, Font, "HOW TO PLAY");
+            howToPlay.OnClick += (o, e) => game.ChangeState(new HowToPlay(game));
+            TextButton exit = new TextButton(InputManager, Font, "EXIT");
+            exit.OnClick += (o, e) => game.Exit();
+            VerticalNavigationMenu navigation = new VerticalNavigationMenu(game.InputManager, new List<IButton>()
             {
-                new TextButton(inputManager, Font, "PLAY")
-                {
-                    OnClick = (o, e) => game.ChangeState(new FirstLevel(game)),
-                },
-                new TextButton(inputManager, Font, "HOW TO PLAY")
-                {
-                    OnClick = (o, e) => game.ChangeState(new HowToPlay(game)),
-                },
-                new TextButton(inputManager, Font, "EXIT")
-                {
-                    OnClick = (o, e) => game.Exit(),
-                },
+                play,
+                howToPlay,
+                exit,
             });
             navigation.Position = new Vector2(
                 (game.LogicalSize.X / 2) - (navigation.Size.X / 2),

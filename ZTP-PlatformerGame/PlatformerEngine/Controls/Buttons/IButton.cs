@@ -4,12 +4,12 @@
 
     public interface IButton : IDrawableComponent
     {
-        EventHandler OnClick { get; set; }
+        event EventHandler OnClick;
 
         /// <summary>
         /// You can use this event handler to perform an action when button starts or stops being selected (highlighted)
         /// </summary>
-        EventHandler OnSelectedChange { get; set; }
+        event EventHandler OnSelectedChanged;
 
         bool Selected { get; set; }
     }

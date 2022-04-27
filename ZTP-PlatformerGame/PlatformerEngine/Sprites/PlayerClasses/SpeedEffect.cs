@@ -7,12 +7,12 @@
     /// </summary>
     public class SpeedEffect : PlayerEffect
     {
-        public override string Name => "SPEEDBOI";
-
         public SpeedEffect(IPlayer p)
             : base(p)
         {
         }
+
+        public override string Name => "SPEEDBOI";
 
         public override void MoveLeft()
         {

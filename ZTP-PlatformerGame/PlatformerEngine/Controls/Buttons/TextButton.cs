@@ -9,9 +9,9 @@
 
     public class TextButton : Text, IButton
     {
-        private bool selected;
+        private readonly InputManager inputManager;
 
-        protected InputManager inputManager;
+        private bool selected;
 
         public TextButton(InputManager im, SpriteFont f, string msg, Vector2 scale)
             : this(im, f, msg)
@@ -24,6 +24,27 @@
         {
             Color = Color.DarkRed;
             inputManager = im;
+        }
+
+        public event EventHandler OnClick;
+
+        public event EventHandler OnSelectedChanged;
+
+        public bool Selected
+        {
+            get => selected;
+            set
+            {
+                if (selected == value)
+                {
+                    return;
+                }
+                else
+                {
+                    selected = value;
+                    OnSelectedChanged?.Invoke(this, new EventArgs());
+                }
+            }
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -55,26 +76,5 @@
                 }
             }
         }
-
-        public EventHandler OnClick { get; set; }
-
-        public bool Selected
-        {
-            get => selected;
-            set
-            {
-                if (selected == value)
-                {
-                    return;
-                }
-                else
-                {
-                    selected = value;
-                    OnSelectedChange?.Invoke(this, new EventArgs());
-                }
-            }
-        }
-
-        public EventHandler OnSelectedChange { get; set; }
     }
 }

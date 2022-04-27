@@ -6,11 +6,9 @@
 
     public class InputManager : IComponent
     {
-        private static readonly InputManager inputManager = new InputManager();
+        private static readonly InputManager Input = new InputManager();
 
         private readonly Dictionary<string, IInput> keybindings = new Dictionary<string, IInput>();
-
-        public static InputManager GetInputManager => inputManager;
 
         private InputManager()
         {
@@ -25,6 +23,8 @@
                 { "Attack", new KeyboardInput(Keys.Space) },
             };
         }
+
+        public static InputManager Instance => Input;
 
         public KeyboardState CurrentKeyboardState { get; private set; }
 

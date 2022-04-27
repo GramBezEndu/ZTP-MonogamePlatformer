@@ -16,7 +16,7 @@
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            if (inputManager.ActionWasJustPressed("Attack"))
+            if (InputManager.ActionWasJustPressed("Attack"))
             {
                 Game.ChangeState(new MainMenu(Game));
             }

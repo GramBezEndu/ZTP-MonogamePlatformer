@@ -13,17 +13,19 @@
     {
         private readonly int maxHealth = 3;
 
+        private readonly InputManager inputManager;
+
+        private readonly SpriteAnimated swordSlash;
+
+        private readonly Vector2 movementSpeed = new Vector2(4f, -18f);
+
+        private readonly List<Sprite> heartSprites = new List<Sprite>();
+
+        private MoveableBodyStates moveableBodyState;
+
         private GameTimer healthTimer;
 
         private int currentHealth;
-
-        public Vector2 VelocityConst = new Vector2(4f, -18f);
-
-        private readonly InputManager inputManager;
-
-        public List<Sprite> heartSprites = new List<Sprite>();
-
-        private readonly SpriteAnimated swordSlash;
 
         public Player(Texture2D spritesheet, Dictionary<string, Rectangle> map, InputManager im, Texture2D heartTexture, SpriteAnimated swordSlashObj)
             : base(spritesheet, map)
@@ -38,67 +40,14 @@
             PlayAnimation("Idle");
         }
 
-        private void CreateHeartsManager(Texture2D heartTexture)
-        {
-            currentHealth = maxHealth;
-            Vector2 pos = new Vector2(0, 30);
-            for (int i = 0; i < maxHealth; i++)
-            {
-                Sprite heart = new Sprite(heartTexture, new Vector2(1f, 1f))
-                {
-                    Position = pos,
-                };
-                heartSprites.Add(heart);
-                pos = new Vector2(pos.X + heart.Size.X, pos.Y);
-            }
-        }
-
-        private MoveableBodyStates moveableBodyState;
+        public event EventHandler OnLoseHeart;
 
         public MoveableBodyStates MoveableBodyState
         {
             get => moveableBodyState;
             set
             {
-                if (moveableBodyState != value)
-                {
-                    // Do not allow changing states when player is dead
-                    if (moveableBodyState != MoveableBodyStates.Dead)
-                    {
-                        moveableBodyState = value;
-                        switch (value)
-                        {
-                        case MoveableBodyStates.Idle:
-                            PlayAnimation("Idle");
-                            break;
-                        case MoveableBodyStates.WalkRight:
-                            SpriteEffects = SpriteEffects.None;
-                            PlayAnimation("Walk");
-                            break;
-                        case MoveableBodyStates.WalkLeft:
-                            SpriteEffects = SpriteEffects.FlipHorizontally;
-                            PlayAnimation("Walk");
-                            break;
-                        case MoveableBodyStates.InAirRight:
-                            SpriteEffects = SpriteEffects.None;
-                            PlayAnimation("InAir");
-                            break;
-                        case MoveableBodyStates.InAirLeft:
-                            SpriteEffects = SpriteEffects.FlipHorizontally;
-                            PlayAnimation("InAir");
-                            break;
-                        case MoveableBodyStates.InAir:
-                            PlayAnimation("InAir");
-                            break;
-                        case MoveableBodyStates.Dead:
-                            PlayAnimation("Idle");
-                            break;
-                        case MoveableBodyStates.Attacking:
-                            Attack();
-                            break;
-                        }
-                    }
-                }
+                SetNewBodyState(value);
             }
         }
 
@@ -109,8 +58,6 @@
         public List<Sprite> HeartSprites => heartSprites;
 
         public SpriteAnimated SwordSlash => swordSlash;
-
-        public EventHandler OnLoseHeart { get; set; }
 
         public override void Update(GameTime gameTime)
         {
@@ -134,17 +81,17 @@
 
         public void MoveRight()
         {
-            Velocity = new Vector2(VelocityConst.X, Velocity.Y);
+            Velocity = new Vector2(movementSpeed.X, Velocity.Y);
         }
 
         public void MoveLeft()
         {
-            Velocity = new Vector2(-VelocityConst.X, Velocity.Y);
+            Velocity = new Vector2(-movementSpeed.X, Velocity.Y);
         }
 
         public void Jump()
         {
-            Velocity = new Vector2(Velocity.X, VelocityConst.Y);
+            Velocity = new Vector2(Velocity.X, movementSpeed.Y);
         }
 
         public void PrepareMove(GameTime gameTime)
@@ -257,6 +204,64 @@
         private void DestroyTimer()
         {
             healthTimer = null;
+        }
+
+        private void CreateHeartsManager(Texture2D heartTexture)
+        {
+            currentHealth = maxHealth;
+            Vector2 pos = new Vector2(0, 30);
+            for (int i = 0; i < maxHealth; i++)
+            {
+                Sprite heart = new Sprite(heartTexture, new Vector2(1f, 1f))
+                {
+                    Position = pos,
+                };
+                heartSprites.Add(heart);
+                pos = new Vector2(pos.X + heart.Size.X, pos.Y);
+            }
+        }
+
+        private void SetNewBodyState(MoveableBodyStates value)
+        {
+            if (moveableBodyState != value)
+            {
+                // Do not allow changing states when player is dead
+                if (moveableBodyState != MoveableBodyStates.Dead)
+                {
+                    moveableBodyState = value;
+                    switch (value)
+                    {
+                    case MoveableBodyStates.Idle:
+                        PlayAnimation("Idle");
+                        break;
+                    case MoveableBodyStates.WalkRight:
+                        SpriteEffects = SpriteEffects.None;
+                        PlayAnimation("Walk");
+                        break;
+                    case MoveableBodyStates.WalkLeft:
+                        SpriteEffects = SpriteEffects.FlipHorizontally;
+                        PlayAnimation("Walk");
+                        break;
+                    case MoveableBodyStates.InAirRight:
+                        SpriteEffects = SpriteEffects.None;
+                        PlayAnimation("InAir");
+                        break;
+                    case MoveableBodyStates.InAirLeft:
+                        SpriteEffects = SpriteEffects.FlipHorizontally;
+                        PlayAnimation("InAir");
+                        break;
+                    case MoveableBodyStates.InAir:
+                        PlayAnimation("InAir");
+                        break;
+                    case MoveableBodyStates.Dead:
+                        PlayAnimation("Idle");
+                        break;
+                    case MoveableBodyStates.Attacking:
+                        Attack();
+                        break;
+                    }
+                }
+            }
         }
     }
 }

@@ -4,12 +4,12 @@
 
     public class MegaJumpEffect : PlayerEffect
     {
-        public override string Name => "KANGAROO";
-
         public MegaJumpEffect(IPlayer p)
             : base(p)
         {
         }
+
+        public override string Name => "KANGAROO";
 
         public override void Jump()
         {
